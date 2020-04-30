@@ -89,10 +89,10 @@ public class Register {
 		nameTxt = new Text(composite_2, SWT.BORDER);
 		nameTxt.setBounds(220, 7, 165, 21);
 		
-		passwordTxt = new Text(composite_2, SWT.BORDER);
+		passwordTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
 		passwordTxt.setBounds(220, 28, 165, 21);
 		
-		confirmPwTxt = new Text(composite_2, SWT.BORDER);
+		confirmPwTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
 		confirmPwTxt.setBounds(220, 49, 158, 21);
 		
 		Color redColor = new Color(display, 255, 0, 0);
@@ -121,7 +121,7 @@ public class Register {
 				String password = passwordTxt.getText();
 				String confirmPw = confirmPwTxt.getText();
 				
-				//Check valid str
+				//Check valid string
 				if(!checkValid(name) || !checkValid(password) || !checkValid(confirmPw)) {
 					lblErrorTxt.setText("Invalid name or password! Please try again!");
 				} else if(password.compareTo(confirmPw) != 0) {
@@ -131,8 +131,8 @@ public class Register {
 					//Check register information from server
 					lblErrorTxt.setText("Account can not be registered! Please try again!");
 				} else {
-					//If exist, send loginMsg to server
-					//And go to client interface
+					//Create new account
+					
 					lblErrorTxt.setText("");
 					lblSuccessTxt.setText("You have created a new account! Click Exit button to close window!");
 				}
@@ -154,12 +154,12 @@ public class Register {
 
 	}
 	
-	public boolean checkValid(String str) {
+	private boolean checkValid(String str) {
 		if(str.isBlank() || str.isEmpty()) return false;
 		return true;
 	}
 
-	public boolean checkRegister(String name, String password) {
+	private boolean checkRegister(String name, String password) {
 		//Check register information from server
 		//Correct: return true, otherwise: return false
 		//Get code here

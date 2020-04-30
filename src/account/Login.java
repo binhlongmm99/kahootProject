@@ -10,6 +10,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import play.ClientWindow;
+
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -89,7 +92,7 @@ public class Login {
 		lblPassword.setBounds(86, 57, 55, 15);
 		lblPassword.setText("Password:");
 		
-		passwordTxt = new Text(composite_1, SWT.BORDER);
+		passwordTxt = new Text(composite_1, SWT.BORDER | SWT.PASSWORD);
 		passwordTxt.setBounds(158, 54, 76, 21);
 		
 		Link link = new Link(composite_1, SWT.NONE);
@@ -136,8 +139,9 @@ public class Login {
 					lblInvalid.setText("");
 					shell.close();
 					try {
-						String loginMsg = loginMsg(name, password);
+						//String loginMsg = loginMsg(name, password);
 						ClientWindow clientWindow = new ClientWindow();
+						clientWindow.setClientName(name);
 						clientWindow.open();
 					} catch (Exception ex) {
 						ex.printStackTrace();
@@ -151,12 +155,12 @@ public class Login {
 
 	}
 	
-	public boolean checkValid(String str) {
+	private boolean checkValid(String str) {
 		if(str.isBlank() || str.isEmpty()) return false;
 		return true;
 	}
 	
-	public boolean checkAccount(String name, String password) {
+	private boolean checkAccount(String name, String password) {
 		//Get check account code in here
 		//If exist: return true, otherwise return false
 	}
