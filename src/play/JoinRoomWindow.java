@@ -75,10 +75,12 @@ public class JoinRoomWindow {
 		
 		//CODE HERE
 		//Connect to DB to get all available rooms and add to list
+		//Go to https://o7planning.org/vi/11321/huong-dan-java-swt-list to see details of List
 		//Sample code: 
 		//roomList = getAvailableRooms();
 		//for(String room: roomList)
 		//	list.add(room);	
+		//room must be a string variable
 				
 		
 		Color red = new Color(display, 255, 0, 0);
@@ -98,14 +100,26 @@ public class JoinRoomWindow {
 					lblNewLabel.setText("");
 					String room = list.getItem(index);
 //					shell.close();
-					try {
-						PlayWindow window = new PlayWindow();
-						window.setClientName(clientName);
-						window.setRoom(room);
-						window.open();
-					} catch (Exception ex) {
-						ex.printStackTrace();
+					if(isHost(clientName, room)) {
+						try {
+							StartWindow window = new StartWindow();
+							window.setClientName(clientName);
+							window.setRoom(room);
+							window.open();
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+					} else {
+						try {
+							WaitWindow window = new WaitWindow();
+							window.setClientName(clientName);
+							window.setRoom(room);
+							window.open();
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
 					}
+					
 				}
 			}
 		});
@@ -122,5 +136,11 @@ public class JoinRoomWindow {
 		btnExit.setBounds(329, 234, 75, 25);
 		btnExit.setText("Exit");
 
+	}
+	
+	private boolean isHost(String clientName, String room) {
+		//CODE HERE
+		//Check if client is host of given room or not
+		//Return true if client is host
 	}
 }
