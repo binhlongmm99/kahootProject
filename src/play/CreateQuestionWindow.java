@@ -3,8 +3,12 @@ package play;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import client.Client;
+
 import org.eclipse.swt.widgets.Composite;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
@@ -85,7 +89,7 @@ public class CreateQuestionWindow {
 			CreateQuestionWindow window = new CreateQuestionWindow();
 			window.setClientName("abcd");
 			window.setRoom("1");
-			window.open();
+			//window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -94,9 +98,9 @@ public class CreateQuestionWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(display);
+		createContents(display, client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -109,7 +113,7 @@ public class CreateQuestionWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display) {
+	protected void createContents(Display display, Client client) {
 		shell = new Shell();
 		shell.setSize(450, 548);
 		shell.setText("Create questions");
@@ -259,6 +263,19 @@ public class CreateQuestionWindow {
 							lblTxt.setText("Invalid answer! Please check answer at question #" + (i+1));
 						} else {
 							lblTxt.setText("");
+							//Send question to server
+							try {
+								client.dos.writeUTF(client.createQuestionMsg(question, a, b, c, d, answer));
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							try {
+								client.dis.readUTF();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							Question q = new Question(question, a, b, c, d, answer);
 							questions.add(q);
 						}

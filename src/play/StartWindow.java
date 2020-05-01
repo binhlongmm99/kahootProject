@@ -2,7 +2,13 @@ package play;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
+import client.Client;
+
 import org.eclipse.swt.widgets.Composite;
+
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
@@ -30,7 +36,7 @@ public class StartWindow {
 	public static void main(String[] args) {
 		try {
 			StartWindow window = new StartWindow();
-			window.open();
+			//window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,9 +45,9 @@ public class StartWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents();
+		createContents(client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -54,7 +60,7 @@ public class StartWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents() {
+	protected void createContents(Client client) {
 		shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Start your room");
@@ -80,6 +86,18 @@ public class StartWindow {
 			public void widgetSelected(SelectionEvent e) {
 				//CODE HERE
 				//Tell server to start room and get questions of given room
+				try {
+					client.dos.writeUTF(client.startGameMsg());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					System.out.println(client.dis.readUTF());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				Label lblYouveJustStarted = new Label(composite_1, SWT.NONE);
 				lblYouveJustStarted.setAlignment(SWT.CENTER);

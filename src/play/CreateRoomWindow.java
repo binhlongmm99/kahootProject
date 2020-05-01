@@ -3,8 +3,14 @@ package play;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
+
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
+
+import client.Client;
+
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -28,7 +34,7 @@ public class CreateRoomWindow {
 		try {
 			CreateRoomWindow window = new CreateRoomWindow();
 			window.setClientName("abcd");
-			window.open();
+			//window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -37,9 +43,9 @@ public class CreateRoomWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(display);
+		createContents(display, client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -52,7 +58,7 @@ public class CreateRoomWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display) {
+	protected void createContents(Display display, Client client) {
 		shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Create new room");
@@ -81,22 +87,41 @@ public class CreateRoomWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String room = roomTxt.getText();
+				String sRep = null;
 				if(!isRoomValid(room)) {
 					lblErrorTxt.setText("Invalid room number! Please try again");
-				} else if(isRoomExist(room)) {
-					lblErrorTxt.setText("Room is existed! Please try another");
-				} else {
-					lblErrorTxt.setText("");
-					shell.close();
+				}else {
+					//Send room information to server
 					try {
-						CreateQuestionWindow window = new CreateQuestionWindow();
-						window.setClientName(clientName);
-						window.setRoom(room);
-						window.open();
-					} catch (Exception ex) {
-						ex.printStackTrace();
+						client.dos.writeUTF(client.createRoomMsg(room, clientName));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						sRep = client.dis.readUTF();
+						System.out.println(sRep);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					if(client.isRoomExist(sRep)) {
+						lblErrorTxt.setText("Room is existed! Please try another");
+					} else {
+						lblErrorTxt.setText("");
+						shell.close();
+						try {
+							CreateQuestionWindow window = new CreateQuestionWindow();
+							window.setClientName(clientName);
+							window.setRoom(room);
+							window.open(client);
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
 					}
 				}
+					 
 			}
 		});
 		btnNext.setBounds(273, 201, 75, 25);
@@ -116,7 +141,8 @@ public class CreateRoomWindow {
 	
 	private boolean isRoomExist(String room) {
 		//Check if room is existed
-		//ENTER CODE HERE
+		//ENTER CODE HERE 
+		return false;
 	}
 
 }

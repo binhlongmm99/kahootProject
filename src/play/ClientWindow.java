@@ -2,6 +2,9 @@ package play;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
+import client.Client;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
@@ -26,7 +29,7 @@ public class ClientWindow {
 		try {
 			ClientWindow window = new ClientWindow();
 			window.setClientName("abcd");
-			window.open();
+			//window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,9 +38,9 @@ public class ClientWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents();
+		createContents(client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -50,7 +53,7 @@ public class ClientWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents() {
+	protected void createContents(Client client) {
 		shell = new Shell();
 		shell.setSize(450, 315);
 		shell.setText("Playing Kahoot");
@@ -78,7 +81,7 @@ public class ClientWindow {
 				try {
 					CreateRoomWindow createRoomWindow = new CreateRoomWindow();
 					createRoomWindow.setClientName(clientName);
-					createRoomWindow.open();
+					createRoomWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -93,8 +96,7 @@ public class ClientWindow {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					JoinRoomWindow joinRoomWindow = new JoinRoomWindow();
-					joinRoomWindow.setClientName(clientName);
-					joinRoomWindow.open();
+					joinRoomWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
