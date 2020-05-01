@@ -13,6 +13,9 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Text;
+
+import client.Client;
+
 import org.eclipse.swt.widgets.Group;
 
 public class PlayWindow {
@@ -48,7 +51,7 @@ public class PlayWindow {
 	public static void main(String[] args) {
 		try {
 			PlayWindow window = new PlayWindow();
-			window.open();
+		//	window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,9 +60,9 @@ public class PlayWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(display);
+		createContents(display,client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -72,7 +75,7 @@ public class PlayWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display) {
+	protected void createContents(Display display, Client client) {
 		shell = new Shell();
 		shell.setSize(595, 539);
 		shell.setText("Ready to play");

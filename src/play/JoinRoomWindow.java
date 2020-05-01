@@ -2,7 +2,13 @@ package play;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
+import client.Client;
+
 import org.eclipse.swt.widgets.Composite;
+
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -27,7 +33,7 @@ public class JoinRoomWindow {
 	public static void main(String[] args) {
 		try {
 			JoinRoomWindow window = new JoinRoomWindow();
-			window.open();
+			//window.open(client);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,9 +42,27 @@ public class JoinRoomWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(display);
+		String sRep = null;
+		//Send request to server to get roomlist
+		List roomList;
+		try {
+			client.dos.writeUTF(client.getRoomListMsg());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sRep = client.dis.readUTF();
+			System.out.println(sRep);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String[] parts = sRep.split("-");
+		
+		createContents(display,client, parts);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -51,7 +75,7 @@ public class JoinRoomWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display) {
+	protected void createContents(Display display,Client client, String[] parts) {
 		shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Join room");
@@ -75,13 +99,15 @@ public class JoinRoomWindow {
 		
 		//CODE HERE
 		//Connect to DB to get all available rooms and add to list
-		//Go to https://o7planning.org/vi/11321/huong-dan-java-swt-list to see details of List
 		//Sample code: 
 		//roomList = getAvailableRooms();
 		//for(String room: roomList)
 		//	list.add(room);	
-		//room must be a string variable
-				
+		
+		for (int i = 1; i < parts.length; i++) {
+			list.add(parts[i]);
+			System.out.println(parts[i]);
+		}
 		
 		Color red = new Color(display, 255, 0, 0);
 		Label lblNewLabel = new Label(composite_1, SWT.NONE);
@@ -93,33 +119,53 @@ public class JoinRoomWindow {
 		btnJoin.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				String sRep = null;
 				int index = list.getSelectionIndex();
 				if(index == -1) {
 					lblNewLabel.setText("Please choose room!");
 				} else {
 					lblNewLabel.setText("");
 					String room = list.getItem(index);
-//					shell.close();
-					if(isHost(clientName, room)) {
-						try {
-							StartWindow window = new StartWindow();
-							window.setClientName(clientName);
-							window.setRoom(room);
-							window.open();
-						} catch (Exception ex) {
-							ex.printStackTrace();
+					//Check if client is host or not	
+					try {
+						client.dos.writeUTF(client.joinRoomMsg(room, clientName));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						sRep = client.dis.readUTF();
+						System.out.println(sRep);
+						if (client.isHost(sRep)) {
+							//Host window here
+							try {
+								StartWindow window = new StartWindow();
+								window.setClientName(clientName);
+								window.setRoom(room);
+								window.open(client);
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
 						}
-					} else {
-						try {
-							WaitWindow window = new WaitWindow();
-							window.setClientName(clientName);
-							window.setRoom(room);
-							window.open();
-						} catch (Exception ex) {
-							ex.printStackTrace();
+						else {
+							//Player window
+							try {
+								WaitWindow window = new WaitWindow();
+								window.setClientName(clientName);
+								window.setRoom(room);
+								window.open(client);
+
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
 						}
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 					
+//					shell.close();
+
 				}
 			}
 		});
@@ -136,11 +182,5 @@ public class JoinRoomWindow {
 		btnExit.setBounds(329, 234, 75, 25);
 		btnExit.setText("Exit");
 
-	}
-	
-	private boolean isHost(String clientName, String room) {
-		//CODE HERE
-		//Check if client is host of given room or not
-		//Return true if client is host
 	}
 }

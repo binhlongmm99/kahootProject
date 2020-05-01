@@ -3,10 +3,15 @@ package account;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Composite;
+
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 //import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+
+import client.Client;
 
 //import common.ImageUtil;
 
@@ -29,7 +34,7 @@ public class Register {
 	public static void main(String[] args) {
 		try {
 			Register window = new Register();
-			window.open();
+			//window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,9 +43,9 @@ public class Register {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(display);
+		createContents(display, client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -53,7 +58,7 @@ public class Register {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display) {
+	protected void createContents(Display display, Client client) {
 //		Image image = ImageUtil.getImage(display, "D:\\eclipse-workspace\\Kaggle\\src\\common\\icon.png");
 		
 		shell = new Shell();
@@ -120,22 +125,41 @@ public class Register {
 				String name = nameTxt.getText();
 				String password = passwordTxt.getText();
 				String confirmPw = confirmPwTxt.getText();
-				
-				//Check valid string
-				if(!checkValid(name) || !checkValid(password) || !checkValid(confirmPw)) {
-					lblErrorTxt.setText("Invalid name or password! Please try again!");
-				} else if(password.compareTo(confirmPw) != 0) {
+				String sRep = null;
+				if(password.compareTo(confirmPw) != 0) {
 					//Check confirm password
 					lblErrorTxt.setText("Confirm password is not similar to password. Please try again!");
-				} else if(!checkRegister(name, password)) {
-					//Check register information from server
-					lblErrorTxt.setText("Account can not be registered! Please try again!");
-				} else {
-					//Create new account
-					
-					lblErrorTxt.setText("");
-					lblSuccessTxt.setText("You have created a new account! Click Exit button to close window!");
+				}else if(!checkValid(name) || !checkValid(password) || !checkValid(confirmPw)) {
+					lblErrorTxt.setText("Invalid name or password! Please try again!");
+				}else {
+					//send account info to server
+					try {
+						client.dos.writeUTF(client.createNameMsg(name, password));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try {
+						sRep = client.dis.readUTF();
+						System.out.println(sRep);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if(client.isNameExist(sRep)) {
+						//Check register information from server
+						lblErrorTxt.setText("User name exist");
+					}
+					else {
+						//Create new account
+						
+						lblErrorTxt.setText("");
+						lblSuccessTxt.setText("You have created a new account! Click Exit button to close window!");
+					}
 				}
+				
+				//Check valid string
+				 
 			}
 		});
 		btnRegister.setBounds(361, 10, 75, 25);
@@ -163,5 +187,6 @@ public class Register {
 		//Check register information from server
 		//Correct: return true, otherwise: return false
 		//Get code here
+		return true;
 	}
 }
