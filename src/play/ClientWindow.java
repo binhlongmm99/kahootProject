@@ -93,6 +93,7 @@ public class ClientWindow {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					JoinRoomWindow joinRoomWindow = new JoinRoomWindow();
+					joinRoomWindow.setClientName(clientName);
 					joinRoomWindow.open();
 				} catch (Exception ex) {
 					ex.printStackTrace();
