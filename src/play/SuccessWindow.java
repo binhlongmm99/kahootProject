@@ -7,8 +7,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
+
+import client.Client;
+
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
@@ -18,6 +22,10 @@ public class SuccessWindow {
 	private String clientName;
 	private String room;
 	private ArrayList<Question> questions;
+	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 
 	public void setClientName(String name) {
 		this.clientName = name;
@@ -37,7 +45,7 @@ public class SuccessWindow {
 	public static void main(String[] args) {
 		try {
 			SuccessWindow window = new SuccessWindow();
-			window.open();
+			//window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,9 +54,9 @@ public class SuccessWindow {
 	/**
 	 * Open the window.
 	 */
-	public void open() {
+	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents();
+		createContents(client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -61,8 +69,8 @@ public class SuccessWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents() {
-		shell = new Shell();
+	protected void createContents(Client client) {
+		if(shell == null) shell = new Shell();
 		shell.setSize(485, 505);
 		shell.setText("Create room successful!");
 		
@@ -148,7 +156,17 @@ public class SuccessWindow {
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				shell.close();
+				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
+					ClientWindow window = new ClientWindow();
+					window.setShell(shell);
+					window.setClientName(clientName);
+					window.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 				//Add questions and room to DB
 				//Questions save in questions variable
 				//Room save in room variable

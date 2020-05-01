@@ -3,6 +3,7 @@ package play;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,9 @@ public class PlayWindow {
 	private long endTime;
 	private long playTime;	
 	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 	
 	public void setClientName(String name) {
 		this.clientName = name;
@@ -274,7 +278,17 @@ public class PlayWindow {
 		btnExitRoom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				shell.close();
+				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
+					ClientWindow window = new ClientWindow();
+					window.setShell(shell);
+					window.setClientName(clientName);
+					window.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnExitRoom.setText("Exit room");

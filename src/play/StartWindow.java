@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import client.Client;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
 
@@ -20,6 +21,10 @@ public class StartWindow {
 	protected Shell shell;
 	private String room;
 	private String clientName;
+	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 	
 	public void setClientName(String name) {
 		this.clientName = name;
@@ -61,7 +66,7 @@ public class StartWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Client client) {
-		shell = new Shell();
+		if(shell == null) shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Start your room");
 		
@@ -113,7 +118,17 @@ public class StartWindow {
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				shell.dispose();
+				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
+					LeaderboardWindow window = new LeaderboardWindow();
+					window.setShell(shell);
+					window.setClientName(clientName);
+					window.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnExit.setBounds(155, 91, 75, 25);

@@ -7,6 +7,7 @@ import org.eclipse.swt.widgets.Text;
 import client.Client;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +73,10 @@ public class CreateQuestionWindow {
 	private Text[] DTxt;
 	private Text[] answerTxt;
 	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
+	
 	public void setClientName(String name) {
 		this.clientName = name;
 	}
@@ -114,7 +119,7 @@ public class CreateQuestionWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Display display, Client client) {
-		shell = new Shell();
+		if(shell == null) shell = new Shell();
 		shell.setSize(450, 548);
 		shell.setText("Create questions");
 					
@@ -282,14 +287,17 @@ public class CreateQuestionWindow {
 					}
 					
 					if(lblTxt.getText().isEmpty()) {
-						//No error
-						shell.close();
+						
 						try {
+							for (Control kid : shell.getChildren()) {
+						          kid.dispose();
+						    }
 							SuccessWindow window = new SuccessWindow();
+							window.setShell(shell);
 							window.setClientName(clientName);
 							window.setRoom(room);
 							window.setQuestions(questions);
-							window.open();
+							window.open(client);
 						} catch (Exception ex) {
 							ex.printStackTrace();
 						}

@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import client.Client;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
 
@@ -21,6 +22,10 @@ public class JoinRoomWindow {
 
 	protected Shell shell;
 	private String clientName;
+	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 	
 	public void setClientName(String name) {
 		this.clientName = name;
@@ -76,7 +81,7 @@ public class JoinRoomWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Display display,Client client, String[] parts) {
-		shell = new Shell();
+		if(shell == null) shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Join room");
 		
@@ -95,7 +100,7 @@ public class JoinRoomWindow {
 		lblChooseRoom.setText("Choose room: ");
 		
 		List list = new List(composite_1, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
-		list.setBounds(106, 6, 46, 137);
+		list.setBounds(150, 6, 46, 137);
 		
 		//CODE HERE
 		//Connect to DB to get all available rooms and add to list
@@ -139,8 +144,12 @@ public class JoinRoomWindow {
 						if (client.isHost(sRep)) {
 							//Host window here
 							try {
+								for (Control kid : shell.getChildren()) {
+							          kid.dispose();
+							    }
 								StartWindow window = new StartWindow();
 								window.setClientName(clientName);
+								window.setShell(shell);
 								window.setRoom(room);
 								window.open(client);
 							} catch (Exception ex) {
@@ -150,7 +159,11 @@ public class JoinRoomWindow {
 						else {
 							//Player window
 							try {
+								for (Control kid : shell.getChildren()) {
+							          kid.dispose();
+							    }
 								WaitWindow window = new WaitWindow();
+								window.setShell(shell);
 								window.setClientName(clientName);
 								window.setRoom(room);
 								window.open(client);
@@ -176,7 +189,18 @@ public class JoinRoomWindow {
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				shell.close();
+				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
+					ClientWindow window = new ClientWindow();
+					window.setShell(shell);
+					window.setClientName(clientName);
+					window.open(client);
+
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnExit.setBounds(329, 234, 75, 25);

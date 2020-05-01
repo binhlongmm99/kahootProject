@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import client.Client;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
 
@@ -20,6 +21,10 @@ public class WaitWindow {
 	protected Shell shell;
 	private String room;
 	private String clientName;
+	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 
 	public void setClientName(String name) {
 		this.clientName = name;
@@ -49,7 +54,7 @@ public class WaitWindow {
 		String sRep = null;
 		Display display = Display.getDefault();
 		//		createContents(client);
-		shell = new Shell();
+		if(shell == null) shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Waiting to play");
 
@@ -94,7 +99,11 @@ public class WaitWindow {
 				//					btnPlay.setEnabled(true);
 				//					break;
 				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
 					PlayWindow window = new PlayWindow();
+					window.setShell(shell);
 					window.setClientName(clientName);
 					window.setRoom(room);
 					window.open(client);

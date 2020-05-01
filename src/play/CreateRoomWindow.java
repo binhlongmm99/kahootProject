@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Text;
 import client.Client;
 
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -21,6 +22,10 @@ public class CreateRoomWindow {
 	protected Shell shell;
 	private String clientName;
 	private Text roomTxt;
+	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 	
 	public void setClientName(String name) {
 		this.clientName = name;
@@ -59,7 +64,7 @@ public class CreateRoomWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Display display, Client client) {
-		shell = new Shell();
+		if(shell == null) shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Create new room");
 		
@@ -110,9 +115,13 @@ public class CreateRoomWindow {
 						lblErrorTxt.setText("Room is existed! Please try another");
 					} else {
 						lblErrorTxt.setText("");
-						shell.close();
+						//shell.close();
 						try {
+							for (Control kid : shell.getChildren()) {
+						          kid.dispose();
+						    }
 							CreateQuestionWindow window = new CreateQuestionWindow();
+							window.setShell(shell);
 							window.setClientName(clientName);
 							window.setRoom(room);
 							window.open(client);

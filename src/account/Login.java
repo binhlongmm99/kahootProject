@@ -15,6 +15,7 @@ import java.net.UnknownHostException;
 //import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -25,6 +26,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Color;
 
 public class Login {
@@ -33,7 +35,10 @@ public class Login {
 	private Text nameTxt;
 	private Text passwordTxt;
 	
-
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
+	
 	/**
 	 * Launch the application.
 	 * @param args
@@ -69,7 +74,9 @@ public class Login {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Display display, Client client) {
-		shell = new Shell();
+		if(shell == null) {
+			shell = new Shell();
+		}
 		shell.setSize(600, 300);
 		shell.setText("Login");
 
@@ -113,7 +120,11 @@ public class Login {
 			public void widgetSelected(SelectionEvent e) {
 				//Click to open register window
 				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
 					Register regWindow = new Register();
+					regWindow.setShell(shell);
 					regWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -170,10 +181,14 @@ public class Login {
 						//If exist, send loginMsg to server
 						//And go to client interface
 						lblInvalid.setText("");
-						shell.close();
+						//shell.close();
 						try {
 							//String loginMsg = loginMsg(name, password);
+							for (Control kid : shell.getChildren()) {
+						          kid.dispose();
+						    }
 							ClientWindow clientWindow = new ClientWindow();
+							clientWindow.setShell(shell);
 							clientWindow.setClientName(name);
 							clientWindow.open(client);
 						} catch (Exception ex) {

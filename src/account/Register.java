@@ -3,6 +3,7 @@ package account;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
 
@@ -26,6 +27,10 @@ public class Register {
 	private Text nameTxt;
 	private Text passwordTxt;
 	private Text confirmPwTxt;
+	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
 
 	/**
 	 * Launch the application.
@@ -61,9 +66,12 @@ public class Register {
 	protected void createContents(Display display, Client client) {
 //		Image image = ImageUtil.getImage(display, "D:\\eclipse-workspace\\Kaggle\\src\\common\\icon.png");
 		
-		shell = new Shell();
+		if(shell == null)  {
+			shell = new Shell();
+		}
 		shell.setSize(600, 300);
 		shell.setText("Register");
+		
 		
 		Composite composite = new Composite(shell, SWT.NONE);
 		composite.setBounds(0, 10, 575, 64);
@@ -169,8 +177,16 @@ public class Register {
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//Close window
-				shell.close();
+				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
+					Login window = new Login();
+					window.setShell(shell);
+					window.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnExit.setBounds(458, 10, 75, 25);

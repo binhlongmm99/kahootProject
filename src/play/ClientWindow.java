@@ -21,6 +21,10 @@ public class ClientWindow {
 		clientName = name;
 	}
 	
+	public void setShell(Shell shell) {
+		this.shell = shell;
+	}
+	
 	/**
 	 * Launch the application.
 	 * @param args
@@ -54,7 +58,9 @@ public class ClientWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Client client) {
-		shell = new Shell();
+		if(shell == null) {
+			shell = new Shell();
+		}
 		shell.setSize(450, 315);
 		shell.setText("Playing Kahoot");
 		
@@ -80,6 +86,7 @@ public class ClientWindow {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					CreateRoomWindow createRoomWindow = new CreateRoomWindow();
+					createRoomWindow.setShell(shell);
 					createRoomWindow.setClientName(clientName);
 					createRoomWindow.open(client);
 				} catch (Exception ex) {
@@ -96,6 +103,7 @@ public class ClientWindow {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					JoinRoomWindow joinRoomWindow = new JoinRoomWindow();
+					joinRoomWindow.setShell(shell);
 					joinRoomWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
