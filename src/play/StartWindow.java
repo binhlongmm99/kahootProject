@@ -81,21 +81,24 @@ public class StartWindow {
 				//CODE HERE
 				//Tell server to start room and get questions of given room
 				
-				shell.dispose();
+				Label lblYouveJustStarted = new Label(composite_1, SWT.NONE);
+				lblYouveJustStarted.setAlignment(SWT.CENTER);
+				lblYouveJustStarted.setBounds(98, 10, 250, 20);
+				lblYouveJustStarted.setText("You've just started the room " + room + ". Click Exit");
+				btnStart.dispose();
 			}
 		});
 		btnStart.setBounds(155, 52, 75, 25);
 		btnStart.setText("Start");
 		
-		Button btnCancel = new Button(composite_1, SWT.NONE);
-		btnCancel.addSelectionListener(new SelectionAdapter() {
+		Button btnExit = new Button(composite_1, SWT.NONE);
+		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				shell.dispose();
 			}
 		});
-		btnCancel.setBounds(155, 91, 75, 25);
-		btnCancel.setText("Cancel");
-
+		btnExit.setBounds(155, 91, 75, 25);
+		btnExit.setText("Exit");
 	}
 }
