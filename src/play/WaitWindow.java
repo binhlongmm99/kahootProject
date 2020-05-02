@@ -117,7 +117,10 @@ public class WaitWindow {
 							window.open(client);
 
 						}
-						client.dos.writeUTF("WH");
+						else{
+							client.dos.writeUTF("WH");
+						}
+						
 					} catch (IOException e) { 
 
 						e.printStackTrace(); 
