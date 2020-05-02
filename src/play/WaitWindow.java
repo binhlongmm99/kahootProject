@@ -21,7 +21,7 @@ public class WaitWindow {
 	protected Shell shell;
 	private String room;
 	private String clientName;
-	
+
 	public void setShell(Shell shell) {
 		this.shell = shell;
 	}
@@ -53,7 +53,9 @@ public class WaitWindow {
 	public void open(Client client) {
 		String sRep = null;
 		Display display = Display.getDefault();
-		//		createContents(client);
+
+		//		createContents(display, client);
+
 		if(shell == null) shell = new Shell();
 		shell.setSize(450, 300);
 		shell.setText("Waiting to play");
@@ -80,47 +82,63 @@ public class WaitWindow {
 		btnPlay.setEnabled(false);
 		btnPlay.setBounds(174, 174, 75, 25);
 		btnPlay.setText("Play");
+
+
 		shell.open();
 		shell.layout();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-			while(true) {
-			try {
-				sRep = client.dis.readUTF();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+		//		while (!shell.isDisposed()) {
+		//			if (!display.readAndDispatch()) {
+		//				display.sleep();
+		//			}
+		//		}
 
-			if(client.isReadyToPlay(sRep)) {
-				//					lblPleaseWait.setText("Room is ready. Click Play to open");
-				//					btnPlay.setEnabled(true);
-				//					break;
-				try {
-					for (Control kid : shell.getChildren()) {
-				          kid.dispose();
-				    }
-					PlayWindow window = new PlayWindow();
-					window.setShell(shell);
-					window.setClientName(clientName);
-					window.setRoom(room);
-					window.open(client);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					break;
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				// ...
+				String msg = null;
+				while (!shell.isDisposed()) {
+					if (!display.readAndDispatch()) {
+						display.sleep();
+					}
+					try { 
+
+						// read the message sent to this client 
+						msg = client.dis.readUTF(); 
+
+						if(client.isReadyToPlay(msg)) {
+							System.out.println(msg); 
+							for (Control kid : shell.getChildren()) {
+								kid.dispose();
+							}
+							PlayWindow window = new PlayWindow();
+							window.setShell(shell);
+							window.setClientName(clientName);
+							window.setRoom(room);
+							window.open(client);
+
+						}
+						client.dos.writeUTF("WH");
+					} catch (IOException e) { 
+
+						e.printStackTrace(); 
+					} 
 				}
-			}
-		}
-	}
+
+
+
+			} 
+		});
+
+
+
+
 	}
 
 
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Client client) {
+	protected void createContents(Display display, Client client) {
 
 		shell = new Shell();
 		shell.setSize(450, 300);
@@ -151,25 +169,11 @@ public class WaitWindow {
 		btnPlay.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String sRep = null;
-				btnPlay.setText("Play");
-				btnPlay.setEnabled(false);
-				while(true) {
-					try {
-						sRep = client.dis.readUTF();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 
-					if(client.isReadyToPlay(sRep)) {
-						lblPleaseWait.setText("Room is ready. Click Play to open");
-						btnPlay.setEnabled(true);
-						break;
-					}
-				}
 			}
 		});
+
+
 
 
 

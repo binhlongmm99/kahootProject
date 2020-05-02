@@ -85,7 +85,7 @@ public class Client
 //			return true;
 //		}
 //		else return false;
-		return false;
+		return true;
 	}
 
 	public boolean isPasswordCorrect(String msg) {
