@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
@@ -43,9 +44,25 @@ public class PlayWindow {
 		this.room = room;
 	}
 	
-	public ArrayList<Question> getQuestions(String room) {
+	public ArrayList<Question> getQuestions(String room, Client client) {
 		//CODE HERE
 		//Return array list of all questions of given room from DB
+		ArrayList <Question> qL = new ArrayList<Question>();
+		try {
+			int i = 1;
+			String[] parts = (client.dis.readUTF()).split("-");
+			while (i < parts.length) {
+				Question q = new Question(parts[i], parts[i + 1], parts[i + 2], parts[i + 3], parts[i + 4], parts[i + 5]);
+				qL.add(q);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return qL;
+		
 	}
 
 	/**
