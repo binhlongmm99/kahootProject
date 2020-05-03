@@ -6,6 +6,8 @@ public class ConnectionUtils {
 	private static Connection conn = null;
 	private static Statement statement = null;
 	private static ResultSet resultSet = null;
+	private static int rowAffected = 0;
+	//private static PreparedStatement pre_statement = null;
 
 	public static Connection getMyConnection() throws SQLException, ClassNotFoundException {
 		try {
@@ -25,14 +27,34 @@ public class ConnectionUtils {
 		return statement;
 	}
 
-	public ResultSet executeStaResultSet(String query) throws SQLException, ClassNotFoundException {
+	public ResultSet executeResultSetSt(String query) throws SQLException, ClassNotFoundException {
 		try {
 			resultSet = getStatement().executeQuery(query);
 		} catch (Exception e) {
-			throw new SQLException("Error: " + e.getMessage() + ".My query" + query);
+			throw new SQLException("Error: " + e.getMessage() + ". My query: " + query);
 		}
 		return resultSet;
 	}
+	
+	public int executeUpdateSt(String query) throws SQLException, ClassNotFoundException {
+		try {
+			rowAffected = getStatement().executeUpdate(query);
+		} catch (Exception e) {
+			throw new SQLException("Error: " + e.getMessage() + ". My query: " + query);
+		}
+		return rowAffected;
+		
+	}
+	
+//	public ResultSet executeResultSetPreSt(PreparedStatement pre_st) throws SQLException, ClassNotFoundException {
+//		try {
+//			resultSet = pre_st.executeQuery();
+//		} catch (Exception e) {
+//			throw new SQLException("Error: " + e.getMessage());
+//		}
+//		return resultSet;
+//	}
+	
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 

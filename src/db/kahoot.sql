@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2020 at 05:38 AM
+-- Generation Time: May 03, 2020 at 04:27 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `question` (
-  `que_id` int(11) NOT NULL,
+  `ques_id` int(11) NOT NULL,
   `question` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `choice1` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `choice2` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
@@ -63,7 +63,8 @@ CREATE TABLE `registration` (
 CREATE TABLE `room` (
   `room_id` int(11) NOT NULL,
   `host` int(11) NOT NULL,
-  `password` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL
+  `room_name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -89,7 +90,7 @@ CREATE TABLE `score` (
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
-  ADD PRIMARY KEY (`que_id`),
+  ADD PRIMARY KEY (`ques_id`),
   ADD KEY `owner` (`owner`);
 
 --
@@ -122,7 +123,7 @@ ALTER TABLE `score`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `que_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ques_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `registration`
@@ -162,7 +163,7 @@ ALTER TABLE `room`
 -- Constraints for table `score`
 --
 ALTER TABLE `score`
-  ADD CONSTRAINT `score_ibfk_1` FOREIGN KEY (`ques_id`) REFERENCES `question` (`que_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `score_ibfk_1` FOREIGN KEY (`ques_id`) REFERENCES `question` (`ques_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `score_ibfk_2` FOREIGN KEY (`player_id`) REFERENCES `registration` (`reg_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `score_ibfk_3` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
