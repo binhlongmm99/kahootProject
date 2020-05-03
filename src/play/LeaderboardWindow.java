@@ -1,15 +1,18 @@
 package play;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-
-import client.Client;
-
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+
+import client.Client;
 
 public class LeaderboardWindow {
 
@@ -20,8 +23,8 @@ public class LeaderboardWindow {
 		this.shell = shell;
 	}
 	
-	public void setClientName(String name) {
-		this.clientName = name;
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
 	}
 
 	/**
@@ -56,29 +59,57 @@ public class LeaderboardWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Client client) {
-		if(shell == null) shell = new Shell();
-		shell.setSize(450, 300);
+		shell = new Shell();
+		shell.setSize(450, 455);
 		shell.setText("Leaderboard");
 		
-		Button btnExit = new Button(shell, SWT.NONE);
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(0, 0, 424, 406);
+		
+		Table table = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION);
+		table.setBounds(110, 104, 205, 247);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+		
+		TableColumn tblclmnPlayer = new TableColumn(table, SWT.CENTER);
+		tblclmnPlayer.setWidth(100);
+		tblclmnPlayer.setText("Player");
+		
+		TableColumn tblclmnScore = new TableColumn(table, SWT.CENTER);
+		tblclmnScore.setWidth(100);
+		tblclmnScore.setText("Score");
+		
+		Label lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setAlignment(SWT.CENTER);
+		lblNewLabel.setBounds(155, 20, 92, 22);
+		lblNewLabel.setText("Leaderboard");
+		
+		Label lblRoom = new Label(composite, SWT.NONE);
+		lblRoom.setAlignment(SWT.CENTER);
+		lblRoom.setBounds(155, 59, 92, 22);
+		lblRoom.setText("Room: ");
+		
+		Button btnExit = new Button(composite, SWT.NONE);
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					for (Control kid : shell.getChildren()) {
-				          kid.dispose();
+				         kid.dispose();
 				    }
-					ClientWindow window = new ClientWindow();
-					window.setShell(shell);
-					window.setClientName(clientName);
-					window.open(client);
+					//String loginMsg = loginMsg(name, password);
+					ClientWindow clientWindow = new ClientWindow();
+					clientWindow.setShell(shell);
+					clientWindow.setClientName(clientName);
+					clientWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		});
-		btnExit.setBounds(145, 98, 75, 25);
+		btnExit.setBounds(315, 371, 75, 25);
 		btnExit.setText("Exit");
 
 	}
+
 }
