@@ -48,9 +48,13 @@ public class PlayWindow {
 		this.room = room;
 	}
 	
-	public ArrayList<Question> getQuestions(String room) {
+	public ArrayList<Question> getQuestions() {
 		//CODE HERE
 		//Return array list of all questions of given room from DB
+		Question q = new Question("a","b","c", "d", "e", "C");
+		ArrayList<Question> arq = new ArrayList<Question>();
+		arq.add(q);
+		return arq;
 	}
 	
 	/**
@@ -85,6 +89,7 @@ public class PlayWindow {
 	 * Create contents of the window.
 	 */
 	protected void createContents(Display display, Client client) {
+		questions = getQuestions();
 		if(shell == null) shell = new Shell();
 		shell.setSize(780, 463);
 		shell.setText("Playing");

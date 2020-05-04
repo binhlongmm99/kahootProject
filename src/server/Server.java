@@ -1,7 +1,10 @@
 package server;
 
 import java.io.*; 
-import java.util.*; 
+import java.util.*;
+
+import db.ConnectionUtils;
+
 import java.net.*; 
   
 // Server class 
@@ -19,7 +22,7 @@ public class Server
         // server is listening on port 1234 
         ServerSocket ss = new ServerSocket(1234); 
         Socket s; 
-          
+        ConnectionUtils myConnection = new ConnectionUtils();
         // running infinite loop for getting 
         // client request 
         
@@ -37,7 +40,7 @@ public class Server
             System.out.println("Creating a new handler for this client..."); 
   
             // Create a new handler object for handling this request. 
-            ClientHandler mtch = new ClientHandler(s,"client " + i, dis, dos); 
+            ClientHandler mtch = new ClientHandler(s,"client " + i, dis, dos, myConnection); 
             System.out.println("Adding this client to active client list"); 
             
             // add this client to active clients list 

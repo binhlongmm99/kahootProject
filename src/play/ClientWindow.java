@@ -108,6 +108,7 @@ public class ClientWindow {
 				          kid.dispose();
 				    }
 					JoinRoomWindow joinRoomWindow = new JoinRoomWindow();
+					joinRoomWindow.setClientName(clientName);
 					joinRoomWindow.setShell(shell);
 					joinRoomWindow.open(client);
 				} catch (Exception ex) {

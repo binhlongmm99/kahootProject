@@ -24,33 +24,7 @@ public class Client
 		this.dis = new DataInputStream(s.getInputStream()); 
 		this.dos = new DataOutputStream(s.getOutputStream()); 
 
-		// sendMessage thread 
 
-//		while (true) { 
-//
-//		// read the message to deliver. 
-//		String msg = createNameMsg("Tuan Anh", "aaaa"); 
-//
-//		try { 
-//			// write on the output stream 
-//			dos.writeUTF(msg); 
-//		} catch (IOException e) { 
-//			e.printStackTrace(); 
-//		} 
-//		
-//
-//		// readMessage thread 
-//
-//		
-//			try { 
-//				// read the message sent to this client 
-//				String msgy = dis.readUTF(); 
-//				System.out.println(msgy); 
-//			} catch (IOException e) { 
-//
-//				e.printStackTrace(); 
-//			} 
-//		} 
 
 
 
@@ -64,11 +38,11 @@ public class Client
 	}
 
 	public boolean isNameExist(String msg) {
-		if (msg.contains("Name exist") || !msg.contains("Account not exist")) {
-			return true;
+		if (msg.contains("Name created") || msg.contains("Account not exist")) {
+			return false;
 		}
 		else {
-			return false;
+			return true;
 		}
 	}
 
@@ -81,11 +55,11 @@ public class Client
 		}
 	}
 	public boolean isHost(String msg) {
-//		if (msg.contains("Host")) {
-//			return true;
-//		}
-//		else return false;
-		return true;
+		if (msg.contains("Host")) {
+			return true;
+		}
+		else return false;
+		
 	}
 
 	public boolean isPasswordCorrect(String msg) {

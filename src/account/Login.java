@@ -1,6 +1,7 @@
 package account;
 
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 
 import java.io.DataInputStream;
@@ -18,12 +19,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Listener;
 
 import play.ClientWindow;
 import client.Client;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
@@ -33,11 +37,11 @@ public class Login {
 	protected Shell shell;
 	private Text nameTxt;
 	private Text passwordTxt;
-	
+
 	public void setShell(Shell shell) {
 		this.shell = shell;
 	}
-	
+
 
 	/**
 	 * Launch the application.
@@ -61,6 +65,18 @@ public class Login {
 	public void open(Client client) {
 		Display display = Display.getDefault();
 		createContents(display, client);
+		shell.addDisposeListener(new DisposeListener() {
+			public void widgetDisposed(DisposeEvent e) {
+				System.out.println(e.widget + " disposed");
+				try {
+					client.dos.writeUTF("CS-Close socket");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+			}
+		});
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -119,8 +135,8 @@ public class Login {
 				//Click to open register window
 				try {
 					for (Control kid : shell.getChildren()) {
-				         kid.dispose();
-				    }
+						kid.dispose();
+					}
 					Register window = new Register();
 					window.setShell(shell);
 					window.open(client);
@@ -151,7 +167,7 @@ public class Login {
 				String password = passwordTxt.getText();
 				String sRep = null;
 				//Send message to server
-				
+
 				if(!checkValid(name) || !checkValid(password)) {
 					lblInvalid.setText("Invalid name or password! Please try again!");
 				}else {
@@ -182,8 +198,8 @@ public class Login {
 						//shell.close();
 						try {
 							for (Control kid : shell.getChildren()) {
-						         kid.dispose();
-						    }
+								kid.dispose();
+							}
 							//String loginMsg = loginMsg(name, password);
 							ClientWindow clientWindow = new ClientWindow();
 							clientWindow.setShell(shell);
@@ -194,8 +210,8 @@ public class Login {
 						}
 					}
 				}
-				
-				
+
+
 
 			}
 		});
