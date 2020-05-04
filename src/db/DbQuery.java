@@ -43,8 +43,7 @@ public class DbQuery {
 
 	public boolean createRoomDb(ConnectionUtils myConnection, int hostId, int roomName, String password)
 			throws SQLException, ClassNotFoundException {
-		String sql = "INSERT INTO ROOM WHERE HOST = '" + hostId + "' AND roomName = '" + roomName +
-				"' AND PASSWORD = '" + password + "'";
+		String sql = "INSERT INTO ROOM (HOST, ROOM_NAME) VALUES (' " + hostId + "', '" + roomName +"')";
 		if (myConnection.executeUpdateSt(sql) > 0) 
 			return true;
 		return false;
@@ -52,7 +51,7 @@ public class DbQuery {
 
 	public boolean createUsernameDb(ConnectionUtils myConnection, String name, String password)
 			throws SQLException, ClassNotFoundException {
-		String sql = "INSERT INTO REGISTRATION WHERE USERNAME = '" + name + "' AND PASSWORD = '" + password + "'";
+		String sql = "INSERT INTO REGISTRATION (USERNAME, PASSWORD) VALUES (' " + name + "', '" + password +"')";
 		if (myConnection.executeUpdateSt(sql) > 0) 
 			return true;
 		return false;
@@ -61,8 +60,8 @@ public class DbQuery {
 	
 	public boolean createQuestionDb(ConnectionUtils myConnection, String question, String optionA, String optionB,
 			String optionC, String optionD, String answer) throws SQLException, ClassNotFoundException {
-		String sql = "INSERT INTO Question WHERE question = ? AND choice1 = ? AND choice2 = ? AND choice3 = ?"
-				+ "AND choice4 = ? AND answer = ?";
+		String sql = "INSERT INTO Question (question, choice1, choice2, choice3, choice4, answer)"
+				+ "VALUES( ?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pst = myConnection.getMyConnection().prepareStatement(sql);
 			pst.setString(1, question);

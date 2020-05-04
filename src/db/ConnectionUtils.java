@@ -38,7 +38,7 @@ public class ConnectionUtils {
 	
 	public int executeUpdateSt(String query) throws SQLException, ClassNotFoundException {
 		try {
-			rowAffected = getStatement().executeUpdate(query);
+			rowAffected = getMyConnection().createStatement().executeUpdate(query);
 		} catch (Exception e) {
 			throw new SQLException("Error: " + e.getMessage() + ". My query: " + query);
 		}
