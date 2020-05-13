@@ -86,15 +86,13 @@ public class DbQuery {
 //		return rs;
 		return myConnection.executeResultSetSt(sql);
 	}
-	
-	public boolean deleteRoom(ConnectionUtils myConnection, int roomId)
-			throws SQLException, ClassNotFoundException {
+
+	public boolean deleteRoom(ConnectionUtils myConnection, int roomId) throws SQLException, ClassNotFoundException {
 		String sql = "DELETE room WHERE room_id = " + roomId;
 		if (myConnection.executeUpdateSt(sql) > 0)
 			return true;
 		return false;
 	}
-	
 
 	// TOPIC
 	public boolean createTopic(ConnectionUtils myConnection, String topicName, int ownerId)
@@ -105,13 +103,18 @@ public class DbQuery {
 		return false;
 	}
 
-	public ResultSet getTopic(ConnectionUtils myConnection, String topicName)
-			throws SQLException, ClassNotFoundException {
-		String sql = "SELECT * FROM TOPIC WHERE topic_name = " + topicName;
+	public ResultSet getListTopic(ConnectionUtils myConnection, int ownerId)
+			throws ClassNotFoundException, SQLException {
+		String sql = "SELECT * FROM TOPIC WHERE owner_id = " + ownerId;
+		return myConnection.executeResultSetSt(sql);
+
+	}
+
+	public ResultSet getTopic(ConnectionUtils myConnection, int topicId) throws SQLException, ClassNotFoundException {
+		String sql = "SELECT * FROM TOPIC WHERE topic_id = " + topicId;
 		return myConnection.executeResultSetSt(sql);
 	}
 
-	
 	// QUESTION
 	public boolean createQuestion(ConnectionUtils myConnection, String question, String optionA, String optionB,
 			String optionC, String optionD, String answer, int topicId) throws SQLException, ClassNotFoundException {
@@ -159,45 +162,73 @@ public class DbQuery {
 //		return rs;
 		return myConnection.executeResultSetSt(sql);
 	}
-
 	
-	// ANSWER
-	public boolean createPlayerAnswer(ConnectionUtils myConnection, int quesID, int roomId, int playerId, String choice)
-			throws SQLException, ClassNotFoundException {
-		String sql = "INSERT INTO ANSWER (ques_id, room_id, player_id, choice, score)" + "VALUES( ?, ?, ?, ?, ?)";
-		try {
-			PreparedStatement pst = myConnection.getMyConnection().prepareStatement(sql);
-			pst.setInt(1, quesID);
-			pst.setInt(2, roomId);
-			pst.setInt(3, playerId);
-			pst.setString(4, choice);
-			pst.setInt(5, 0);
-			if (pst.executeUpdate() > 0) {
-				return true;
-			} else
-				return false;
-		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage() + ".My query");
-			return false;
-		}
-	}
-
-	public boolean updatePlayerScore(ConnectionUtils myConnection, int quesId, int roomId, int score)
+	public String getCorrectAnswer(ConnectionUtils myConnection, int quesId)
 			throws SQLException, ClassNotFoundException {
 		String sql = "SELECT * FROM QUESTION WHERE ques_id = " + quesId;
 		ResultSet rs = myConnection.executeResultSetSt(sql);
-		
-		String answer = rs.getString("correct_answer");
-		String sql1 = "UPDATE ANSWER SET score = " + 10 + "WHERE ques_id= " + quesId + "AND room_id = " + roomId
-				+ "AND answer = " + answer;
-		if (myConnection.executeUpdateSt(sql1) > 0)
+		if (rs.next()) {
+			String answer = rs.getString("correct_answer");
+			System.out.println("Answer is: " + answer);
+			return answer;
+		}
+		return null;
+	}
+
+	// ANSWER
+//	public boolean createPlayerAnswer(ConnectionUtils myConnection, int quesID, int roomId, int playerId, String choice)
+//			throws SQLException, ClassNotFoundException {
+//		String sql = "INSERT INTO ANSWER (ques_id, room_id, player_id, choice, score)" + "VALUES( ?, ?, ?, ?, ?)";
+//		try {
+//			PreparedStatement pst = myConnection.getMyConnection().prepareStatement(sql);
+//			pst.setInt(1, quesID);
+//			pst.setInt(2, roomId);
+//			pst.setInt(3, playerId);
+//			pst.setString(4, choice);
+//			pst.setInt(5, 0);
+//			if (pst.executeUpdate() > 0) {
+//				return true;
+//			} else
+//				return false;
+//		} catch (Exception e) {
+//			System.out.println("Error: " + e.getMessage() + ".My query");
+//			return false;
+//		}
+//	}
+//
+//	public boolean updatePlayerScore(ConnectionUtils myConnection, int quesId, int roomId, int score)
+//			throws SQLException, ClassNotFoundException {
+//		String sql = "SELECT * FROM QUESTION WHERE ques_id = " + quesId;
+//		ResultSet rs = myConnection.executeResultSetSt(sql);
+//
+//		String answer = rs.getString("correct_answer");
+//		String sql1 = "UPDATE ANSWER SET score = " + 10 + "WHERE ques_id= " + quesId + "AND room_id = " + roomId
+//				+ "AND answer = " + answer;
+//		if (myConnection.executeUpdateSt(sql1) > 0)
+//			return true;
+//		return false;
+//	}
+//
+//	public ResultSet getRoomScore(ConnectionUtils myConnection, int roomId)
+//			throws SQLException, ClassNotFoundException {
+//		String sql = "SELECT player_id, SUM(Score) FROM ANSWER WHERE room_id = " + roomId + "GROUP BY player_id";
+//		return myConnection.executeResultSetSt(sql);
+//	}
+
+	
+	
+	// SCORE
+	public boolean updatePlayerScore(ConnectionUtils myConnection, int playerId, int roomId, int score)
+			throws SQLException, ClassNotFoundException {
+		String sql = "UPDATE SCORE SET score = " + score + "WHERE player_id= " + playerId + "AND room_id = " + roomId;
+		if (myConnection.executeUpdateSt(sql) > 0)
 			return true;
 		return false;
 	}
-	
+
 	public ResultSet getRoomScore(ConnectionUtils myConnection, int roomId)
 			throws SQLException, ClassNotFoundException {
-		String sql = "SELECT player_id, SUM(Score) FROM ANSWER WHERE room_id = " + roomId + "GROUP BY player_id";
+		String sql = "SELECT * FROM SCORE WHERE room_id = " + roomId;
 		return myConnection.executeResultSetSt(sql);
 	}
 

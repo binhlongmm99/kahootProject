@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2020 at 06:55 PM
+-- Generation Time: May 13, 2020 at 08:31 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -34,21 +34,6 @@ CREATE TABLE `account` (
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `create_date` date NOT NULL DEFAULT current_timestamp(),
   `ip_address` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `answer`
---
-
-CREATE TABLE `answer` (
-  `answer_id` int(11) NOT NULL,
-  `ques_id` int(11) NOT NULL,
-  `room_id` int(11) NOT NULL,
-  `player_id` int(11) NOT NULL,
-  `choice` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
-  `score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -85,6 +70,19 @@ CREATE TABLE `room` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `score`
+--
+
+CREATE TABLE `score` (
+  `score_id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
+  `room_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `topic`
 --
 
@@ -105,15 +103,6 @@ ALTER TABLE `account`
   ADD PRIMARY KEY (`acc_id`);
 
 --
--- Indexes for table `answer`
---
-ALTER TABLE `answer`
-  ADD PRIMARY KEY (`answer_id`),
-  ADD KEY `ques_id` (`ques_id`),
-  ADD KEY `room_id` (`room_id`),
-  ADD KEY `player_id` (`player_id`);
-
---
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
@@ -127,6 +116,14 @@ ALTER TABLE `room`
   ADD PRIMARY KEY (`room_id`),
   ADD KEY `host_id` (`host_id`),
   ADD KEY `topic_id` (`topic_id`);
+
+--
+-- Indexes for table `score`
+--
+ALTER TABLE `score`
+  ADD PRIMARY KEY (`score_id`),
+  ADD KEY `player_id` (`player_id`),
+  ADD KEY `room_id` (`room_id`);
 
 --
 -- Indexes for table `topic`
@@ -146,12 +143,6 @@ ALTER TABLE `account`
   MODIFY `acc_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `answer`
---
-ALTER TABLE `answer`
-  MODIFY `answer_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
@@ -164,6 +155,12 @@ ALTER TABLE `room`
   MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `score`
+--
+ALTER TABLE `score`
+  MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `topic`
 --
 ALTER TABLE `topic`
@@ -172,14 +169,6 @@ ALTER TABLE `topic`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `answer`
---
-ALTER TABLE `answer`
-  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`ques_id`) REFERENCES `question` (`ques_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `answer_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `answer_ibfk_3` FOREIGN KEY (`player_id`) REFERENCES `account` (`acc_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `question`
@@ -193,6 +182,13 @@ ALTER TABLE `question`
 ALTER TABLE `room`
   ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`host_id`) REFERENCES `account` (`acc_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `room_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`topic_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `score`
+--
+ALTER TABLE `score`
+  ADD CONSTRAINT `score_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `account` (`acc_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `score_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `topic`
