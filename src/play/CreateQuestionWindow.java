@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
@@ -62,16 +63,9 @@ public class CreateQuestionWindow {
 
 	protected Shell shell;
 	private String clientName;
-	private String room;
-	private int numOfQuestions = 0;
-	
-	private ArrayList<Question> questions;
-	private Text[] questionTxt;
-	private Text[] ATxt;
-	private Text[] BTxt;
-	private Text[] CTxt;
-	private Text[] DTxt;
-	private Text[] answerTxt;
+	//private String room;
+	private String topicName;
+	private String answer;
 	
 	public void setShell(Shell shell) {
 		this.shell = shell;
@@ -81,9 +75,9 @@ public class CreateQuestionWindow {
 		this.clientName = name;
 	}
 	
-	public void setRoom(String room) {
-		this.room = room;
-	}
+//	public void setRoom(String room) {
+//		this.room = room;
+//	}
 
 	/**
 	 * Launch the application.
@@ -93,7 +87,7 @@ public class CreateQuestionWindow {
 		try {
 			CreateQuestionWindow window = new CreateQuestionWindow();
 			window.setClientName("abcd");
-			window.setRoom("1");
+			//window.setRoom("1");
 			//window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,204 +114,181 @@ public class CreateQuestionWindow {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(450, 548);
+		shell.setSize(486, 371);
 		shell.setText("Create questions");
-					
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 0, 434, 75);
 		
-		Label lblUser = new Label(composite, SWT.NONE);
-		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(85, 10, 70, 15);
+		Composite questionComposite = new Composite(shell, SWT.NONE);
+		questionComposite.setBounds(0, 109, 460, 169);
+		
+		Label lblQuestion = new Label(questionComposite, SWT.NONE);
+		lblQuestion.setBounds(20, 22, 55, 15);
+		lblQuestion.setText("Question: ");
+		
+		Text questionTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
+		questionTxt.setBounds(105, 22, 333, 39);
+		
+		Label lblChoices = new Label(questionComposite, SWT.NONE);
+		lblChoices.setBounds(20, 81, 55, 15);
+		lblChoices.setText("Choices: ");
+		
+		Button btnA = new Button(questionComposite, SWT.RADIO);
+		btnA.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Button source=  (Button) e.getSource();
+				answer = source.getText();
+			}
+		});
+		btnA.setBounds(84, 81, 35, 16);
+		btnA.setText("A");
+		btnA.setSelection(false);
+		
+		Button btnB = new Button(questionComposite, SWT.RADIO);
+		btnB.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Button source=  (Button) e.getSource();
+				answer = source.getText();
+			}
+		});
+		btnB.setText("B");
+		btnB.setBounds(261, 80, 35, 16);
+		btnB.setSelection(false);
+		
+		Button btnC = new Button(questionComposite, SWT.RADIO);
+		btnC.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Button source=  (Button) e.getSource();
+				answer = source.getText();
+			}
+		});
+		btnC.setText("C");
+		btnC.setBounds(84, 117, 35, 16);
+		btnC.setSelection(false);
+		
+		Button btnD = new Button(questionComposite, SWT.RADIO);
+		btnD.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Button source=  (Button) e.getSource();
+				answer = source.getText();
+			}
+		});
+		btnD.setText("D");
+		btnD.setBounds(261, 117, 35, 16);
+		btnD.setSelection(false);
+		
+		Text ATxt = new Text(questionComposite, SWT.BORDER);
+		ATxt.setBounds(125, 81, 117, 21);
+		
+		Text BTxt = new Text(questionComposite, SWT.BORDER);
+		BTxt.setBounds(302, 81, 136, 21);
+		
+		Text CTxt = new Text(questionComposite, SWT.BORDER);
+		CTxt.setBounds(125, 112, 117, 21);
+		
+		Text DTxt = new Text(questionComposite, SWT.BORDER);
+		DTxt.setBounds(303, 112, 135, 21);
+		
+		Color red = new Color(display, 255, 0, 0);
+		Color green = new Color(display, 0, 255, 0);
+		
+		Label lblError = new Label(questionComposite, SWT.NONE);
+		lblError.setBounds(20, 144, 93, 15);
+		lblError.setText("");
+		
+		Composite headerComposite = new Composite(shell, SWT.NONE);
+		headerComposite.setBounds(0, 10, 460, 82);
+		
+		Label lblUser = new Label(headerComposite, SWT.NONE);
+		lblUser.setBounds(24, 10, 55, 20);
 		lblUser.setText("User: " + clientName);
 		
-		Label lblRoom = new Label(composite, SWT.NONE);
-		lblRoom.setAlignment(SWT.CENTER);
-		lblRoom.setBounds(245, 10, 55, 15);
-		lblRoom.setText("Room: " + room);
+		Label lblEnterTopic = new Label(headerComposite, SWT.NONE);
+		lblEnterTopic.setBounds(24, 42, 76, 15);
+		lblEnterTopic.setText("Enter topic: ");
 		
-		Label lblChooseNumberOf = new Label(composite, SWT.NONE);
-		lblChooseNumberOf.setBounds(10, 36, 170, 15);
-		lblChooseNumberOf.setText("Choose number of questions: ");
+		Text topicTxt = new Text(headerComposite, SWT.BORDER);
+		topicTxt.setBounds(122, 36, 196, 21);
 		
-		List list = new List(composite, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
-		list.setBounds(183, 32, 55, 33);
-		list.add("1");
-		list.add("2");
+		Composite btnComposite = new Composite(shell, SWT.NONE);
+		btnComposite.setBounds(0, 284, 460, 50);
 		
-		Color redColor = new Color(display, 255, 0, 0);
-		
-		Label lblNoSelection = new Label(composite, SWT.NONE);
-		lblNoSelection.setBounds(10, 60, 157, 15);
-		lblNoSelection.setText("");
-		lblNoSelection.setForeground(redColor);
-
-		
-		Button btnCreate = new Button(composite, SWT.NONE);
+		Button btnCreate = new Button(btnComposite, SWT.NONE);
 		btnCreate.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int index = list.getSelectionIndex();
-				if(index == -1) {
-					lblNoSelection.setText("Not select!");
-				} else {
-					lblNoSelection.setText("");
-					btnCreate.dispose();
-					numOfQuestions = index + 1;
-					questions = new ArrayList<Question>();
-					questionTxt = new Text[numOfQuestions];
-					ATxt = new Text[numOfQuestions];
-					BTxt = new Text[numOfQuestions];
-					CTxt = new Text[numOfQuestions];
-					DTxt = new Text[numOfQuestions];
-					answerTxt = new Text[numOfQuestions];
-					
-					for(int i=0; i<numOfQuestions; i++) {
-						Composite composite_1 = new Composite(shell, SWT.NONE);
-						composite_1.setBounds(0, 75 + 156*i, 434, 156);
-						
-						Label lblEnterQuestion = new Label(composite_1, SWT.NONE);
-						lblEnterQuestion.setLocation(10, 10);
-						lblEnterQuestion.setSize(91, 15);
-						lblEnterQuestion.setText("Enter question:");
-						
-						questionTxt[i] = new Text(composite_1, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
-						questionTxt[i].setLocation(114, 10);
-						questionTxt[i].setSize(298, 46);
-						
-						Label lblEnterChoices = new Label(composite_1, SWT.NONE);
-						lblEnterChoices.setLocation(10, 73);
-						lblEnterChoices.setSize(91, 15);
-						lblEnterChoices.setText("Enter 4 choices: ");
-						
-						Label lblA = new Label(composite_1, SWT.NONE);
-						lblA.setLocation(106, 73);
-						lblA.setSize(19, 15);
-						lblA.setText("A: ");
-						
-						ATxt[i] = new Text(composite_1, SWT.BORDER);
-						ATxt[i].setLocation(130, 70);
-						ATxt[i].setSize(130, 21);
-						
-						Label lblB = new Label(composite_1, SWT.NONE);
-						lblB.setLocation(275, 71);
-						lblB.setSize(19, 15);
-						lblB.setText("B: ");
-						
-						BTxt[i] = new Text(composite_1, SWT.BORDER);
-						BTxt[i].setLocation(301, 71);
-						BTxt[i].setSize(123, 21);
-						
-						Label lblC = new Label(composite_1, SWT.NONE);
-						lblC.setBounds(105, 98, 19, 15);
-						lblC.setText("C:");
-						
-						CTxt[i] = new Text(composite_1, SWT.BORDER);
-						CTxt[i].setBounds(130, 98, 129, 21);
-						
-						Label lblD = new Label(composite_1, SWT.NONE);
-						lblD.setBounds(274, 98, 19, 15);
-						lblD.setText("D:");
-						
-						DTxt[i] = new Text(composite_1, SWT.BORDER);
-						DTxt[i].setBounds(302, 95, 122, 21);
-						
-						Label lblEnterAnswerabcd = new Label(composite_1, SWT.NONE);
-						lblEnterAnswerabcd.setBounds(10, 128, 129, 15);
-						lblEnterAnswerabcd.setText("Enter answer(A/B/C/D):");
-						
-						answerTxt[i] = new Text(composite_1, SWT.BORDER);
-						answerTxt[i].setBounds(145, 125, 76, 21);
-						
-					}
-				}
+				topicName = topicTxt.getText();
+				String question = questionTxt.getText();
+				String a = ATxt.getText();
+				String b = BTxt.getText();
+				String c = CTxt.getText();
+				String d = DTxt.getText();
 				
+				btnA.setSelection(false);
+				btnB.setSelection(false);
+				btnC.setSelection(false);
+				btnD.setSelection(false);
+				
+				if(isEmpty(topicName) || isEmpty(question) || isEmpty(a) || isEmpty(b) || isEmpty(c) || isEmpty(d) || isEmpty(answer)) {
+					lblError.setForeground(red);
+					lblError.setText("Error!");
+				} else {
+					try {
+						Question q = new Question(question, a, b, c, d, answer);
+						lblError.setText("Create success");
+						lblError.setForeground(green);
+						TimeUnit.SECONDS.sleep(2);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+//					System.out.println("Question " + q.getQuestion() + " is created");
+//					System.out.println(q.getAnswer());
+					
+					//Reset text to enter new question
+					lblError.setText("");
+					questionTxt.setText("");
+					ATxt.setText("");
+					BTxt.setText("");
+					CTxt.setText("");
+					DTxt.setText("");
+					answer = "";
+				}
 			}
 		});
-		btnCreate.setBounds(255, 31, 75, 25);
+		btnCreate.setBounds(257, 10, 75, 25);
 		btnCreate.setText("Create");
-						
-		Composite composite_2 = new Composite(shell, SWT.NONE);
-		composite_2.setBounds(0, 458, 434, 51);
 		
-		Label lblTxt = new Label(composite_2, SWT.NONE);
-		lblTxt.setBounds(10, 16, 333, 20);
-		lblTxt.setText("");
-		lblTxt.setForeground(redColor);
-		
-		Button btnSubmit = new Button(composite_2, SWT.NONE);
-		btnSubmit.setBounds(349, 11, 75, 25);
-		btnSubmit.addSelectionListener(new SelectionAdapter() {
+		Button btnConfirm = new Button(btnComposite, SWT.NONE);
+		btnConfirm.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				//Check if no question was created
-				if(numOfQuestions == 0) {
-					lblTxt.setText("No question was created! Please create questions!");
-				} else {
-					for(int i=0; i<numOfQuestions; i++) {
-						String question = questionTxt[i].getText();
-						String a = ATxt[i].getText();
-						String b = BTxt[i].getText();
-						String c = CTxt[i].getText();
-						String d = DTxt[i].getText();
-						String answer = answerTxt[i].getText();
-						
-						if(isNotValid(question) || isNotValid(a) || isNotValid(b) || isNotValid(c) || isNotValid(d) || isNotValid(answer)) {
-							lblTxt.setText("Error! Please fill all informations at question #" + (i+1));
-						} else if(isNotAnswer(answer)) {
-							lblTxt.setText("Invalid answer! Please check answer at question #" + (i+1));
-						} else {
-							lblTxt.setText("");
-							//Send question to server
-							try {
-								client.dos.writeUTF(client.createQuestionMsg(question, a, b, c, d, answer));
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							try {
-								client.dis.readUTF();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							Question q = new Question(question, a, b, c, d, answer);
-							questions.add(q);
-						}
-					}
-					
-					if(lblTxt.getText().isEmpty()) {
-						//No error
-						//shell.close();
-						try {
-							for (Control kid : shell.getChildren()) {
-						          kid.dispose();
-						    }
-							SuccessWindow window = new SuccessWindow();
-							window.setShell(shell);
-							window.setClientName(clientName);
-							window.setRoom(room);
-							window.setQuestions(questions);
-							window.open(client);
-						} catch (Exception ex) {
-							ex.printStackTrace();
-						}
-					}
+//				System.out.println("You've just created questions for topic " + topic);
+				//Click exit to back to Client window
+				try {
+					for (Control kid : shell.getChildren()) {
+				         kid.dispose();
+				    }
+					//String loginMsg = loginMsg(name, password);
+					ClientWindow clientWindow = new ClientWindow();
+					clientWindow.setShell(shell);
+					clientWindow.setClientName(clientName);
+					clientWindow.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
 				}
 			}
 		});
-		btnSubmit.setText("Submit");	
-	
+		btnConfirm.setBounds(350, 10, 75, 25);
+		btnConfirm.setText("Confirm");
 	}
 	
-	private boolean isNotValid(String str) {
-		if(str == null || str.isBlank() || str.isEmpty()) return true;
+	private boolean isEmpty(String str) {
+		if(str == null) return true;
+		if(str != null && str == "") return true;
 		return false;
-	}
-	
-	private boolean isNotAnswer(String answer) {
-		answer = answer.trim();
-		if(answer.compareTo("A") == 0 || answer.compareTo("B") == 0 || answer.compareTo("C") == 0 || answer.compareTo("D") == 0) return false;
-		return true;
 	}
 }

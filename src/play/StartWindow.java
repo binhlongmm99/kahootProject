@@ -80,7 +80,7 @@ public class StartWindow {
 		
 		Label lblYouveJustJoined = new Label(composite, SWT.NONE);
 		lblYouveJustJoined.setBounds(122, 63, 173, 15);
-		lblYouveJustJoined.setText("You've just joined room " + room);
+		lblYouveJustJoined.setText("You've just created room " + room);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBounds(0, 110, 424, 141);

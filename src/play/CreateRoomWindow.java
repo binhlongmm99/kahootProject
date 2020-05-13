@@ -3,6 +3,7 @@ package play;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 
 import java.io.IOException;
 
@@ -12,6 +13,7 @@ import org.eclipse.swt.widgets.Text;
 import client.Client;
 
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -65,93 +67,74 @@ public class CreateRoomWindow {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(450, 300);
-		shell.setText("Create new room");
+		shell.setSize(450, 392);
+		shell.setText("Create room");
 		
-		Label lblUser = new Label(shell, SWT.NONE);
-		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(153, 10, 122, 15);
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(10, 10, 424, 64);
+		
+		Label lblUser = new Label(composite, SWT.NONE);
+		lblUser.setBounds(137, 21, 121, 15);
 		lblUser.setText("User: " + clientName);
 		
-		Label lblEnterRoom = new Label(shell, SWT.NONE);
-		lblEnterRoom.setBounds(44, 87, 107, 15);
-		lblEnterRoom.setText("Enter room number:");
+		Composite composite_1 = new Composite(shell, SWT.NONE);
+		composite_1.setBounds(10, 78, 414, 265);
 		
-		roomTxt = new Text(shell, SWT.BORDER);
-		roomTxt.setBounds(182, 84, 76, 21);
+		Label lblChooseTopic = new Label(composite_1, SWT.NONE);
+		lblChooseTopic.setBounds(26, 36, 83, 15);
+		lblChooseTopic.setText("Choose topic: ");
 		
-		Color redColor = new Color(display, 255, 0, 0);
+		List list = new List(composite_1, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
+		list.setBounds(137, 40, 248, 68);
+		//CODE HERE
+		//Add list of topics
+		//Sample code
+		//for(String topic: topicList)
+		//   List.add(topic)
 		
-		Label lblErrorTxt = new Label(shell, SWT.NONE);
-		lblErrorTxt.setBounds(157, 122, 177, 15);
-		lblErrorTxt.setText("");
-		lblErrorTxt.setForeground(redColor);
+		Color red = new Color(display, 255, 0, 0);
 		
-		Button btnNext = new Button(shell, SWT.NONE);
+		Label lblPleaseChooseTopic = new Label(composite_1, SWT.NONE);
+		lblPleaseChooseTopic.setBounds(26, 138, 178, 15);
+		lblPleaseChooseTopic.setText("");
+		
+		Button btnNext = new Button(composite_1, SWT.NONE);
 		btnNext.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String room = roomTxt.getText();
-				String sRep = null;
-				if(!isRoomValid(room)) {
-					lblErrorTxt.setText("Invalid room number! Please try again");
-				}else {
-					//Send room information to server
-					try {
-						client.dos.writeUTF(client.createRoomMsg(room, clientName));
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					try {
-						sRep = client.dis.readUTF();
-						System.out.println(sRep);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				int index = list.getSelectionIndex();
+				if(index == -1) {
+					lblPleaseChooseTopic.setText("Please choose topic!");
+					lblPleaseChooseTopic.setForeground(red);
+				} else {
+					lblPleaseChooseTopic.setText("");
 					
-					if(client.isRoomExist(sRep)) {
-						lblErrorTxt.setText("Room is existed! Please try another");
-					} else {
-						lblErrorTxt.setText("");
-						//shell.close();
-						try {
-							for (Control kid : shell.getChildren()) {
-						         kid.dispose();
-						    }
-							CreateQuestionWindow window = new CreateQuestionWindow();
-							window.setShell(shell);
-							window.setClientName(clientName);
-							window.setRoom(room);
-							window.open(client);
-						} catch (Exception ex) {
-							ex.printStackTrace();
+					//Get selected topic name
+					String topic = list.getItem(index);
+					
+					//***********************************************
+					//CODE HERE
+					//Create room and get roomID with selected topic
+					String room = createRoom(topic);
+					
+					//Go to start window
+					try {
+						for (Control kid : shell.getChildren()) {
+							kid.dispose();
 						}
-					}
+						StartWindow window = new StartWindow();
+						window.setShell(shell);
+						window.setClientName(clientName);
+						window.setRoom(room);
+						window.open(client);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					} 
 				}
-					 
 			}
 		});
-		btnNext.setBounds(273, 201, 75, 25);
+		btnNext.setBounds(271, 182, 75, 25);
 		btnNext.setText("Next");
-		
-	}
-	
-	private boolean isRoomValid(String room) {
-		if(room == null || room.isBlank() || room.isEmpty()) return false;
-		try {
-			int roomNo = Integer.parseInt(room);
-		} catch(NumberFormatException nfe) {
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean isRoomExist(String room) {
-		//Check if room is existed
-		//ENTER CODE HERE 
-		return false;
-	}
 
+	}
 }

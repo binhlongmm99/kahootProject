@@ -79,45 +79,45 @@ public class ClientWindow {
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBounds(0, 108, 424, 168);
 		
-		Button btnCreateNewRoom = new Button(composite_1, SWT.NONE);
-		btnCreateNewRoom.addSelectionListener(new SelectionAdapter() {
+		Button btnCreateNewQuestion = new Button(composite_1, SWT.NONE);
+		btnCreateNewQuestion.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					for (Control kid : shell.getChildren()) {
 				          kid.dispose();
 				    }
-					CreateRoomWindow createRoomWindow = new CreateRoomWindow();
-					createRoomWindow.setShell(shell);
-					createRoomWindow.setClientName(clientName);
-					createRoomWindow.open(client);
+					CreateQuestionWindow createQuestionWindow = new CreateQuestionWindow();
+					createQuestionWindow.setShell(shell);
+					createQuestionWindow.setClientName(clientName);
+					createQuestionWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		});
-		btnCreateNewRoom.setBounds(143, 49, 131, 25);
-		btnCreateNewRoom.setText("Create new room");
+		btnCreateNewQuestion.setBounds(143, 49, 131, 25);
+		btnCreateNewQuestion.setText("Create new questions");
 		
-		Button btnJoinRoom = new Button(composite_1, SWT.NONE);
-		btnJoinRoom.addSelectionListener(new SelectionAdapter() {
+		Button btnJoinGame = new Button(composite_1, SWT.NONE);
+		btnJoinGame.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					for (Control kid : shell.getChildren()) {
 				          kid.dispose();
 				    }
-					JoinRoomWindow joinRoomWindow = new JoinRoomWindow();
-					joinRoomWindow.setClientName(clientName);
-					joinRoomWindow.setShell(shell);
-					joinRoomWindow.open(client);
+					JoinGameWindow joinGameWindow = new JoinGameWindow();
+					joinGameWindow.setClientName(clientName);
+					joinGameWindow.setShell(shell);
+					joinGameWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		});
-		btnJoinRoom.setBounds(143, 80, 131, 25);
-		btnJoinRoom.setText("Join room");
+		btnJoinGame.setBounds(143, 80, 131, 25);
+		btnJoinGame.setText("Join room");
 		
 		Label lblChooseYourSelection = new Label(composite_1, SWT.NONE);
 		lblChooseYourSelection.setAlignment(SWT.CENTER);

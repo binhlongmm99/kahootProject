@@ -33,7 +33,7 @@ public class PlayWindow {
 	private ArrayList<Question> questions;
 	
 	private int index;
-	
+	private long startTime; //Time when starting to answer each question
 	
 	
 	public void setShell(Shell shell) {
@@ -175,8 +175,12 @@ public class PlayWindow {
 		lblQuestion.setText("Question " + (index+1));
 		
 		Label lblAnswer = new Label(topComposite, SWT.NONE);
-		lblAnswer.setBounds(229, 88, 55, 15);
+		lblAnswer.setBounds(302, 88, 174, 15);
 		lblAnswer.setText("");
+		
+		Label lblAnswersTime = new Label(topComposite, SWT.NONE);
+		lblAnswersTime.setBounds(32, 88, 88, 15);
+		lblAnswersTime.setText("");
 		
 		Composite questionComposite = new Composite(answerComposite, SWT.NONE);
 		questionComposite.setBounds(10, 141, 509, 223);
@@ -211,7 +215,8 @@ public class PlayWindow {
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
-					TimeUnit.SECONDS.sleep(3);
+					lblAnswer.setText("Answer: " + questions.get(index).getAnswer());
+					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -220,7 +225,7 @@ public class PlayWindow {
 //				btnB.setSelection(false);
 //				btnC.setSelection(false);
 //				btnD.setSelection(false);
-				lblAnswer.setText("");
+				
 				index = index + 1;
 				if(index < questions.size()) {
 					text.setText(questions.get(index).getQuestion());
@@ -228,8 +233,10 @@ public class PlayWindow {
 					BTxt.setText(questions.get(index).getB());
 					CTxt.setText(questions.get(index).getC());
 					DTxt.setText(questions.get(index).getD());
+					lblAnswer.setText("");
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
+					startTime = System.currentTimeMillis();
 					countdown(display, this, true);
 				} else {
 					answerComposite.dispose();
@@ -248,6 +255,11 @@ public class PlayWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				countdown(display, runnable, false);
+				
+				//Update time to answer question
+				long answerTime = System.currentTimeMillis() - startTime;
+				lblAnswersTime.setText(answerTime + "ms");
+				
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 				
@@ -260,13 +272,14 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(3);
+					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				btnA.setSelection(false);
 				lblAnswer.setText("");
+				lblAnswersTime.setText("");
 				index = index + 1;
 				if(index < questions.size()) {
 					text.setText(questions.get(index).getQuestion());
@@ -276,6 +289,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
+					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
 					answerComposite.dispose();
@@ -294,6 +308,11 @@ public class PlayWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				countdown(display, runnable, false);
+				
+				//Update time to answer question
+				long answerTime = System.currentTimeMillis() - startTime;
+				lblAnswersTime.setText(answerTime + "ms");
+				
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 
@@ -306,13 +325,14 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(3);
+					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				btnB.setSelection(false);
 				lblAnswer.setText("");
+				lblAnswersTime.setText("");
 				index = index + 1;
 				if(index < questions.size()) {
 					text.setText(questions.get(index).getQuestion());
@@ -322,6 +342,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
+					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
 					answerComposite.dispose();
@@ -339,6 +360,11 @@ public class PlayWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				countdown(display, runnable, false);
+				
+				//Update time to answer question
+				long answerTime = System.currentTimeMillis() - startTime;
+				lblAnswersTime.setText(answerTime + "ms");
+				
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 
@@ -351,7 +377,7 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(3);
+					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -367,6 +393,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
+					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
 					answerComposite.dispose();
@@ -384,6 +411,11 @@ public class PlayWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				countdown(display, runnable, false);
+				
+				//Update time to answer question
+				long answerTime = System.currentTimeMillis() - startTime;
+				lblAnswersTime.setText(answerTime + "ms");
+				
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 
@@ -396,13 +428,14 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(3);
+					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				btnD.setSelection(false);
 				lblAnswer.setText("");
+				lblAnswersTime.setText("");
 				index = index + 1;
 				if(index < questions.size()) {
 					text.setText(questions.get(index).getQuestion());
@@ -412,6 +445,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
+					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
 					answerComposite.dispose();
