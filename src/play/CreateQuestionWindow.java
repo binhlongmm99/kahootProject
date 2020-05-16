@@ -75,6 +75,10 @@ public class CreateQuestionWindow {
 		this.clientName = name;
 	}
 	
+	public void setTopic(String topic) {
+		this.topicName = topic;
+	}
+	
 //	public void setRoom(String room) {
 //		this.room = room;
 //	}
@@ -207,10 +211,11 @@ public class CreateQuestionWindow {
 		
 		Label lblEnterTopic = new Label(headerComposite, SWT.NONE);
 		lblEnterTopic.setBounds(24, 42, 76, 15);
-		lblEnterTopic.setText("Enter topic: ");
+		lblEnterTopic.setText("Topic: ");
 		
-		Text topicTxt = new Text(headerComposite, SWT.BORDER);
+		Text topicTxt = new Text(headerComposite, SWT.BORDER | SWT.READ_ONLY);
 		topicTxt.setBounds(122, 36, 196, 21);
+		topicTxt.setText(topicName);
 		
 		Composite btnComposite = new Composite(shell, SWT.NONE);
 		btnComposite.setBounds(0, 284, 460, 50);
@@ -219,7 +224,7 @@ public class CreateQuestionWindow {
 		btnCreate.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				topicName = topicTxt.getText();
+				//topicName = topicTxt.getText();
 				String question = questionTxt.getText();
 				String a = ATxt.getText();
 				String b = BTxt.getText();

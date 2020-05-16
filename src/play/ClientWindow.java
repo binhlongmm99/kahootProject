@@ -87,10 +87,10 @@ public class ClientWindow {
 					for (Control kid : shell.getChildren()) {
 				          kid.dispose();
 				    }
-					CreateQuestionWindow createQuestionWindow = new CreateQuestionWindow();
-					createQuestionWindow.setShell(shell);
-					createQuestionWindow.setClientName(clientName);
-					createQuestionWindow.open(client);
+					CreateTopicWindow createTopicWindow = new CreateTopicWindow();
+					createTopicWindow.setShell(shell);
+					createTopicWindow.setClientName(clientName);
+					createTopicWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
