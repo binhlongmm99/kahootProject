@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 
 import java.io.IOException;
+import java.util.Random;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
@@ -52,7 +53,23 @@ public class CreateRoomWindow {
 	 */
 	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(display, client);
+		String sRep = null;
+		List topicList;
+		try {
+			client.dos.writeUTF("TL-" + clientName);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sRep = client.dis.readUTF();
+			System.out.println(sRep);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String[] parts = sRep.split("-");
+		createContents(display, client, parts);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -65,7 +82,7 @@ public class CreateRoomWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display, Client client) {
+	protected void createContents(Display display, Client client, String[] parts) {
 		if(shell == null) shell = new Shell();
 		shell.setSize(450, 392);
 		shell.setText("Create room");
@@ -92,6 +109,11 @@ public class CreateRoomWindow {
 		//for(String topic: topicList)
 		//   List.add(topic)
 		
+		for (int i = 1; i < parts.length; i++) {
+			list.add(parts[i]);
+			System.out.println(parts[i]);
+		}
+		
 		Color red = new Color(display, 255, 0, 0);
 		
 		Label lblPleaseChooseTopic = new Label(composite_1, SWT.NONE);
@@ -110,12 +132,20 @@ public class CreateRoomWindow {
 					lblPleaseChooseTopic.setText("");
 					
 					//Get selected topic name
+					Random random = new Random();
+					String room = Integer.toString(random.nextInt(10000));
 					String topic = list.getItem(index);
+					try {
+						client.dos.writeUTF(client.createRoomMsg(room, topic));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 					//***********************************************
 					//CODE HERE
 					//Create room and get roomID with selected topic
-					String room = createRoom(topic);
+					
 					
 					//Go to start window
 					try {
@@ -131,6 +161,11 @@ public class CreateRoomWindow {
 						ex.printStackTrace();
 					} 
 				}
+			}
+
+			private String createRoom(String topic) {
+				// TODO Auto-generated method stub
+				return null;
 			}
 		});
 		btnNext.setBounds(271, 182, 75, 25);

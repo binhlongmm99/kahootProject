@@ -51,7 +51,6 @@ public class JoinRoomWindow {
 		Display display = Display.getDefault();
 		String sRep = null;
 		//Send request to server to get roomlist
-		List roomList;
 		try {
 			client.dos.writeUTF(client.getRoomListMsg());
 		} catch (IOException e) {
@@ -141,39 +140,24 @@ public class JoinRoomWindow {
 					try {
 						sRep = client.dis.readUTF();
 						System.out.println(sRep);
-						if (client.isHost(sRep)) {
-							//Host window here
-							try {
-								for (Control kid : shell.getChildren()) {
-									kid.dispose();
-								}
-								StartWindow window = new StartWindow();
-								window.setShell(shell);
-								window.setClientName(clientName);
-								window.setRoom(room);
-								window.open(client);
-							} catch (Exception ex) {
-								ex.printStackTrace();
-							}
-						}
-						else {
-							//Player window
-							try {
-								client.dos.writeUTF("WH");
-								for (Control kid : shell.getChildren()) {
-									kid.dispose();
-								}
-								WaitWindow window = new WaitWindow();
-								window.setShell(shell);
-								window.setClientName(clientName);
-								window.setRoom(room);
-								window.open(client);
-								
 
-							} catch (Exception ex) {
-								ex.printStackTrace();
+						//Player window
+						try {
+							client.dos.writeUTF("WH");
+							for (Control kid : shell.getChildren()) {
+								kid.dispose();
 							}
+							WaitWindow window = new WaitWindow();
+							window.setShell(shell);
+							window.setClientName(clientName);
+							window.setRoom(room);
+							window.open(client);
+
+
+						} catch (Exception ex) {
+							ex.printStackTrace();
 						}
+
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

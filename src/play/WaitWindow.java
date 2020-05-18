@@ -110,11 +110,13 @@ public class WaitWindow {
 							for (Control kid : shell.getChildren()) {
 								kid.dispose();
 							}
+							client.dos.writeUTF(client.createScoreMsg(clientName, room, 0));
 							PlayWindow window = new PlayWindow();
 							window.setShell(shell);
 							window.setClientName(clientName);
 							window.setRoom(room);
 							window.open(client);
+							
 
 						}
 						else{

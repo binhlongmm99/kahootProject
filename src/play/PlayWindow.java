@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -24,6 +25,25 @@ import org.eclipse.swt.widgets.Text;
 import client.Client;
 
 import org.eclipse.swt.widgets.Group;
+class Player {
+	private String playerName;
+	private int score;
+	
+	
+	public Player(String name, int score) {
+		this.playerName = name;
+		this.score = score;
+	}
+	
+	public String getPlayerName() {
+		return this.playerName;
+	}
+	
+	public int getScore() {
+		return this.score;
+	}
+	
+}
 
 public class PlayWindow {
 
@@ -31,7 +51,8 @@ public class PlayWindow {
 	private String room;
 	private String clientName;
 	private ArrayList<Question> questions;
-	
+	private ArrayList<Player> playerList;
+	private int score = 0;
 	private int index;
 	private long startTime; //Time when starting to answer each question
 	
@@ -48,12 +69,15 @@ public class PlayWindow {
 		this.room = room;
 	}
 	
-	public ArrayList<Question> getQuestions() {
+	public ArrayList<Question> getQuestions(String sRep) {
 		//CODE HERE
 		//Return array list of all questions of given room from DB
-		Question q = new Question("a","b","c", "d", "e", "C");
+		String[] parts = sRep.split("-");
 		ArrayList<Question> arq = new ArrayList<Question>();
-		arq.add(q);
+		for (int i = 1; i < parts.length; i+= 6) {
+			Question q = new Question(parts[i],parts[i+1],parts[i+2], parts[i+3], parts[i+4], parts[i+5]);
+			arq.add(q);
+		}
 		return arq;
 	}
 	
@@ -75,7 +99,23 @@ public class PlayWindow {
 	 */
 	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(display, client);
+		String sRep = null;
+		//Send request to server to get roomlist
+		try {
+			client.dos.writeUTF(client.getQuestionListMsg(room));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sRep = client.dis.readUTF();
+			System.out.println(sRep);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		createContents(display, client, sRep);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -88,8 +128,8 @@ public class PlayWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display, Client client) {
-		questions = getQuestions();
+	protected void createContents(Display display, Client client, String sRep) {
+		questions = getQuestions(sRep);
 		if(shell == null) shell = new Shell();
 		shell.setSize(780, 463);
 		shell.setText("Playing");
@@ -209,6 +249,10 @@ public class PlayWindow {
 		DTxt.setBounds(348, 168, 131, 21);
 		DTxt.setText(questions.get(index).getD());
 		
+		playerList = getScoreFromServer(client);
+		printPlayerScore(playerList);
+		
+		
 		Runnable runnable = new Runnable() {
 
 			@Override
@@ -234,11 +278,18 @@ public class PlayWindow {
 					CTxt.setText(questions.get(index).getC());
 					DTxt.setText(questions.get(index).getD());
 					lblAnswer.setText("");
+					
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, this, true);
 				} else {
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
 					btnExit.setEnabled(true);
@@ -266,6 +317,13 @@ public class PlayWindow {
 				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
 					lblAnswer.setForeground(green);
 					lblAnswer.setText("Correct");
+					score += 10;
+					try {
+						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					lblAnswer.setForeground(red);
 					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
@@ -287,11 +345,18 @@ public class PlayWindow {
 					BTxt.setText(questions.get(index).getB());
 					CTxt.setText(questions.get(index).getC());
 					DTxt.setText(questions.get(index).getD());
+					
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
 					btnExit.setEnabled(true);
@@ -319,6 +384,13 @@ public class PlayWindow {
 				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
 					lblAnswer.setForeground(green);
 					lblAnswer.setText("Correct");
+					score += 10;
+					try {
+						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					lblAnswer.setForeground(red);
 					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
@@ -340,11 +412,18 @@ public class PlayWindow {
 					BTxt.setText(questions.get(index).getB());
 					CTxt.setText(questions.get(index).getC());
 					DTxt.setText(questions.get(index).getD());
+					
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
 					btnExit.setEnabled(true);
@@ -371,6 +450,13 @@ public class PlayWindow {
 				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
 					lblAnswer.setForeground(green);
 					lblAnswer.setText("Correct");
+					score += 10;
+					try {
+						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					lblAnswer.setForeground(red);
 					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
@@ -391,11 +477,18 @@ public class PlayWindow {
 					BTxt.setText(questions.get(index).getB());
 					CTxt.setText(questions.get(index).getC());
 					DTxt.setText(questions.get(index).getD());
+
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
 					btnExit.setEnabled(true);
@@ -418,10 +511,18 @@ public class PlayWindow {
 				
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
+				
 
 				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
 					lblAnswer.setForeground(green);
 					lblAnswer.setText("Correct");
+					score += 10;
+					try {
+						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					lblAnswer.setForeground(red);
 					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
@@ -443,11 +544,18 @@ public class PlayWindow {
 					BTxt.setText(questions.get(index).getB());
 					CTxt.setText(questions.get(index).getC());
 					DTxt.setText(questions.get(index).getD());
+
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, runnable, true);
 				} else {
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList);
+					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
 					btnExit.setEnabled(true);
@@ -464,12 +572,41 @@ public class PlayWindow {
 		if(choose == true) {
 			//Start countdown
 			//5s each time
-			display.timerExec(5*1000, runnable);
+			display.timerExec(20*1000, runnable);
 			//System.out.println("Start countdown");
 		} else {
 			//Stop countdown
 			display.timerExec(-1, runnable);
 			//System.out.println("Stop countdown");
+		}
+	}
+	
+	private ArrayList<Player> getScoreFromServer(Client client) {
+		String sRep = null;
+		try {
+			client.dos.writeUTF(client.getScore(room));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sRep = client.dis.readUTF();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String[] parts = sRep.split("-");
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		for (int i = 1; i < parts.length; i += 2) {
+			Player p = new Player(parts[i], Integer.parseInt(parts[i+1]));
+			playerList.add(p);
+		}
+		return playerList;
+	}
+	
+	private void printPlayerScore(ArrayList<Player> pL) {
+		for (int i = 0; i < pL.size(); i++) {
+			System.out.println(pL.get(i).getPlayerName() + "------" + pL.get(i).getScore());
 		}
 	}
 }

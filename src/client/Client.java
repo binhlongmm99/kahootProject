@@ -94,15 +94,15 @@ public class Client
 
 	}
 
-	public String createQuestionMsg(String question, String optionA, String optionB, String optionC, String optionD, String answer) {
+	public String createQuestionMsg(String topic,String question, String optionA, String optionB, String optionC, String optionD, String answer) {
 		// TODO Auto-generated method stub
-		String mess = "CQ-" + question + "-" + optionA + "-" + optionB + "-"+ optionC + "-"+ optionD + "-" + answer;
+		String mess = "CQ-" + topic + "-" + question + "-" + optionA + "-" + optionB + "-"+ optionC + "-"+ optionD + "-" + answer;
 		return mess;
 	}
 
-	public String createRoomMsg(String roomId, String host) {
+	public String createRoomMsg(String roomId, String topic) {
 		// TODO Auto-generated method stub
-		String mess = "CR-" + roomId + "-" + host;
+		String mess = "CR-" + roomId + "-" + topic;
 		return mess;
 	}
 
@@ -119,6 +119,31 @@ public class Client
 	} 
 	public String getRoomListMsg() {
 		String mess = "RL-Get room list";
+		return mess;
+	}
+
+	public String getQuestionListMsg(String roomId) {
+		// TODO Auto-generated method stub
+		String mess = "GQ-" + roomId;
+		return mess;
+	}
+
+
+	public String updateScoreMsg(String clientName, String room, int score) {
+		// TODO Auto-generated method stub
+		String mess = "US-" + clientName + "-" + room + "-" + score;
+		return mess;
+	}
+
+	public String createScoreMsg(String clientName, String room, int i) {
+		// TODO Auto-generated method stub
+		String mess = "CSc-" + clientName + "-" + room + "-" + i;
+		return mess;
+	}
+
+	public String getScore(String room) {
+		// TODO Auto-generated method stub
+		String mess = "GS-" + room;
 		return mess;
 	}
 	

@@ -4,6 +4,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -104,6 +107,19 @@ public class CreateTopicWindow {
 					lblNotEnterTopic.setForeground(red);
 				} else {
 					lblNotEnterTopic.setText("");
+					try {
+						client.dos.writeUTF("CT-" + clientName + "-" + topic );
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+//					try {
+//						System.out.println(client.dis.readUTF());
+//					} catch (IOException e1) {
+//						// TODO Auto-generated catch block
+//						e1.printStackTrace();
+//					}
 					try {
 						for (Control kid : shell.getChildren()) {
 					          kid.dispose();

@@ -241,6 +241,14 @@ public class CreateQuestionWindow {
 					lblError.setText("Error!");
 				} else {
 					try {
+						System.out.println(client.createQuestionMsg(topicName, question, a, b, c, d, answer));
+						client.dos.writeUTF(client.createQuestionMsg(topicName, question, a, b, c, d, answer));
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					try {
 						Question q = new Question(question, a, b, c, d, answer);
 						lblError.setText("Create success");
 						lblError.setForeground(green);
@@ -249,6 +257,7 @@ public class CreateQuestionWindow {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
 					
 //					System.out.println("Question " + q.getQuestion() + " is created");
 //					System.out.println(q.getAnswer());
