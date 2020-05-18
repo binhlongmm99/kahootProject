@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -151,7 +152,7 @@ public class PlayWindow {
 		Composite tableComposite = new Composite(lbComposite, SWT.NONE);
 		tableComposite.setBounds(10, 73, 203, 276);
 		
-		Table table = new Table(tableComposite, SWT.BORDER | SWT.HIDE_SELECTION | SWT.V_SCROLL);
+		Table table = new Table(tableComposite, SWT.BORDER | SWT.HIDE_SELECTION | SWT.V_SCROLL | SWT.READ_ONLY);
 		table.setBounds(24, 22, 154, 230);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -250,7 +251,7 @@ public class PlayWindow {
 		DTxt.setText(questions.get(index).getD());
 		
 		playerList = getScoreFromServer(client);
-		printPlayerScore(playerList);
+		printPlayerScore(playerList, table);
 		
 		
 		Runnable runnable = new Runnable() {
@@ -280,7 +281,7 @@ public class PlayWindow {
 					lblAnswer.setText("");
 					
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
@@ -288,7 +289,7 @@ public class PlayWindow {
 					countdown(display, this, true);
 				} else {
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
@@ -347,7 +348,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 					
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
@@ -355,7 +356,7 @@ public class PlayWindow {
 					countdown(display, runnable, true);
 				} else {
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
@@ -414,7 +415,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 					
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
@@ -422,7 +423,7 @@ public class PlayWindow {
 					countdown(display, runnable, true);
 				} else {
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
@@ -479,7 +480,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
@@ -487,7 +488,7 @@ public class PlayWindow {
 					countdown(display, runnable, true);
 				} else {
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
@@ -546,7 +547,7 @@ public class PlayWindow {
 					DTxt.setText(questions.get(index).getD());
 
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
@@ -554,7 +555,7 @@ public class PlayWindow {
 					countdown(display, runnable, true);
 				} else {
 					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList);
+					printPlayerScore(playerList, table);
 					
 					answerComposite.dispose();
 					shell.setSize(250, 463);
@@ -604,9 +605,16 @@ public class PlayWindow {
 		return playerList;
 	}
 	
-	private void printPlayerScore(ArrayList<Player> pL) {
+	private void printPlayerScore(ArrayList<Player> pL, Table table) {
+		//Clear old leaderboard data
+		table.clearAll();
+		
+		//Get new leaderboard data
 		for (int i = 0; i < pL.size(); i++) {
 			System.out.println(pL.get(i).getPlayerName() + "------" + pL.get(i).getScore());
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setText(0, pL.get(i).getPlayerName());
+			item.setText(1, pL.get(i).getScore() + "");
 		}
 	}
 }
