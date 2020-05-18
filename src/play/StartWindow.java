@@ -2,6 +2,8 @@ package play;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
 import client.Client;
 
@@ -67,52 +69,24 @@ public class StartWindow {
 	 */
 	protected void createContents(Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(450, 300);
-		shell.setText("Start your room");
+		shell.setSize(450, 378);
+		shell.setText("Start room");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 0, 424, 104);
+		composite.setBounds(10, 0, 424, 64);
 		
 		Label lblHello = new Label(composite, SWT.NONE);
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(105, 23, 173, 15);
-		lblHello.setText("Hello, " + clientName);
+		lblHello.setBounds(155, 10, 83, 15);
+		lblHello.setText("Hello, ");
 		
-		Label lblYouveJustJoined = new Label(composite, SWT.NONE);
-		lblYouveJustJoined.setBounds(122, 63, 173, 15);
-		lblYouveJustJoined.setText("You've just created room " + room);
+		Label lblCreate = new Label(composite, SWT.NONE);
+		lblCreate.setAlignment(SWT.CENTER);
+		lblCreate.setBounds(96, 39, 204, 15);
+		lblCreate.setText("You've just created room ");
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(0, 110, 424, 141);
-		
-		Button btnStart = new Button(composite_1, SWT.NONE);
-		btnStart.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				//CODE HERE
-				//Tell server to start room and get questions of given room
-				try {
-					client.dos.writeUTF(client.startGameMsg());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				try {
-					System.out.println(client.dis.readUTF());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				Label lblYouveJustStarted = new Label(composite_1, SWT.NONE);
-				lblYouveJustStarted.setAlignment(SWT.CENTER);
-				lblYouveJustStarted.setBounds(98, 10, 250, 20);
-				lblYouveJustStarted.setText("You've just started the room " + room + ". Click Exit");
-				btnStart.dispose();
-			}
-		});
-		btnStart.setBounds(155, 52, 75, 25);
-		btnStart.setText("Start");
+		composite_1.setBounds(10, 70, 414, 259);
 		
 		Button btnExit = new Button(composite_1, SWT.NONE);
 		btnExit.addSelectionListener(new SelectionAdapter() {
@@ -123,16 +97,45 @@ public class StartWindow {
 				         kid.dispose();
 				    }
 					//String loginMsg = loginMsg(name, password);
-					LeaderboardWindow window = new LeaderboardWindow();
-					window.setShell(shell);
-					window.setClientName(clientName);
-					window.open(client);
+					ClientWindow clientWindow = new ClientWindow();
+					clientWindow.setShell(shell);
+					clientWindow.setClientName(clientName);
+					clientWindow.open(client);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		});
-		btnExit.setBounds(155, 91, 75, 25);
+		btnExit.setBounds(197, 10, 75, 25);
 		btnExit.setText("Exit");
+		btnExit.setEnabled(false);
+		
+		Button btnStartRoom = new Button(composite_1, SWT.NONE);
+		btnStartRoom.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//When click "Start", table is created
+				Table scoreTable = new Table(composite_1, SWT.BORDER | SWT.HIDE_SELECTION | SWT.READ_ONLY);
+				scoreTable.setBounds(89, 53, 213, 181);
+				scoreTable.setHeaderVisible(true);
+				scoreTable.setLinesVisible(true);
+				
+				TableColumn tblclmnPlayer = new TableColumn(scoreTable, SWT.CENTER);
+				tblclmnPlayer.setWidth(100);
+				tblclmnPlayer.setText("Player");
+				
+				TableColumn tblclmnScore = new TableColumn(scoreTable, SWT.CENTER);
+				tblclmnScore.setWidth(100);
+				tblclmnScore.setText("Score");
+				
+				//Enable button "Exit"
+				btnExit.setEnabled(true);
+				
+				//Disable button "Start"
+				btnStartRoom.setEnabled(false);
+			}
+		});
+		btnStartRoom.setBounds(99, 10, 75, 25);
+		btnStartRoom.setText("Start room");
 	}
 }

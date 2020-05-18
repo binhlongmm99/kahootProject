@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.swt.SWT;
@@ -607,7 +609,16 @@ public class PlayWindow {
 	
 	private void printPlayerScore(ArrayList<Player> pL, Table table) {
 		//Clear old leaderboard data
-		table.clearAll();
+		table.removeAll();;
+		
+		//Sort
+		Collections.sort(pL, new Comparator<Player>() {
+	        @Override
+	        public int compare(Player p1, Player p2)
+	        {
+	            return  p1.getScore() - p2.getScore();
+	        }
+	    });
 		
 		//Get new leaderboard data
 		for (int i = 0; i < pL.size(); i++) {
