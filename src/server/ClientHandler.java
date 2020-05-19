@@ -38,13 +38,14 @@ public class ClientHandler implements Runnable
 		String received; 
 		int count = 0;
 
+
 		while (true)  
 		{
 			try {
 
 				received = dis.readUTF();
 				String[] parts = received.split("-");
-				
+
 				System.out.println(received); 
 				switch(parts[0]) {
 				case "GS":
@@ -68,10 +69,11 @@ public class ClientHandler implements Runnable
 				case "CO":
 					chooseOption(received);break;
 				case "SG":
-					startGame();
+					
 					for (ClientHandler mc : Server.ar) {
-						mc.dos.writeUTF(mc.startGameMsg());
-						mc.isGameStarted = true;
+						mc.startGame();
+//						mc.dos.writeUTF(mc.startGameMsg());
+//						mc.isGameStarted = true;
 					}
 					break;
 				case "JR":
@@ -100,12 +102,12 @@ public class ClientHandler implements Runnable
 				// TODO Auto-generated catch block
 				//				e.printStackTrace();
 				this.isloggedin=false; 
-				try {
-					this.s.close();
-					Server.ar.remove(this);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				Iterator<ClientHandler> ite = Server.ar.iterator();
+				while (ite.hasNext()) {
+					if (ite.next().equals(this)) {
+						ite.remove();
+						System.out.println("Socket is closed");
+					}
 				} 
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
@@ -270,7 +272,7 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String createTopicMsg() {
 		// TODO Auto-generated method stub
 		return "CT-Topic is created";
@@ -322,7 +324,7 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String getRoomListMsg() throws ClassNotFoundException, SQLException {
 		Vector<String> roomList = getRoomListDb();
 		String mess = "RL-";
@@ -358,7 +360,7 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String loginMsg(String name, String password) {
 		String mess = null;
 		try {
@@ -397,7 +399,7 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String joinRoomMsg(String roomId, String name) {
 		String mess = null;
 		try {
@@ -513,7 +515,7 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
-	
+
 	private String createRoomMsg(String roomId) {
 		String mess = null;
 		try {
@@ -663,7 +665,7 @@ public class ClientHandler implements Runnable
 		}
 		return false;
 	}
-	
+
 	private int getOwnerId(String owner) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = '" + owner +"'";
@@ -674,7 +676,7 @@ public class ClientHandler implements Runnable
 		}
 		return 0;
 	}
-	
+
 	public int getRoomId(String room) throws ClassNotFoundException, SQLException {
 		String sql = "SELECT * FROM ROOM WHERE ROOM_NAME = '" + room + "'";
 		ResultSet rs = myConnection.executeResultSetSt(sql);
@@ -688,7 +690,7 @@ public class ClientHandler implements Runnable
 	public void setRoomId(String roomId) {
 		this.roomId = roomId;
 	}
-	
+
 
 	public int getTopicId(String topic) throws ClassNotFoundException, SQLException {
 		String sql = "SELECT * FROM TOPIC WHERE topic_name = '" + topic +"'";
@@ -699,7 +701,7 @@ public class ClientHandler implements Runnable
 		}
 		return 0;
 	}
-	
+
 	public int getHostId(String host) throws ClassNotFoundException, SQLException {
 		String sql = "SELECT REG_ID FROM ACCOUNT WHERE USERNAME = '" + host +"'";
 		ResultSet resultSet = myConnection.executeResultSetSt(sql);

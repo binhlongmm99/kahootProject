@@ -112,7 +112,7 @@ public class CreateRoomWindow {
 		if (parts[0].contains("TL")) {
 			for (int i = 1; i < parts.length; i++) {
 				list.add(parts[i]);
-				System.out.println(parts[i]);
+				System.out.println(parts[i]);	
 			}
 		}
 		else {
