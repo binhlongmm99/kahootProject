@@ -10,4 +10,4 @@ If join game: -> JoinGameWindow.java
 
 	if choose topic: -> CreateRoomWindow.java -> StartWindow.java
 
-	if choose room: -> JoinRoomWindow.java -> PlayWindow.java
+	if choose room: -> JoinRoomWindow.java -> WaitWindow.java -> PlayWindow.java

@@ -308,63 +308,11 @@ public class PlayWindow {
 		btnA.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				countdown(display, runnable, false);
-				
-				//Update time to answer question
-				long answerTime = System.currentTimeMillis() - startTime;
-				lblAnswersTime.setText(answerTime + "ms");
-				
+								
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 				
-				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
-					lblAnswer.setForeground(green);
-					lblAnswer.setText("Correct");
-					score += 10;
-					try {
-						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} else {
-					lblAnswer.setForeground(red);
-					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
-				}
-				
-				try {
-					TimeUnit.SECONDS.sleep(1);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				btnA.setSelection(false);
-				lblAnswer.setText("");
-				lblAnswersTime.setText("");
-				index = index + 1;
-				if(index < questions.size()) {
-					text.setText(questions.get(index).getQuestion());
-					ATxt.setText(questions.get(index).getA());
-					BTxt.setText(questions.get(index).getB());
-					CTxt.setText(questions.get(index).getC());
-					DTxt.setText(questions.get(index).getD());
-					
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					lblUpdate.setText("Update #" + index);
-					lblQuestion.setText("Question " + (index+1));
-					startTime = System.currentTimeMillis();
-					countdown(display, runnable, true);
-				} else {
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					answerComposite.dispose();
-					shell.setSize(250, 463);
-					btnExit.setEnabled(true);
-					lblUpdate.setText("Result");
-				}
+				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnA, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 				
 			}
 		});
@@ -375,63 +323,11 @@ public class PlayWindow {
 		btnB.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				countdown(display, runnable, false);
-				
-				//Update time to answer question
-				long answerTime = System.currentTimeMillis() - startTime;
-				lblAnswersTime.setText(answerTime + "ms");
-				
+								
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 
-				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
-					lblAnswer.setForeground(green);
-					lblAnswer.setText("Correct");
-					score += 10;
-					try {
-						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} else {
-					lblAnswer.setForeground(red);
-					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
-				}
-				
-				try {
-					TimeUnit.SECONDS.sleep(1);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				btnB.setSelection(false);
-				lblAnswer.setText("");
-				lblAnswersTime.setText("");
-				index = index + 1;
-				if(index < questions.size()) {
-					text.setText(questions.get(index).getQuestion());
-					ATxt.setText(questions.get(index).getA());
-					BTxt.setText(questions.get(index).getB());
-					CTxt.setText(questions.get(index).getC());
-					DTxt.setText(questions.get(index).getD());
-					
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					lblUpdate.setText("Update #" + index);
-					lblQuestion.setText("Question " + (index+1));
-					startTime = System.currentTimeMillis();
-					countdown(display, runnable, true);
-				} else {
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					answerComposite.dispose();
-					shell.setSize(250, 463);
-					btnExit.setEnabled(true);
-					lblUpdate.setText("Result");
-				}
+				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnB, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 			}
 		});
 		btnB.setText("B");
@@ -441,62 +337,11 @@ public class PlayWindow {
 		btnC.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				countdown(display, runnable, false);
-				
-				//Update time to answer question
-				long answerTime = System.currentTimeMillis() - startTime;
-				lblAnswersTime.setText(answerTime + "ms");
-				
+								
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 
-				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
-					lblAnswer.setForeground(green);
-					lblAnswer.setText("Correct");
-					score += 10;
-					try {
-						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} else {
-					lblAnswer.setForeground(red);
-					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
-				}
-				
-				try {
-					TimeUnit.SECONDS.sleep(1);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				btnC.setSelection(false);
-				lblAnswer.setText("");
-				index = index + 1;
-				if(index < questions.size()) {
-					text.setText(questions.get(index).getQuestion());
-					ATxt.setText(questions.get(index).getA());
-					BTxt.setText(questions.get(index).getB());
-					CTxt.setText(questions.get(index).getC());
-					DTxt.setText(questions.get(index).getD());
-
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					lblUpdate.setText("Update #" + index);
-					lblQuestion.setText("Question " + (index+1));
-					startTime = System.currentTimeMillis();
-					countdown(display, runnable, true);
-				} else {
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					answerComposite.dispose();
-					shell.setSize(250, 463);
-					btnExit.setEnabled(true);
-					lblUpdate.setText("Result");
-				}
+				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnC, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 			}
 		});
 		btnC.setText("C");
@@ -506,69 +351,78 @@ public class PlayWindow {
 		btnD.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				countdown(display, runnable, false);
-				
-				//Update time to answer question
-				long answerTime = System.currentTimeMillis() - startTime;
-				lblAnswersTime.setText(answerTime + "ms");
-				
+								
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 				
-
-				if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
-					lblAnswer.setForeground(green);
-					lblAnswer.setText("Correct");
-					score += 10;
-					try {
-						client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				} else {
-					lblAnswer.setForeground(red);
-					lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
-				}
-				
-				try {
-					TimeUnit.SECONDS.sleep(1);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				btnD.setSelection(false);
-				lblAnswer.setText("");
-				lblAnswersTime.setText("");
-				index = index + 1;
-				if(index < questions.size()) {
-					text.setText(questions.get(index).getQuestion());
-					ATxt.setText(questions.get(index).getA());
-					BTxt.setText(questions.get(index).getB());
-					CTxt.setText(questions.get(index).getC());
-					DTxt.setText(questions.get(index).getD());
-
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					lblUpdate.setText("Update #" + index);
-					lblQuestion.setText("Question " + (index+1));
-					startTime = System.currentTimeMillis();
-					countdown(display, runnable, true);
-				} else {
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
-					
-					answerComposite.dispose();
-					shell.setSize(250, 463);
-					btnExit.setEnabled(true);
-					lblUpdate.setText("Result");
-				}
+				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnD, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 			}
 		});
 		btnD.setText("D");
 		btnD.setBounds(294, 173, 36, 16);
 
+	}
+	
+	private void updateAfterChooseAnswer(Client client, Table table, Display display, Runnable runnable, String ans, Label lblAnswer, Label lblAnswersTime, Label lblQuestion, Button btn, Text text, Text ATxt, Text BTxt, Text CTxt, Text DTxt, Label lblUpdate, Shell shell, Button btnExit, Composite answerComposite) {
+		//Function to update window and data after choose answer
+		
+		countdown(display, runnable, false);
+		
+		//Update time to answer question
+		long answerTime = System.currentTimeMillis() - startTime;
+		lblAnswersTime.setText(answerTime + "ms");
+		
+		Color green = new Color(display, 0, 255, 0);
+		Color red = new Color(display, 255, 0, 0);
+
+		if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
+			lblAnswer.setForeground(green);
+			lblAnswer.setText("Correct");
+			score += 10;
+			try {
+				client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		} else {
+			lblAnswer.setForeground(red);
+			lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
+		}
+		
+		try {
+			TimeUnit.SECONDS.sleep(2);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		btn.setSelection(false);
+		lblAnswer.setText("");
+		lblAnswersTime.setText("");
+		index = index + 1;
+		if(index < questions.size()) {
+			text.setText(questions.get(index).getQuestion());
+			ATxt.setText(questions.get(index).getA());
+			BTxt.setText(questions.get(index).getB());
+			CTxt.setText(questions.get(index).getC());
+			DTxt.setText(questions.get(index).getD());
+
+			playerList = getScoreFromServer(client);
+			printPlayerScore(playerList, table);
+			
+			lblUpdate.setText("Update #" + index);
+			lblQuestion.setText("Question " + (index+1));
+			startTime = System.currentTimeMillis();
+			countdown(display, runnable, true);
+		} else {
+			playerList = getScoreFromServer(client);
+			printPlayerScore(playerList, table);
+			
+			answerComposite.dispose();
+			shell.setSize(250, 463);
+			btnExit.setEnabled(true);
+			lblUpdate.setText("Result");
+		}
 	}
 	
 	private void countdown(Display display, Runnable runnable, boolean choose) {
