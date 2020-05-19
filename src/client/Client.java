@@ -146,6 +146,17 @@ public class Client
 		String mess = "GS-" + room;
 		return mess;
 	}
+
+	public String createTopicMsg(String clientName, String topic) {
+		// TODO Auto-generated method stub
+		String mess = "CT-" + clientName + "-" + topic; 
+		return mess;
+	}
+
+	public String getTopicList(String clientName) {
+		// TODO Auto-generated method stub
+		return "TL-" + clientName;
+	}
 	
 	
 	

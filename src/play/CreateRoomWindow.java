@@ -56,7 +56,7 @@ public class CreateRoomWindow {
 		String sRep = null;
 		List topicList;
 		try {
-			client.dos.writeUTF("TL-" + clientName);
+			client.dos.writeUTF(client.getTopicList(clientName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,15 +103,20 @@ public class CreateRoomWindow {
 		
 		List list = new List(composite_1, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
 		list.setBounds(137, 40, 248, 68);
+		
 		//CODE HERE
 		//Add list of topics
 		//Sample code
 		//for(String topic: topicList)
 		//   List.add(topic)
-		
-		for (int i = 1; i < parts.length; i++) {
-			list.add(parts[i]);
-			System.out.println(parts[i]);
+		if (parts[0].contains("TL")) {
+			for (int i = 1; i < parts.length; i++) {
+				list.add(parts[i]);
+				System.out.println(parts[i]);
+			}
+		}
+		else {
+			System.out.println("Problem at getting question");
 		}
 		
 		Color red = new Color(display, 255, 0, 0);

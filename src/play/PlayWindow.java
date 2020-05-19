@@ -263,7 +263,7 @@ public class PlayWindow {
 				// TODO Auto-generated method stub
 				try {
 					lblAnswer.setText("Answer: " + questions.get(index).getAnswer());
-					TimeUnit.SECONDS.sleep(2);
+					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -333,7 +333,7 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(2);
+					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -400,7 +400,7 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(2);
+					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -466,7 +466,7 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(2);
+					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -532,7 +532,7 @@ public class PlayWindow {
 				}
 				
 				try {
-					TimeUnit.SECONDS.sleep(2);
+					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -576,6 +576,7 @@ public class PlayWindow {
 			//Start countdown
 			//5s each time
 			display.timerExec(20*1000, runnable);
+			
 			//System.out.println("Start countdown");
 		} else {
 			//Stop countdown

@@ -117,7 +117,7 @@ public class ClientWindow {
 			}
 		});
 		btnJoinGame.setBounds(143, 80, 131, 25);
-		btnJoinGame.setText("Join room");
+		btnJoinGame.setText("Join game");
 		
 		Label lblChooseYourSelection = new Label(composite_1, SWT.NONE);
 		lblChooseYourSelection.setAlignment(SWT.CENTER);

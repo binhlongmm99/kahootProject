@@ -43,8 +43,9 @@ public class ClientHandler implements Runnable
 			try {
 
 				received = dis.readUTF();
-				System.out.println(received); 
 				String[] parts = received.split("-");
+				
+				System.out.println(received); 
 				switch(parts[0]) {
 				case "GS":
 					getScore(received);break;
@@ -101,6 +102,7 @@ public class ClientHandler implements Runnable
 				this.isloggedin=false; 
 				try {
 					this.s.close();
+					Server.ar.remove(this);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -134,7 +136,7 @@ public class ClientHandler implements Runnable
 		String sql = "SELECT USERNAME, SCORE FROM SCORE, ACCOUNT "
 				+ "WHERE ROOM_ID = '" + getRoomId(room) + "' AND PLAYER_ID = ACC_ID" ;
 		ResultSet rs = myConnection.executeResultSetSt(sql);
-		String mess = "OK-";
+		String mess = "GS-";
 		while (rs.next()) {
 			mess += (rs.getString("username") + "-");
 			mess += (rs.getString("score") + "-");
@@ -199,7 +201,7 @@ public class ClientHandler implements Runnable
 		if (rs.next()) {
 			topicId = rs.getInt("topic_id"); 
 		}
-		String mess = "OK-";
+		String mess = "GQ-";
 		String sql1 = "SELECT * FROM QUESTION WHERE topic_id = " + topicId;
 		ResultSet rs1 = myConnection.executeResultSetSt(sql1);
 		while (rs1.next()) {
@@ -235,7 +237,7 @@ public class ClientHandler implements Runnable
 		// TODO Auto-generated method stub
 		String[] parts = received.split("-");
 		Vector<String> topicList = getTopicListDb(parts[1]);
-		String mess = "OK-";
+		String mess = "TL-";
 		for (String topic : topicList) {
 			mess += topic + "-";
 		}
@@ -268,6 +270,11 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
+	
+	private String createTopicMsg() {
+		// TODO Auto-generated method stub
+		return "CT-Topic is created";
+	}
 
 	private boolean createTopicDb(String owner, String topicName) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
@@ -277,21 +284,7 @@ public class ClientHandler implements Runnable
 		return false;
 	}
 
-	private int getOwnerId(String owner) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = '" + owner +"'";
-		ResultSet rs = myConnection.executeResultSetSt(sql);
-		if (rs.next()) {
-			int ownerId = rs.getInt("acc_id");
-			return ownerId;
-		}
-		return 0;
-	}
 
-	private String createTopicMsg() {
-		// TODO Auto-generated method stub
-		return "OK-Topic is created";
-	}
 
 	private void closeSocket() {
 		// TODO Auto-generated method stub
@@ -320,10 +313,6 @@ public class ClientHandler implements Runnable
 	}
 
 
-
-
-
-
 	public void getRoomList() throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
 		try {
@@ -332,6 +321,30 @@ public class ClientHandler implements Runnable
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private String getRoomListMsg() throws ClassNotFoundException, SQLException {
+		Vector<String> roomList = getRoomListDb();
+		String mess = "RL-";
+		for (String room : roomList) {
+			mess += room + "-";
+			System.out.println(room);
+		}
+		return mess;
+	}
+
+	private Vector<String> getRoomListDb() throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM ROOM";
+		Vector<String> roomList = new Vector<String>();
+		ResultSet rs = myConnection.executeResultSetSt(sql);
+		while (rs.next()) {
+			String roomId = rs.getString("room_name");
+			System.out.println(roomId);
+			roomList.add(roomId);
+		}
+
+		return roomList;
 	}
 
 	public void login(String msg) {
@@ -344,6 +357,28 @@ public class ClientHandler implements Runnable
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private String loginMsg(String name, String password) {
+		String mess = null;
+		try {
+			if (!isNameExist(name)) {
+				mess = "NO-" + "Account not exist"; 
+			}
+			else if (!isPasswordCorrect(name, password)) {
+				mess = "NO-" + "Password not correct";
+			}
+			else {
+				mess = "OK-" + "Logged in";
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mess;
 	}
 
 	public void exitRoom(String msg) {
@@ -362,6 +397,27 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
+	
+	private String joinRoomMsg(String roomId, String name) {
+		String mess = null;
+		try {
+			if (!isRoomExist(roomId)) {
+				mess = "NO-" + "Room not exist"; 
+			}
+			else {
+				mess = "OK-" + "Room joined";
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mess;
+		// TODO Auto-generated method stub
+
+	}
 
 	public String getName() {
 		return name;
@@ -369,20 +425,6 @@ public class ClientHandler implements Runnable
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getRoomId(String room) throws ClassNotFoundException, SQLException {
-		String sql = "SELECT * FROM ROOM WHERE ROOM_NAME = '" + room + "'";
-		ResultSet rs = myConnection.executeResultSetSt(sql);
-		int room_id = 0;
-		if (rs.next()) {
-			room_id = rs.getInt("room_id"); 
-		}
-		return room_id;
-	}
-
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
 	}
 
 	public void startGame() {
@@ -425,10 +467,6 @@ public class ClientHandler implements Runnable
 
 	}
 
-	//public void createQuestionDb(String question, String optionA, String optionB, String optionC, String optionD, String answer) {
-	//	// TODO Auto-generated method stub
-	//
-	//}
 
 	public boolean createQuestionDb(String topic ,String question, String optionA, String optionB,
 			String optionC, String optionD, String answer) throws SQLException, ClassNotFoundException {
@@ -453,16 +491,6 @@ public class ClientHandler implements Runnable
 
 	}
 
-	public int getTopicId(String topic) throws ClassNotFoundException, SQLException {
-		String sql = "SELECT * FROM TOPIC WHERE topic_name = '" + topic +"'";
-		ResultSet rs = myConnection.executeResultSetSt(sql);
-		if (rs.next()) {
-			int topicId = rs.getInt("topic_id");
-			return topicId;
-		}
-		return 0;
-	}
-
 	public void createRoom(String msg) {
 		// TODO Auto-generated method stub
 		try {
@@ -485,14 +513,25 @@ public class ClientHandler implements Runnable
 			e.printStackTrace();
 		}
 	}
-
-
-	public int getHostId(String host) throws ClassNotFoundException, SQLException {
-		String sql = "SELECT REG_ID FROM ACCOUNT WHERE USERNAME = '" + host +"'";
-		ResultSet resultSet = myConnection.executeResultSetSt(sql);
-		if (resultSet.next())
-			return resultSet.getInt("reg_id");
-		return 0;
+	
+	private String createRoomMsg(String roomId) {
+		String mess = null;
+		try {
+			if (!isRoomExist(roomId)) {
+				mess = "OK-" + "Room created"; 
+			}
+			else {
+				mess = "NO-" + "Room exist";
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mess;
+		// TODO Auto-generated method stub
 
 	}
 
@@ -530,10 +569,6 @@ public class ClientHandler implements Runnable
 		}
 	} 
 
-	//private void createNameDb(String name, String password) {
-	//	// TODO Auto-generated method stub
-	//
-	//}
 
 	public boolean createNameDb(String name, String password)
 			throws SQLException, ClassNotFoundException {
@@ -544,51 +579,9 @@ public class ClientHandler implements Runnable
 	}
 
 	//////////////////////////////////////////////////////////
-	private String getRoomListMsg() throws ClassNotFoundException, SQLException {
-		Vector<String> roomList = getRoomListDb();
-		String mess = "OK-";
-		for (String room : roomList) {
-			mess += room + "-";
-			System.out.println(room);
-		}
-		return mess;
-	}
 
-	private Vector<String> getRoomListDb() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String sql = "SELECT * FROM ROOM";
-		Vector<String> roomList = new Vector<String>();
-		ResultSet rs = myConnection.executeResultSetSt(sql);
-		while (rs.next()) {
-			String roomId = rs.getString("room_name");
-			System.out.println(roomId);
-			roomList.add(roomId);
-		}
 
-		return roomList;
-	}
 
-	private String loginMsg(String name, String password) {
-		String mess = null;
-		try {
-			if (!isNameExist(name)) {
-				mess = "NO-" + "Account not exist"; 
-			}
-			else if (!isPasswordCorrect(name, password)) {
-				mess = "NO-" + "Password not correct";
-			}
-			else {
-				mess = "OK-" + "Logged in";
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return mess;
-	}
 
 	private String exitRoomMsg() {
 		return name;
@@ -602,36 +595,9 @@ public class ClientHandler implements Runnable
 		return mess;
 	}
 
-	private String joinRoomMsg(String roomId, String name) {
-		String mess = null;
-		try {
-			if (!isRoomExist(roomId)) {
-				mess = "NO-" + "Room not exist"; 
-			}
-			else {
-				mess = "OK-" + "Room joined";
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return mess;
-		// TODO Auto-generated method stub
-
-	}
-
 	private String startGameMsg() {
-		String mess = "OK-Game started";
+		String mess = "GS-Game started";
 		return mess;
-		// TODO Auto-generated method stub
-
-	}
-
-	private String chooseOptionMsg() {
-		return name;
 		// TODO Auto-generated method stub
 
 	}
@@ -642,35 +608,6 @@ public class ClientHandler implements Runnable
 		// TODO Auto-generated method stub
 
 	}
-
-	private String createRoomMsg(String roomId) {
-		String mess = null;
-		try {
-			if (!isRoomExist(roomId)) {
-				mess = "OK-" + "Room created"; 
-			}
-			else {
-				mess = "NO-" + "Room exist";
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return mess;
-		// TODO Auto-generated method stub
-
-	}
-
-	//private boolean isRoomExist(String roomId) {
-	//	// TODO Auto-generated method stub
-	//	//check from database
-	//
-	//
-	//	return true;
-	//}
 
 	private String createNameMsg(String name) {
 		String mess = null;
@@ -693,13 +630,6 @@ public class ClientHandler implements Runnable
 
 	}
 
-	//private boolean isNameExist(String name) {
-	//	// TODO Auto-generated method stub
-	//	//check from database
-	//
-	//
-	//	return true;
-	//}
 
 	public boolean isNameExist(String name)
 			throws SQLException, ClassNotFoundException {
@@ -712,12 +642,6 @@ public class ClientHandler implements Runnable
 		return false;
 	}
 
-	//private boolean isPasswordCorrect(String name, String password) {
-	//	//check from database
-	//
-	//
-	//	return true;
-	//}
 	public boolean isPasswordCorrect(String name, String password)
 			throws SQLException, ClassNotFoundException {
 		String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = '" + name + "' AND PASSWORD = '" + password + "'";
@@ -739,15 +663,49 @@ public class ClientHandler implements Runnable
 		}
 		return false;
 	}
+	
+	private int getOwnerId(String owner) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = '" + owner +"'";
+		ResultSet rs = myConnection.executeResultSetSt(sql);
+		if (rs.next()) {
+			int ownerId = rs.getInt("acc_id");
+			return ownerId;
+		}
+		return 0;
+	}
+	
+	public int getRoomId(String room) throws ClassNotFoundException, SQLException {
+		String sql = "SELECT * FROM ROOM WHERE ROOM_NAME = '" + room + "'";
+		ResultSet rs = myConnection.executeResultSetSt(sql);
+		int room_id = 0;
+		if (rs.next()) {
+			room_id = rs.getInt("room_id"); 
+		}
+		return room_id;
+	}
+
+	public void setRoomId(String roomId) {
+		this.roomId = roomId;
+	}
+	
+
+	public int getTopicId(String topic) throws ClassNotFoundException, SQLException {
+		String sql = "SELECT * FROM TOPIC WHERE topic_name = '" + topic +"'";
+		ResultSet rs = myConnection.executeResultSetSt(sql);
+		if (rs.next()) {
+			int topicId = rs.getInt("topic_id");
+			return topicId;
+		}
+		return 0;
+	}
+	
+	public int getHostId(String host) throws ClassNotFoundException, SQLException {
+		String sql = "SELECT REG_ID FROM ACCOUNT WHERE USERNAME = '" + host +"'";
+		ResultSet resultSet = myConnection.executeResultSetSt(sql);
+		if (resultSet.next())
+			return resultSet.getInt("reg_id");
+		return 0;
+
+	}
 }
-//private boolean isHost(String roomId, String clientName) throws ClassNotFoundException, SQLException {
-//	String sql = "SELECT * FROM ACCOUNT, ROOM WHERE ROOM_NAME = '" + roomId 
-//			+ "' AND HOST = (SELECT R.REG_ID FROM ACCOUNT R WHERE R.USERNAME = '" + clientName + "')";
-//	ResultSet resultSet = myConnection.executeResultSetSt(sql);
-//	if (resultSet.next()) {
-//		System.out.println("Hosting");
-//		return true;
-//	}
-//	return false;	
-//}
-//} 

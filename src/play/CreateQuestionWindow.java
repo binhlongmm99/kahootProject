@@ -286,6 +286,7 @@ public class CreateQuestionWindow {
 					for (Control kid : shell.getChildren()) {
 				         kid.dispose();
 				    }
+					System.out.println(client.dis.readUTF());
 					//String loginMsg = loginMsg(name, password);
 					ClientWindow clientWindow = new ClientWindow();
 					clientWindow.setShell(shell);

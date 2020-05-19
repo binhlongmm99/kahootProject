@@ -108,7 +108,7 @@ public class CreateTopicWindow {
 				} else {
 					lblNotEnterTopic.setText("");
 					try {
-						client.dos.writeUTF("CT-" + clientName + "-" + topic );
+						client.dos.writeUTF(client.createTopicMsg(clientName, topic));
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

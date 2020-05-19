@@ -115,6 +115,19 @@ public class StartWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//When click "Start", table is created
+				try {
+					client.dos.writeUTF(client.startGameMsg());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					System.out.println(client.dis.readUTF());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				Table scoreTable = new Table(composite_1, SWT.BORDER | SWT.HIDE_SELECTION | SWT.READ_ONLY);
 				scoreTable.setBounds(89, 53, 213, 181);
 				scoreTable.setHeaderVisible(true);

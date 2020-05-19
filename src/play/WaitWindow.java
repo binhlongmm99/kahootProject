@@ -110,6 +110,7 @@ public class WaitWindow {
 							for (Control kid : shell.getChildren()) {
 								kid.dispose();
 							}
+							
 							client.dos.writeUTF(client.createScoreMsg(clientName, room, 0));
 							PlayWindow window = new PlayWindow();
 							window.setShell(shell);
@@ -178,7 +179,12 @@ public class WaitWindow {
 			}
 		});
 
-
+		try {
+			client.dos.writeUTF(client.createScoreMsg(clientName, room, 0));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 
 
