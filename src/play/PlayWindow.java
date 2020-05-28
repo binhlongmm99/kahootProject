@@ -24,6 +24,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -134,7 +135,7 @@ public class PlayWindow {
 	protected void createContents(Display display, Client client, String sRep) {
 		questions = getQuestions(sRep);
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 463);
+		shell.setSize(780, 480);
 		shell.setText("Playing");
 		shell.setLayout(new RowLayout(SWT.HORIZONTAL));
 				
@@ -147,29 +148,32 @@ public class PlayWindow {
 		lbComposite.setLayoutData(new RowData(223, 421));
 		
 		Label lblLeaderboard = new Label(lbComposite, SWT.NONE);
+		lblLeaderboard.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblLeaderboard.setAlignment(SWT.CENTER);
-		lblLeaderboard.setBounds(56, 22, 96, 15);
+		lblLeaderboard.setBounds(46, 10, 127, 27);
 		lblLeaderboard.setText("Leaderboard");
 		
 		Composite tableComposite = new Composite(lbComposite, SWT.NONE);
 		tableComposite.setBounds(10, 73, 203, 276);
 		
-		Table table = new Table(tableComposite, SWT.BORDER | SWT.HIDE_SELECTION | SWT.V_SCROLL | SWT.READ_ONLY);
-		table.setBounds(24, 22, 154, 230);
+		Table table = new Table(tableComposite, SWT.BORDER | SWT.HIDE_SELECTION | SWT.V_SCROLL);
+		table.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		table.setBounds(10, 22, 183, 230);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
 		TableColumn tblclmnPlayer = new TableColumn(table, SWT.CENTER);
-		tblclmnPlayer.setWidth(81);
+		tblclmnPlayer.setWidth(92);
 		tblclmnPlayer.setText("Player");
 		
 		TableColumn tblclmnScore = new TableColumn(table, SWT.CENTER);
-		tblclmnScore.setWidth(66);
+		tblclmnScore.setWidth(85);
 		tblclmnScore.setText("Score");
 		
 		Label lblUpdate = new Label(lbComposite, SWT.NONE);
+		lblUpdate.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
 		lblUpdate.setAlignment(SWT.CENTER);
-		lblUpdate.setBounds(60, 52, 78, 15);
+		lblUpdate.setBounds(60, 43, 101, 24);
 		lblUpdate.setText("Update");
 		
 		Composite exitComposite = new Composite(lbComposite, SWT.NONE);
@@ -195,7 +199,7 @@ public class PlayWindow {
 			}
 		});
 		btnExit.setEnabled(false);
-		btnExit.setBounds(26, 10, 75, 25);
+		btnExit.setBounds(10, 10, 107, 26);
 		btnExit.setText("Exit");
 		
 		Composite answerComposite = new Composite(shell, SWT.NONE);
@@ -205,51 +209,63 @@ public class PlayWindow {
 		topComposite.setBounds(10, 10, 509, 125);
 		
 		Label lblPlayer = new Label(topComposite, SWT.NONE);
-		lblPlayer.setBounds(47, 20, 55, 15);
-		lblPlayer.setText("Player: " + clientName);
+		lblPlayer.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblPlayer.setAlignment(SWT.CENTER);
+		lblPlayer.setBounds(32, 20, 157, 29);
+		lblPlayer.setText("Player: ");
 		
 		Label lblRoom = new Label(topComposite, SWT.NONE);
-		lblRoom.setBounds(377, 20, 55, 15);
-		lblRoom.setText("Room: " + room);
+		lblRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblRoom.setAlignment(SWT.CENTER);
+		lblRoom.setBounds(325, 20, 136, 29);
+		lblRoom.setText("Room: ");
 		
 		Label lblQuestion = new Label(topComposite, SWT.NONE);
+		lblQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblQuestion.setAlignment(SWT.CENTER);
-		lblQuestion.setBounds(202, 53, 96, 15);
+		lblQuestion.setBounds(202, 53, 107, 29);
 		lblQuestion.setText("Question " + (index+1));
 		
 		Label lblAnswer = new Label(topComposite, SWT.NONE);
-		lblAnswer.setBounds(302, 88, 174, 15);
+		lblAnswer.setBounds(302, 88, 174, 27);
 		lblAnswer.setText("");
 		
 		Label lblAnswersTime = new Label(topComposite, SWT.NONE);
-		lblAnswersTime.setBounds(32, 88, 88, 15);
+		lblAnswersTime.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblAnswersTime.setBounds(32, 88, 136, 27);
 		lblAnswersTime.setText("");
 		
 		Composite questionComposite = new Composite(answerComposite, SWT.NONE);
-		questionComposite.setBounds(10, 141, 509, 223);
+		questionComposite.setBounds(10, 141, 509, 252);
 		
 		Label lblQuestion_1 = new Label(questionComposite, SWT.NONE);
-		lblQuestion_1.setBounds(24, 35, 55, 15);
+		lblQuestion_1.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblQuestion_1.setBounds(11, 57, 74, 31);
 		lblQuestion_1.setText("Question: ");
 		
 		Text text = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL);
-		text.setBounds(117, 29, 362, 68);
+		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		text.setBounds(91, 26, 394, 88);
 		text.setText(questions.get(index).getQuestion());
 		
-		Text ATxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.H_SCROLL | SWT.CANCEL);
-		ATxt.setBounds(91, 125, 131, 21);
+		Text ATxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
+		ATxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		ATxt.setBounds(91, 141, 150, 31);
 		ATxt.setText(questions.get(index).getA());
 		
-		Text BTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.H_SCROLL | SWT.CANCEL);
-		BTxt.setBounds(348, 125, 131, 21);
+		Text BTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
+		BTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		BTxt.setBounds(322, 141, 150, 28);
 		BTxt.setText(questions.get(index).getB());
 		
-		Text CTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.H_SCROLL | SWT.CANCEL);
-		CTxt.setBounds(91, 168, 131, 21);
+		Text CTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
+		CTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		CTxt.setBounds(91, 198, 150, 31);
 		CTxt.setText(questions.get(index).getC());
 		
-		Text DTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.H_SCROLL | SWT.CANCEL);
-		DTxt.setBounds(348, 168, 131, 21);
+		Text DTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
+		DTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		DTxt.setBounds(322, 198, 150, 31);
 		DTxt.setText(questions.get(index).getD());
 		
 		playerList = getScoreFromServer(client);
@@ -263,7 +279,7 @@ public class PlayWindow {
 				// TODO Auto-generated method stub
 				try {
 					lblAnswer.setText("Answer: " + questions.get(index).getAnswer());
-					TimeUnit.SECONDS.sleep(1);
+					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -305,6 +321,7 @@ public class PlayWindow {
 		countdown(display, runnable, true);
 		
 		Button btnA = new Button(questionComposite, SWT.RADIO);
+		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnA.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -316,10 +333,11 @@ public class PlayWindow {
 				
 			}
 		});
-		btnA.setBounds(26, 127, 36, 16);
+		btnA.setBounds(24, 145, 36, 16);
 		btnA.setText("A");
 		
 		Button btnB = new Button(questionComposite, SWT.RADIO);
+		btnB.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnB.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -331,9 +349,10 @@ public class PlayWindow {
 			}
 		});
 		btnB.setText("B");
-		btnB.setBounds(294, 127, 36, 16);
+		btnB.setBounds(280, 145, 36, 16);
 		
 		Button btnC = new Button(questionComposite, SWT.RADIO);
+		btnC.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnC.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -345,9 +364,10 @@ public class PlayWindow {
 			}
 		});
 		btnC.setText("C");
-		btnC.setBounds(24, 173, 36, 16);
+		btnC.setBounds(24, 202, 36, 16);
 		
 		Button btnD = new Button(questionComposite, SWT.RADIO);
+		btnD.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnD.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -359,7 +379,7 @@ public class PlayWindow {
 			}
 		});
 		btnD.setText("D");
-		btnD.setBounds(294, 173, 36, 16);
+		btnD.setBounds(280, 202, 36, 16);
 
 	}
 	

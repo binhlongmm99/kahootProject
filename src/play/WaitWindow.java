@@ -2,6 +2,7 @@ package play;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -57,30 +58,33 @@ public class WaitWindow {
 		//		createContents(display, client);
 
 		if(shell == null) shell = new Shell();
-		shell.setSize(450, 300);
+		shell.setSize(780, 480);
 		shell.setText("Waiting to play");
 
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 0, 424, 81);
+		composite.setBounds(10, 10, 744, 162);
 
 		Label lblHello = new Label(composite, SWT.NONE);
+		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(144, 22, 128, 15);
+		lblHello.setBounds(259, 25, 235, 32);
 		lblHello.setText("Hello, " + clientName);
 
 		Label lblYouveJustJoined = new Label(composite, SWT.NONE);
+		lblYouveJustJoined.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblYouveJustJoined.setAlignment(SWT.CENTER);
-		lblYouveJustJoined.setBounds(109, 56, 197, 15);
+		lblYouveJustJoined.setBounds(214, 90, 326, 32);
 		lblYouveJustJoined.setText("You've just joined room " + room);
 
 		Label lblPleaseWait = new Label(shell, SWT.NONE);
+		lblPleaseWait.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		lblPleaseWait.setAlignment(SWT.CENTER);
-		lblPleaseWait.setBounds(112, 112, 202, 31);
+		lblPleaseWait.setBounds(279, 215, 202, 38);
 		lblPleaseWait.setText("Please wait!");
 
 		Button btnPlay = new Button(shell, SWT.NONE);
 		btnPlay.setEnabled(false);
-		btnPlay.setBounds(174, 174, 75, 25);
+		btnPlay.setBounds(317, 293, 123, 48);
 		btnPlay.setText("Play");
 
 
@@ -134,57 +138,6 @@ public class WaitWindow {
 
 			} 
 		});
-
-
-
-
-	}
-
-
-	/**
-	 * Create contents of the window.
-	 */
-	protected void createContents(Display display, Client client) {
-
-		shell = new Shell();
-		shell.setSize(450, 300);
-		shell.setText("Waiting to play");
-
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 0, 424, 81);
-
-		Label lblHello = new Label(composite, SWT.NONE);
-		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(144, 22, 128, 15);
-		lblHello.setText("Hello, " + clientName);
-
-		Label lblYouveJustJoined = new Label(composite, SWT.NONE);
-		lblYouveJustJoined.setAlignment(SWT.CENTER);
-		lblYouveJustJoined.setBounds(109, 56, 197, 15);
-		lblYouveJustJoined.setText("You've just joined room " + room);
-
-		Label lblPleaseWait = new Label(shell, SWT.NONE);
-		lblPleaseWait.setAlignment(SWT.CENTER);
-		lblPleaseWait.setBounds(112, 112, 202, 31);
-		lblPleaseWait.setText("Please wait!");
-
-		Button btnPlay = new Button(shell, SWT.NONE);
-		btnPlay.setEnabled(true);
-		btnPlay.setBounds(174, 174, 75, 25);
-		btnPlay.setText("Ready");
-		btnPlay.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-			}
-		});
-
-		try {
-			client.dos.writeUTF(client.createScoreMsg(clientName, room, 0));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 
 

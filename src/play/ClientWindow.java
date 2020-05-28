@@ -2,6 +2,7 @@ package play;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -60,26 +61,29 @@ public class ClientWindow {
 	 */
 	protected void createContents(Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(450, 315);
+		shell.setSize(780, 480);
 		shell.setText("Playing Kahoot");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 0, 424, 109);
+		composite.setBounds(10, 0, 744, 133);
 		
 		Label lblKahoot = new Label(composite, SWT.NONE);
+		lblKahoot.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblKahoot.setAlignment(SWT.CENTER);
-		lblKahoot.setBounds(184, 32, 55, 15);
+		lblKahoot.setBounds(285, 26, 134, 33);
 		lblKahoot.setText("Kahoot");
 		
 		Label lblHello = new Label(composite, SWT.NONE);
+		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(157, 63, 106, 15);
+		lblHello.setBounds(250, 78, 206, 33);
 		lblHello.setText("Hello, " + clientName);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(0, 108, 424, 168);
+		composite_1.setBounds(10, 150, 744, 281);
 		
 		Button btnCreateNewQuestion = new Button(composite_1, SWT.NONE);
+		btnCreateNewQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnCreateNewQuestion.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -96,10 +100,11 @@ public class ClientWindow {
 				}
 			}
 		});
-		btnCreateNewQuestion.setBounds(143, 49, 131, 25);
+		btnCreateNewQuestion.setBounds(258, 66, 199, 40);
 		btnCreateNewQuestion.setText("Create new questions");
 		
 		Button btnJoinGame = new Button(composite_1, SWT.NONE);
+		btnJoinGame.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnJoinGame.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -116,13 +121,8 @@ public class ClientWindow {
 				}
 			}
 		});
-		btnJoinGame.setBounds(143, 80, 131, 25);
+		btnJoinGame.setBounds(258, 148, 199, 46);
 		btnJoinGame.setText("Join game");
-		
-		Label lblChooseYourSelection = new Label(composite_1, SWT.NONE);
-		lblChooseYourSelection.setAlignment(SWT.CENTER);
-		lblChooseYourSelection.setBounds(146, 10, 139, 15);
-		lblChooseYourSelection.setText("Choose your selection:");
 
 	}
 

@@ -10,6 +10,7 @@ import java.util.Random;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -84,25 +85,29 @@ public class CreateRoomWindow {
 	 */
 	protected void createContents(Display display, Client client, String[] parts) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(450, 392);
+		shell.setSize(780, 480);
 		shell.setText("Create room");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 424, 64);
+		composite.setBounds(10, 10, 744, 98);
 		
 		Label lblUser = new Label(composite, SWT.NONE);
-		lblUser.setBounds(137, 21, 121, 15);
+		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblUser.setAlignment(SWT.CENTER);
+		lblUser.setBounds(267, 30, 201, 40);
 		lblUser.setText("User: " + clientName);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 78, 414, 265);
+		composite_1.setBounds(10, 126, 744, 291);
 		
 		Label lblChooseTopic = new Label(composite_1, SWT.NONE);
-		lblChooseTopic.setBounds(26, 36, 83, 15);
+		lblChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblChooseTopic.setBounds(26, 53, 129, 40);
 		lblChooseTopic.setText("Choose topic: ");
 		
 		List list = new List(composite_1, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
-		list.setBounds(137, 40, 248, 68);
+		list.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		list.setBounds(195, 25, 454, 88);
 		
 		//CODE HERE
 		//Add list of topics
@@ -122,10 +127,12 @@ public class CreateRoomWindow {
 		Color red = new Color(display, 255, 0, 0);
 		
 		Label lblPleaseChooseTopic = new Label(composite_1, SWT.NONE);
-		lblPleaseChooseTopic.setBounds(26, 138, 178, 15);
+		lblPleaseChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblPleaseChooseTopic.setBounds(26, 143, 365, 31);
 		lblPleaseChooseTopic.setText("");
 		
 		Button btnNext = new Button(composite_1, SWT.NONE);
+		btnNext.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnNext.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -173,7 +180,7 @@ public class CreateRoomWindow {
 				return null;
 			}
 		});
-		btnNext.setBounds(271, 182, 75, 25);
+		btnNext.setBounds(520, 205, 118, 47);
 		btnNext.setText("Next");
 
 	}

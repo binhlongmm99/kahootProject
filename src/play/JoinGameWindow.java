@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -60,20 +61,23 @@ public class JoinGameWindow {
 	 */
 	protected void createContents(Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(450, 392);
+		shell.setSize(780, 480);
 		shell.setText("Join game");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 424, 92);
+		composite.setBounds(10, 10, 744, 127);
 		
 		Label lblUser = new Label(composite, SWT.NONE);
-		lblUser.setBounds(166, 40, 72, 15);
+		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblUser.setAlignment(SWT.CENTER);
+		lblUser.setBounds(257, 44, 228, 46);
 		lblUser.setText("User: " + clientName);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 117, 414, 211);
+		composite_1.setBounds(10, 159, 744, 272);
 		
 		Button btnCreateRoom = new Button(composite_1, SWT.NONE);
+		btnCreateRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnCreateRoom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -91,10 +95,11 @@ public class JoinGameWindow {
 				}
 			}
 		});
-		btnCreateRoom.setBounds(146, 43, 105, 25);
+		btnCreateRoom.setBounds(278, 44, 204, 47);
 		btnCreateRoom.setText("Create room");
 		
 		Button btnChooseRoom = new Button(composite_1, SWT.NONE);
+		btnChooseRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnChooseRoom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -112,7 +117,7 @@ public class JoinGameWindow {
 				}
 			}
 		});
-		btnChooseRoom.setBounds(146, 116, 105, 25);
+		btnChooseRoom.setBounds(278, 140, 204, 47);
 		btnChooseRoom.setText("Choose room");
 
 	}

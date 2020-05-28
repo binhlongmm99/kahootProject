@@ -3,6 +3,7 @@ package play;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -118,24 +119,27 @@ public class CreateQuestionWindow {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(486, 371);
+		shell.setSize(780, 480);
 		shell.setText("Create questions");
 		
 		Composite questionComposite = new Composite(shell, SWT.NONE);
-		questionComposite.setBounds(0, 109, 460, 169);
+		questionComposite.setBounds(10, 111, 744, 244);
 		
 		Label lblQuestion = new Label(questionComposite, SWT.NONE);
-		lblQuestion.setBounds(20, 22, 55, 15);
+		lblQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblQuestion.setBounds(20, 22, 82, 32);
 		lblQuestion.setText("Question: ");
 		
 		Text questionTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
-		questionTxt.setBounds(105, 22, 333, 39);
+		questionTxt.setBounds(131, 19, 550, 59);
 		
 		Label lblChoices = new Label(questionComposite, SWT.NONE);
-		lblChoices.setBounds(20, 81, 55, 15);
+		lblChoices.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblChoices.setBounds(20, 83, 82, 32);
 		lblChoices.setText("Choices: ");
 		
 		Button btnA = new Button(questionComposite, SWT.RADIO);
+		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnA.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -143,11 +147,12 @@ public class CreateQuestionWindow {
 				answer = source.getText();
 			}
 		});
-		btnA.setBounds(84, 81, 35, 16);
+		btnA.setBounds(96, 114, 35, 15);
 		btnA.setText("A");
 		btnA.setSelection(false);
 		
 		Button btnB = new Button(questionComposite, SWT.RADIO);
+		btnB.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnB.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -156,10 +161,11 @@ public class CreateQuestionWindow {
 			}
 		});
 		btnB.setText("B");
-		btnB.setBounds(261, 80, 35, 16);
+		btnB.setBounds(419, 113, 35, 16);
 		btnB.setSelection(false);
 		
 		Button btnC = new Button(questionComposite, SWT.RADIO);
+		btnC.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnC.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -168,10 +174,11 @@ public class CreateQuestionWindow {
 			}
 		});
 		btnC.setText("C");
-		btnC.setBounds(84, 117, 35, 16);
+		btnC.setBounds(96, 163, 35, 16);
 		btnC.setSelection(false);
 		
 		Button btnD = new Button(questionComposite, SWT.RADIO);
+		btnD.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnD.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -180,47 +187,53 @@ public class CreateQuestionWindow {
 			}
 		});
 		btnD.setText("D");
-		btnD.setBounds(261, 117, 35, 16);
+		btnD.setBounds(419, 162, 35, 16);
 		btnD.setSelection(false);
 		
 		Text ATxt = new Text(questionComposite, SWT.BORDER);
-		ATxt.setBounds(125, 81, 117, 21);
+		ATxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		ATxt.setBounds(150, 112, 209, 32);
 		
 		Text BTxt = new Text(questionComposite, SWT.BORDER);
-		BTxt.setBounds(302, 81, 136, 21);
+		BTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		BTxt.setBounds(475, 112, 209, 33);
 		
 		Text CTxt = new Text(questionComposite, SWT.BORDER);
-		CTxt.setBounds(125, 112, 117, 21);
+		CTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		CTxt.setBounds(150, 161, 209, 33);
 		
 		Text DTxt = new Text(questionComposite, SWT.BORDER);
-		DTxt.setBounds(303, 112, 135, 21);
+		DTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		DTxt.setBounds(475, 161, 209, 33);
 		
 		Color red = new Color(display, 255, 0, 0);
 		Color green = new Color(display, 0, 255, 0);
 		
 		Label lblError = new Label(questionComposite, SWT.NONE);
-		lblError.setBounds(20, 144, 93, 15);
+		lblError.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
+		lblError.setBounds(20, 207, 269, 27);
 		lblError.setText("");
 		
 		Composite headerComposite = new Composite(shell, SWT.NONE);
-		headerComposite.setBounds(0, 10, 460, 82);
+		headerComposite.setBounds(10, 10, 744, 93);
 		
 		Label lblUser = new Label(headerComposite, SWT.NONE);
-		lblUser.setBounds(24, 10, 55, 20);
+		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblUser.setAlignment(SWT.CENTER);
+		lblUser.setBounds(264, 10, 210, 30);
 		lblUser.setText("User: " + clientName);
 		
 		Label lblEnterTopic = new Label(headerComposite, SWT.NONE);
-		lblEnterTopic.setBounds(24, 42, 76, 15);
-		lblEnterTopic.setText("Topic: ");
-		
-		Text topicTxt = new Text(headerComposite, SWT.BORDER | SWT.READ_ONLY);
-		topicTxt.setBounds(122, 36, 196, 21);
-		topicTxt.setText(topicName);
+		lblEnterTopic.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblEnterTopic.setAlignment(SWT.CENTER);
+		lblEnterTopic.setBounds(247, 57, 259, 26);
+		lblEnterTopic.setText("Topic: " + topicName);
 		
 		Composite btnComposite = new Composite(shell, SWT.NONE);
-		btnComposite.setBounds(0, 284, 460, 50);
+		btnComposite.setBounds(10, 372, 744, 59);
 		
 		Button btnCreate = new Button(btnComposite, SWT.NONE);
+		btnCreate.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnCreate.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -273,15 +286,16 @@ public class CreateQuestionWindow {
 				}
 			}
 		});
-		btnCreate.setBounds(257, 10, 75, 25);
+		btnCreate.setBounds(430, 10, 99, 39);
 		btnCreate.setText("Create");
 		
 		Button btnConfirm = new Button(btnComposite, SWT.NONE);
+		btnConfirm.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnConfirm.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 //				System.out.println("You've just created questions for topic " + topic);
-				//Click exit to back to Client window
+//				Click exit to back to Client window
 				try {
 					for (Control kid : shell.getChildren()) {
 				         kid.dispose();
@@ -297,7 +311,7 @@ public class CreateQuestionWindow {
 				}
 			}
 		});
-		btnConfirm.setBounds(350, 10, 75, 25);
+		btnConfirm.setBounds(590, 10, 99, 39);
 		btnConfirm.setText("Confirm");
 	}
 	
