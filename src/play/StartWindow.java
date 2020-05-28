@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
@@ -12,6 +13,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
@@ -24,6 +28,7 @@ public class StartWindow {
 	protected Shell shell;
 	private String room;
 	private String clientName;
+	private ArrayList<Player> playerList;
 	
 	public void setShell(Shell shell) {
 		this.shell = shell;
@@ -147,6 +152,9 @@ public class StartWindow {
 				tblclmnScore.setWidth(159);
 				tblclmnScore.setText("Score");
 				
+				playerList = getScoreFromServer(client);
+				printPlayerScore(playerList, scoreTable);
+				
 				//Enable button "Exit"
 				btnExit.setEnabled(true);
 				
@@ -156,5 +164,50 @@ public class StartWindow {
 		});
 		btnStartRoom.setBounds(103, 10, 131, 40);
 		btnStartRoom.setText("Start room");
+	}
+	
+	private ArrayList<Player> getScoreFromServer(Client client) {
+		String sRep = null;
+		try {
+			client.dos.writeUTF(client.getScore(room));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sRep = client.dis.readUTF();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String[] parts = sRep.split("-");
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		for (int i = 1; i < parts.length; i += 2) {
+			Player p = new Player(parts[i], Integer.parseInt(parts[i+1]));
+			playerList.add(p);
+		}
+		return playerList;
+	}
+	
+	private void printPlayerScore(ArrayList<Player> pL, Table table) {
+		//Clear old leaderboard data
+		table.removeAll();;
+		
+		//Sort
+		Collections.sort(pL, new Comparator<Player>() {
+	        @Override
+	        public int compare(Player p1, Player p2)
+	        {
+	            return  p1.getScore() - p2.getScore();
+	        }
+	    });
+		
+		//Get new leaderboard data
+		for (int i = 0; i < pL.size(); i++) {
+			System.out.println(pL.get(i).getPlayerName() + "------" + pL.get(i).getScore());
+			TableItem item = new TableItem(table, SWT.NONE);
+			item.setText(0, pL.get(i).getPlayerName());
+			item.setText(1, pL.get(i).getScore() + "");
+		}
 	}
 }

@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -59,6 +60,7 @@ public class PlayWindow {
 	private int score = 0;
 	private int index;
 	private long startTime; //Time when starting to answer each question
+	private Runnable barRunnable;
 	
 	
 	public void setShell(Shell shell) {
@@ -235,6 +237,11 @@ public class PlayWindow {
 		lblAnswersTime.setBounds(32, 88, 136, 27);
 		lblAnswersTime.setText("");
 		
+		ProgressBar timeBar = new ProgressBar(topComposite, SWT.SMOOTH);
+		timeBar.setBounds(32, 53, 170, 17);
+		timeBar.setForeground(green);
+		timeBar.setMaximum(72);
+		
 		Composite questionComposite = new Composite(answerComposite, SWT.NONE);
 		questionComposite.setBounds(10, 141, 509, 252);
 		
@@ -271,6 +278,21 @@ public class PlayWindow {
 		playerList = getScoreFromServer(client);
 		printPlayerScore(playerList, table);
 		
+		barRunnable = new Runnable() {
+
+			int i = 0;
+			@Override
+			public void run() {
+				if (timeBar.isDisposed()) {
+					return;
+				}
+				timeBar.setSelection(i++);
+				if (i <= timeBar.getMaximum()) display.timerExec(50, this);
+				else i = 0;
+			}
+			
+		};
+		
 		
 		Runnable runnable = new Runnable() {
 
@@ -278,7 +300,10 @@ public class PlayWindow {
 			public void run() {
 				// TODO Auto-generated method stub
 				try {
+					lblAnswer.setForeground(null);
 					lblAnswer.setText("Answer: " + questions.get(index).getAnswer());
+					display.timerExec(-1, barRunnable);
+
 					TimeUnit.SECONDS.sleep(2);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
@@ -297,6 +322,7 @@ public class PlayWindow {
 					CTxt.setText(questions.get(index).getC());
 					DTxt.setText(questions.get(index).getD());
 					lblAnswer.setText("");
+					timeBar.setSelection(0);
 					
 					playerList = getScoreFromServer(client);
 					printPlayerScore(playerList, table);
@@ -305,6 +331,22 @@ public class PlayWindow {
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, this, true);
+					barRunnable = new Runnable() {
+
+						int i = 0;
+						@Override
+						public void run() {
+							if (timeBar.isDisposed()) {
+								return;
+							}
+							timeBar.setSelection(i++);
+							if (i <= timeBar.getMaximum()) display.timerExec(50, this);
+							else i = 0;
+							
+						}
+						
+					};
+					display.timerExec(50, barRunnable);
 				} else {
 					playerList = getScoreFromServer(client);
 					printPlayerScore(playerList, table);
@@ -319,6 +361,7 @@ public class PlayWindow {
 		};
 		
 		countdown(display, runnable, true);
+		display.timerExec(50, barRunnable);
 		
 		Button btnA = new Button(questionComposite, SWT.RADIO);
 		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -329,7 +372,7 @@ public class PlayWindow {
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 				
-				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnA, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnA, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 				
 			}
 		});
@@ -345,7 +388,7 @@ public class PlayWindow {
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 
-				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnB, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnB, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 			}
 		});
 		btnB.setText("B");
@@ -360,7 +403,7 @@ public class PlayWindow {
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 
-				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnC, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnC, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 			}
 		});
 		btnC.setText("C");
@@ -375,7 +418,7 @@ public class PlayWindow {
 				Button source=  (Button) e.getSource();
 				String ans = source.getText();
 				
-				updateAfterChooseAnswer(client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnD, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnD, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
 			}
 		});
 		btnD.setText("D");
@@ -383,10 +426,12 @@ public class PlayWindow {
 
 	}
 	
-	private void updateAfterChooseAnswer(Client client, Table table, Display display, Runnable runnable, String ans, Label lblAnswer, Label lblAnswersTime, Label lblQuestion, Button btn, Text text, Text ATxt, Text BTxt, Text CTxt, Text DTxt, Label lblUpdate, Shell shell, Button btnExit, Composite answerComposite) {
+	private void updateAfterChooseAnswer(ProgressBar timeBar, Runnable barRunnable, Client client, Table table, Display display, Runnable runnable, String ans, Label lblAnswer, Label lblAnswersTime, Label lblQuestion, Button btn, Text text, Text ATxt, Text BTxt, Text CTxt, Text DTxt, Label lblUpdate, Shell shell, Button btnExit, Composite answerComposite) {
 		//Function to update window and data after choose answer
 		
 		countdown(display, runnable, false);
+		
+		display.timerExec(-1, barRunnable);
 		
 		//Update time to answer question
 		long answerTime = System.currentTimeMillis() - startTime;
@@ -419,6 +464,7 @@ public class PlayWindow {
 		btn.setSelection(false);
 		lblAnswer.setText("");
 		lblAnswersTime.setText("");
+		timeBar.setSelection(0);
 		index = index + 1;
 		if(index < questions.size()) {
 			text.setText(questions.get(index).getQuestion());
@@ -434,6 +480,22 @@ public class PlayWindow {
 			lblQuestion.setText("Question " + (index+1));
 			startTime = System.currentTimeMillis();
 			countdown(display, runnable, true);
+			barRunnable = new Runnable() {
+
+				int i = 0;
+				@Override
+				public void run() {
+					if (timeBar.isDisposed()) {
+						return;
+					}
+					timeBar.setSelection(i++);
+					if (i <= timeBar.getMaximum()) display.timerExec(50, this);
+					else i = 0;
+					
+				}
+				
+			};
+			display.timerExec(50, barRunnable);
 		} else {
 			playerList = getScoreFromServer(client);
 			printPlayerScore(playerList, table);
