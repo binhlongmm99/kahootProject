@@ -114,6 +114,7 @@ public class CreateRoomWindow {
 		//Sample code
 		//for(String topic: topicList)
 		//   List.add(topic)
+		System.out.println(parts[0]);	
 		if (parts[0].contains("TL")) {
 			for (int i = 1; i < parts.length; i++) {
 				list.add(parts[i]);
@@ -121,7 +122,7 @@ public class CreateRoomWindow {
 			}
 		}
 		else {
-			System.out.println("Problem at getting question");
+			System.out.println("Problem at getting topic");
 		}
 		
 		Color red = new Color(display, 255, 0, 0);

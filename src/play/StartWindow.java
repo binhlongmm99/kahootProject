@@ -102,6 +102,12 @@ public class StartWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
+					client.dos.writeUTF(client.exitRoomMsg());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
 					for (Control kid : shell.getChildren()) {
 				         kid.dispose();
 				    }
@@ -125,6 +131,11 @@ public class StartWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//When click "Start", table is created
+				//Enable button "Exit"
+				btnExit.setEnabled(true);
+				
+				//Disable button "Start"
+				btnStartRoom.setEnabled(false);
 				try {
 					client.dos.writeUTF(client.startGameMsg());
 				} catch (IOException e1) {
@@ -152,14 +163,10 @@ public class StartWindow {
 				tblclmnScore.setWidth(159);
 				tblclmnScore.setText("Score");
 				
-				playerList = getScoreFromServer(client);
-				printPlayerScore(playerList, scoreTable);
+//				playerList = getScoreFromServer(client);
+//				printPlayerScore(playerList, scoreTable);
 				
-				//Enable button "Exit"
-				btnExit.setEnabled(true);
-				
-				//Disable button "Start"
-				btnStartRoom.setEnabled(false);
+
 			}
 		});
 		btnStartRoom.setBounds(103, 10, 131, 40);

@@ -72,8 +72,7 @@ public class ClientHandler implements Runnable
 				case "SG":
 					
 					for (ClientHandler mc : Server.ar) {
-						System.out.println(mc.roomId + " " + this.roomId);
-						if (mc.getRoomId().equals(this.roomId))
+						if (mc.getRoomId().equals(this.roomId) && mc.isHost == false)
 							mc.startGame();
 
 					}
@@ -107,6 +106,14 @@ public class ClientHandler implements Runnable
 				Iterator<ClientHandler> ite = Server.ar.iterator();
 				while (ite.hasNext()) {
 					if (ite.next().equals(this)) {
+						if (this.isHost == true) {
+							try {
+								deleteRoom(this.roomId);
+							} catch (ClassNotFoundException | SQLException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
 						ite.remove();
 						System.out.println("Socket is closed");
 					}
@@ -120,6 +127,17 @@ public class ClientHandler implements Runnable
 			}
 
 		} 
+	}
+
+	private boolean deleteRoom(String roomId) throws ClassNotFoundException, SQLException {
+		// TODO Auto-generated method stub
+		String sql = "DELETE FROM ROOM WHERE room_name = '" + roomId + "'";
+		if (myConnection.executeUpdateSt(sql) > 0) {
+			
+			return true;
+		}
+		System.out.println("Room deleted");	
+		return false;
 	}
 
 	private void getScore(String received) throws ClassNotFoundException, IOException, SQLException {
@@ -224,6 +242,7 @@ public class ClientHandler implements Runnable
 	private void getTopicList(String received) {
 		// TODO Auto-generated method stub
 		try {
+			System.out.println("Getting topic list...");
 			dos.writeUTF(getTopicListMsg(received));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -245,6 +264,7 @@ public class ClientHandler implements Runnable
 		for (String topic : topicList) {
 			mess += topic + "-";
 		}
+//		System.out.println(mess);
 		return mess;
 	}
 
@@ -385,14 +405,15 @@ public class ClientHandler implements Runnable
 		return mess;
 	}
 
-	public void exitRoom(String msg) {
+	public void exitRoom(String msg) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-
+		deleteRoom(this.roomId);
 	}
 
 	public void joinRoom(String msg) {
 		// TODO Auto-generated method stub
 		try {
+			this.isHost = false;
 			String[] parts = msg.split("-");
 			dos.writeUTF(joinRoomMsg(parts[1], parts[2]));
 			setRoomId(parts[1]);
