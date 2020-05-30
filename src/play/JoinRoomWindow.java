@@ -2,6 +2,7 @@ package play;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
@@ -97,14 +98,10 @@ public class JoinRoomWindow {
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBounds(10, 117, 744, 230);
 
-		Label lblChooseRoom = new Label(composite_1, SWT.NONE);
-		lblChooseRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblChooseRoom.setBounds(41, 53, 153, 47);
-		lblChooseRoom.setText("Choose room: ");
-
-		List list = new List(composite_1, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
-		list.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		list.setBounds(200, 28, 128, 137);
+		Label lblEnterRoom = new Label(composite_1, SWT.NONE);
+		lblEnterRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblEnterRoom.setBounds(41, 53, 153, 47);
+		lblEnterRoom.setText("Enter room: ");
 
 		//CODE HERE
 		//Connect to DB to get all available rooms and add to list
@@ -113,17 +110,21 @@ public class JoinRoomWindow {
 		//for(String room: roomList)
 		//	list.add(room);	
 
-		for (int i = 1; i < parts.length; i++) {
-			list.add(parts[i]);
-			System.out.println(parts[i]);
-		}
+//		for (int i = 1; i < parts.length; i++) {
+//			list.add(parts[i]);
+//			System.out.println(parts[i]);
+//		}
 
 		Color red = new Color(display, 255, 0, 0);
 		Label lblNewLabel = new Label(composite_1, SWT.NONE);
 		lblNewLabel.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblNewLabel.setBounds(43, 178, 223, 29);
+		lblNewLabel.setBounds(41, 122, 223, 29);
 		lblNewLabel.setText("");
 		lblNewLabel.setForeground(red);
+		
+		Text text = new Text(composite_1, SWT.BORDER);
+		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		text.setBounds(200, 53, 115, 29);
 
 		Button btnJoin = new Button(shell, SWT.NONE);
 		btnJoin.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -131,12 +132,14 @@ public class JoinRoomWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String sRep = null;
-				int index = list.getSelectionIndex();
-				if(index == -1) {
-					lblNewLabel.setText("Please choose room!");
+				String room = text.getText().replaceAll("\\s++", "");
+				if(room == null || room == "") {
+					lblNewLabel.setText("Please enter room!");
+				} else if(!existRoom(room, parts)){
+					lblNewLabel.setText("Room is not exist. Enter again!");
+					text.setText("");
 				} else {
 					lblNewLabel.setText("");
-					String room = list.getItem(index);
 					//Check if client is host or not	
 					try {
 						client.dos.writeUTF(client.joinRoomMsg(room, clientName));
@@ -197,5 +200,14 @@ public class JoinRoomWindow {
 		btnExit.setBounds(589, 365, 118, 48);
 		btnExit.setText("Exit");
 
+	}
+	
+	private boolean existRoom(String room, String[] parts) {
+		for(int i=1; i<parts.length; i++) {
+			if(parts[i].compareTo(room) == 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
