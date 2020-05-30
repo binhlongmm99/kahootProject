@@ -87,6 +87,27 @@ public class WaitWindow {
 		btnPlay.setBounds(317, 293, 123, 48);
 		btnPlay.setText("Play");
 
+		Button btnBack = new Button(shell, SWT.NONE);
+		btnBack.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					for (Control kid : shell.getChildren()) {
+				         kid.dispose();
+				    }
+					
+					JoinRoomWindow joinRoomWindow = new JoinRoomWindow();
+					joinRoomWindow.setShell(shell);
+					joinRoomWindow.setClientName(clientName);
+					joinRoomWindow.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnBack.setBounds(317, 336, 123, 48);
+		btnBack.setText("Back");
 
 		shell.open();
 		shell.layout();

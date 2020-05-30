@@ -142,6 +142,29 @@ public class CreateTopicWindow {
 		});
 		btnNext.setBounds(579, 10, 117, 44);
 		btnNext.setText("Next");
+		
+		Button btnBack = new Button(composite_2, SWT.NONE);
+		btnBack.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					for (Control kid : shell.getChildren()) {
+				         kid.dispose();
+				    }
+					System.out.println(client.dis.readUTF());
+					//String loginMsg = loginMsg(name, password);
+					ClientWindow clientWindow = new ClientWindow();
+					clientWindow.setShell(shell);
+					clientWindow.setClientName(clientName);
+					clientWindow.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnBack.setBounds(35, 10, 107, 44);
+		btnBack.setText("Back");
 
 	}
 }

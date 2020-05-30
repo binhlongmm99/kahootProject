@@ -286,7 +286,7 @@ public class CreateQuestionWindow {
 				}
 			}
 		});
-		btnCreate.setBounds(430, 10, 99, 39);
+		btnCreate.setBounds(454, 10, 99, 39);
 		btnCreate.setText("Create");
 		
 		Button btnConfirm = new Button(btnComposite, SWT.NONE);
@@ -313,6 +313,7 @@ public class CreateQuestionWindow {
 		});
 		btnConfirm.setBounds(590, 10, 99, 39);
 		btnConfirm.setText("Confirm");
+		
 	}
 	
 	private boolean isEmpty(String str) {
