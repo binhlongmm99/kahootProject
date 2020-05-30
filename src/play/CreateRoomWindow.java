@@ -183,27 +183,6 @@ public class CreateRoomWindow {
 		});
 		btnNext.setBounds(520, 205, 118, 47);
 		btnNext.setText("Next");
-		
-		Button btnBack = new Button(composite_1, SWT.NONE);
-		btnBack.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					for (Control kid : shell.getChildren()) {
-				          kid.dispose();
-				    }
-					JoinGameWindow joinGameWindow = new JoinGameWindow();
-					joinGameWindow.setClientName(clientName);
-					joinGameWindow.setShell(shell);
-					joinGameWindow.open(client);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		btnBack.setBounds(72, 205, 118, 47);
-		btnBack.setText("Back");
 
 	}
 }
