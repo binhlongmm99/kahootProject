@@ -478,7 +478,7 @@ public class PlayWindow {
 			
 			lblUpdate.setText("Update #" + index);
 			lblQuestion.setText("Question " + (index+1));
-			startTime = System.currentTimeMillis();
+			startTime = System.currentTimeMillis();	
 			countdown(display, runnable, true);
 			barRunnable = new Runnable() {
 
@@ -511,7 +511,7 @@ public class PlayWindow {
 		if(choose == true) {
 			//Start countdown
 			//5s each time
-			display.timerExec(20*1000, runnable);
+			display.timerExec(5*1000, runnable);
 			
 			//System.out.println("Start countdown");
 		} else {

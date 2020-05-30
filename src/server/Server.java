@@ -39,7 +39,7 @@ public class Server
               
             System.out.println("Creating a new handler for this client..."); 
   
-            // Create a new handler object for handling this request. 
+            // Create a new handler object for handling this request. x`
             ClientHandler mtch = new ClientHandler(s,"client " + i, dis, dos, myConnection); 
             System.out.println("Adding this client to active client list"); 
             

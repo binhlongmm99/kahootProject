@@ -19,6 +19,7 @@ public class ClientHandler implements Runnable
 	boolean isGameStarted = false;
 	Socket s; 
 	boolean isloggedin; 
+	boolean isHost = false;
 	ConnectionUtils myConnection;
 
 	// constructor 
@@ -45,8 +46,8 @@ public class ClientHandler implements Runnable
 
 				received = dis.readUTF();
 				String[] parts = received.split("-");
-
-				System.out.println(received); 
+				if (!received.contains("WH"))
+					System.out.println(received); 
 				switch(parts[0]) {
 				case "GS":
 					getScore(received);break;
@@ -71,9 +72,10 @@ public class ClientHandler implements Runnable
 				case "SG":
 					
 					for (ClientHandler mc : Server.ar) {
-						mc.startGame();
-//						mc.dos.writeUTF(mc.startGameMsg());
-//						mc.isGameStarted = true;
+						System.out.println(mc.roomId + " " + this.roomId);
+						if (mc.getRoomId().equals(this.roomId))
+							mc.startGame();
+
 					}
 					break;
 				case "JR":
@@ -408,6 +410,7 @@ public class ClientHandler implements Runnable
 			}
 			else {
 				mess = "OK-" + "Room joined";
+				this.roomId = roomId;
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -497,10 +500,12 @@ public class ClientHandler implements Runnable
 		// TODO Auto-generated method stub
 		try {
 			String[] parts = msg.split("-");
+			isHost = true;
 			dos.writeUTF(createRoomMsg(parts[1]));
 			// update to database
 			try {
 				createRoomDb(parts[1], parts[2]);
+				this.roomId = parts[1];
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -709,5 +714,9 @@ public class ClientHandler implements Runnable
 			return resultSet.getInt("reg_id");
 		return 0;
 
+	}
+
+	public String getRoomId() {
+		return roomId;
 	}
 }
