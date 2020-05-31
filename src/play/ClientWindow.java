@@ -125,26 +125,7 @@ public class ClientWindow {
 		btnJoinGame.setBounds(258, 148, 199, 46);
 		btnJoinGame.setText("Join game");
 		
-		Button btnBack = new Button(composite_1, SWT.NONE);
-		btnBack.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					for (Control kid : shell.getChildren()) {
-				          kid.dispose();
-				    }
-					Login login = new Login();
-					login.setShell(shell);
-					Client client = new Client();
-					login.open(client);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		btnBack.setBounds(258, 172, 199, 40);
-		btnBack.setText("Back");
+		
 
 	}
 
