@@ -220,13 +220,13 @@ public class CreateQuestionWindow {
 		Label lblUser = new Label(headerComposite, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(264, 10, 210, 30);
+		lblUser.setBounds(247, 10, 249, 30);
 		lblUser.setText("User: " + clientName);
 		
 		Label lblEnterTopic = new Label(headerComposite, SWT.NONE);
 		lblEnterTopic.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblEnterTopic.setAlignment(SWT.CENTER);
-		lblEnterTopic.setBounds(247, 57, 259, 26);
+		lblEnterTopic.setBounds(140, 57, 470, 26);
 		lblEnterTopic.setText("Topic: " + topicName);
 		
 		Composite btnComposite = new Composite(shell, SWT.NONE);
@@ -252,6 +252,12 @@ public class CreateQuestionWindow {
 				if(isEmpty(topicName) || isEmpty(question) || isEmpty(a) || isEmpty(b) || isEmpty(c) || isEmpty(d) || isEmpty(answer)) {
 					lblError.setForeground(red);
 					lblError.setText("Error!");
+					question = "";
+					a = "";
+					b = "";
+					c = "";
+					d = "";
+					answer = "";
 				} else {
 					try {
 						System.out.println(client.createQuestionMsg(topicName, question, a, b, c, d, answer));
@@ -263,8 +269,10 @@ public class CreateQuestionWindow {
 					
 					try {
 						Question q = new Question(question, a, b, c, d, answer);
-						lblError.setText("Create success");
+						
 						lblError.setForeground(green);
+						lblError.setText("Create success");
+						
 						TimeUnit.SECONDS.sleep(2);
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
@@ -319,6 +327,7 @@ public class CreateQuestionWindow {
 	private boolean isEmpty(String str) {
 		if(str == null) return true;
 		if(str != null && str == "") return true;
+		if(!str.matches("/^[0-9a-zA-Z]+$/")) return true;
 		return false;
 	}
 }
