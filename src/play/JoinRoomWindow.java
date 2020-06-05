@@ -19,6 +19,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 
 public class JoinRoomWindow {
 
@@ -83,25 +85,40 @@ public class JoinRoomWindow {
 	 */
 	protected void createContents(Display display,Client client, String[] parts) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
+		GridLayout layout = new GridLayout();
+		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 3;
+		shell.setLayout(layout);
+		
 		shell.setText("Join room");
+		
+		new Label(shell, SWT.NULL);
 
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 744, 86);
-
-		Label lblHello = new Label(composite, SWT.NONE);
+		Label lblHello = new Label(shell, SWT.NONE);
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(267, 25, 193, 39);
+		//lblHello.setBounds(267, 25, 193, 39);
 		lblHello.setText("Hello, " + clientName);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 200;
+		lblHello.setLayoutData(data);
+		
+		new Label(shell, SWT.NULL);
 
-		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 117, 744, 230);
-
-		Label lblEnterRoom = new Label(composite_1, SWT.NONE);
+		Label lblEnterRoom = new Label(shell, SWT.NONE);
 		lblEnterRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblEnterRoom.setBounds(41, 53, 153, 47);
+		//lblEnterRoom.setBounds(41, 53, 153, 47);
 		lblEnterRoom.setText("Enter room: ");
+		
+		Text text = new Text(shell, SWT.BORDER);
+		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		//text.setBounds(200, 53, 115, 29);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		data.heightHint = 50;
+		//data.horizontalSpan = 2;
+		text.setLayoutData(data);
 
 		//CODE HERE
 		//Connect to DB to get all available rooms and add to list
@@ -116,15 +133,42 @@ public class JoinRoomWindow {
 //		}
 
 		Color red = new Color(display, 255, 0, 0);
-		Label lblNewLabel = new Label(composite_1, SWT.NONE);
+		Label lblNewLabel = new Label(shell, SWT.NONE);
 		lblNewLabel.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblNewLabel.setBounds(41, 122, 223, 29);
+		//lblNewLabel.setBounds(41, 122, 223, 29);
 		lblNewLabel.setText("");
 		lblNewLabel.setForeground(red);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 50;
+		data.horizontalSpan = 3;
+		lblNewLabel.setLayoutData(data);
 		
-		Text text = new Text(composite_1, SWT.BORDER);
-		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		text.setBounds(200, 53, 115, 29);
+		Button btnExit = new Button(shell, SWT.CENTER);
+		data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		data.heightHint = 42;
+		data.widthHint = 94;
+		btnExit.setLayoutData(data);
+		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnExit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					for (Control kid : shell.getChildren()) {
+						kid.dispose();
+					}
+					//String loginMsg = loginMsg(name, password);
+					ClientWindow clientWindow = new ClientWindow();
+					clientWindow.setShell(shell);
+					clientWindow.setClientName(clientName);
+					clientWindow.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		//btnExit.setBounds(589, 365, 118, 48);
+		btnExit.setText("Exit");
 
 		Button btnJoin = new Button(shell, SWT.NONE);
 		btnJoin.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -175,30 +219,13 @@ public class JoinRoomWindow {
 				}
 			}
 		});
-		btnJoin.setBounds(444, 365, 118, 48);
+		//btnJoin.setBounds(444, 365, 118, 48);
 		btnJoin.setText("Join");
-
-		Button btnExit = new Button(shell, SWT.NONE);
-		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		btnExit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					for (Control kid : shell.getChildren()) {
-						kid.dispose();
-					}
-					//String loginMsg = loginMsg(name, password);
-					ClientWindow clientWindow = new ClientWindow();
-					clientWindow.setShell(shell);
-					clientWindow.setClientName(clientName);
-					clientWindow.open(client);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-		btnExit.setBounds(589, 365, 118, 48);
-		btnExit.setText("Exit");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = 122;
+		data.heightHint = 50;
+		data.horizontalSpan = 2;
+		btnJoin.setLayoutData(data);
 
 	}
 	

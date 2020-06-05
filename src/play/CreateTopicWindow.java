@@ -18,6 +18,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 
 public class CreateTopicWindow {
 
@@ -65,43 +67,57 @@ public class CreateTopicWindow {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
+		GridLayout layout = new GridLayout();
+		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 3;
+		shell.setLayout(layout);
+		
 		shell.setText("Enter topic");
 		
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 0, 744, 118);
-		
-		Label lblUser = new Label(composite, SWT.NONE);
+		new Label(shell, SWT.NULL);
+
+		Label lblUser = new Label(shell, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(238, 38, 243, 41);
+		lblUser.setBounds(267, 30, 201, 40);
 		lblUser.setText("User: " + clientName);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 100;
+		lblUser.setLayoutData(data);
 		
-		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 136, 744, 213);
+		new Label(shell, SWT.NULL);
 		
-		Label lblEnterTopic = new Label(composite_1, SWT.NONE);
+		Label lblEnterTopic = new Label(shell, SWT.NONE);
 		lblEnterTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblEnterTopic.setAlignment(SWT.CENTER);
-		lblEnterTopic.setBounds(82, 74, 129, 32);
+		//lblEnterTopic.setBounds(82, 74, 129, 32);
 		lblEnterTopic.setText("Enter topic: ");
 		
-		Text text = new Text(composite_1, SWT.BORDER);
-		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		text.setBounds(279, 71, 278, 39);
+		Text text = new Text(shell, SWT.BORDER);
+		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL | SWT.WRAP));
+		//text.setBounds(279, 71, 278, 39);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		data.heightHint = 50;
+		data.horizontalSpan = 2;
+		text.setLayoutData(data);
 		
 		Color red = new Color(display, 255, 0, 0); 
 		
-		Label lblNotEnterTopic = new Label(composite_1, SWT.NONE);
+		Label lblNotEnterTopic = new Label(shell, SWT.NONE);
 		lblNotEnterTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblNotEnterTopic.setAlignment(SWT.CENTER);
-		lblNotEnterTopic.setBounds(110, 142, 317, 39);
+		//lblNotEnterTopic.setBounds(110, 142, 317, 39);
 		lblNotEnterTopic.setText("");
+		lblNotEnterTopic.setForeground(red);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 50;
+		data.horizontalSpan = 3;
+		lblNotEnterTopic.setLayoutData(data);
 		
-		Composite composite_2 = new Composite(shell, SWT.NONE);
-		composite_2.setBounds(10, 367, 744, 64);
-		
-		Button btnNext = new Button(composite_2, SWT.NONE);
+		Button btnNext = new Button(shell, SWT.NONE);
 		btnNext.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnNext.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -109,7 +125,6 @@ public class CreateTopicWindow {
 				String topic = text.getText();
 				if(topic == null || topic == "") {
 					lblNotEnterTopic.setText("Not enter topic!");
-					lblNotEnterTopic.setForeground(red);
 				} else {
 					lblNotEnterTopic.setText("");
 					try {
@@ -140,8 +155,13 @@ public class CreateTopicWindow {
 				}
 			}
 		});
-		btnNext.setBounds(579, 10, 117, 44);
+		//btnNext.setBounds(579, 10, 117, 44);
 		btnNext.setText("Next");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = 122;
+		data.heightHint = 50;
+		data.horizontalSpan = 3;
+		btnNext.setLayoutData(data);
 		
 
 	}

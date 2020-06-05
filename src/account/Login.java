@@ -32,6 +32,8 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 
 public class Login {
 	final static int ServerPort = 1234; 
@@ -90,44 +92,52 @@ public class Login {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Login");
+		GridLayout layout = new GridLayout();
+		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 3;
+		shell.setLayout(layout);
 
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 564, 64);
+		new Label(shell, SWT.NULL);
 
-		Label lblWelcomeToMini = new Label(composite, SWT.NONE);
-		lblWelcomeToMini.setBounds(186, 39, 151, 15);
-		lblWelcomeToMini.setText("Welcome to Mini Kahoot!");
+		Label lblWelcomeToMini = new Label(shell, SWT.CENTER);
+		//lblWelcomeToMini.setBounds(372, 28, 151, 15);
+		lblWelcomeToMini.setText("Welcome to Mini Kahoot!\n\n\nLogin");
+		lblWelcomeToMini.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 100;
+		lblWelcomeToMini.setLayoutData(data);
+		
+		new Label(shell, SWT.NULL);
 
-		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 80, 744, 266);
-
-		Label lblName = new Label(composite_1, SWT.NONE);
+		Label lblName = new Label(shell, SWT.CENTER);
 		lblName.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblName.setBounds(56, 58, 76, 28);
 		lblName.setText("Name:");
 
-		Text nameTxt = new Text(composite_1, SWT.BORDER);
+		Text nameTxt = new Text(shell, SWT.BORDER);
 		nameTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		nameTxt.setBounds(158, 55, 172, 31);
+		//nameTxt.setBounds(158, 55, 172, 31);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		data.heightHint = 50;
+		data.horizontalSpan = 2;
+		nameTxt.setLayoutData(data);
 
-		Label lblLogin = new Label(composite_1, SWT.NONE);
-		lblLogin.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
-		lblLogin.setAlignment(SWT.CENTER);
-		lblLogin.setBounds(201, 10, 100, 28);
-		lblLogin.setText("Login");
-
-		Label lblPassword = new Label(composite_1, SWT.NONE);
+		Label lblPassword = new Label(shell, SWT.CENTER);
 		lblPassword.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblPassword.setBounds(56, 102, 85, 28);
 		lblPassword.setText("Password:");
 
-		Text passwordTxt = new Text(composite_1, SWT.BORDER | SWT.PASSWORD);
+		Text passwordTxt = new Text(shell, SWT.BORDER | SWT.PASSWORD);
 		passwordTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		passwordTxt.setBounds(158, 99, 172, 31);
+		//passwordTxt.setBounds(158, 99, 172, 31);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		data.heightHint = 50;
+		data.horizontalSpan = 2;
+		passwordTxt.setLayoutData(data);
 
-		Link link = new Link(composite_1, SWT.NONE);
+		Link link = new Link(shell, SWT.CENTER);
 		link.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		link.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -145,21 +155,27 @@ public class Login {
 				}
 			}
 		});
-		link.setBounds(158, 151, 248, 28);
+		//link.setBounds(158, 151, 248, 28);
 		link.setText("<a>Not have an account? Register now!</a>");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.heightHint = 40;
+		data.horizontalSpan = 3;
+		link.setLayoutData(data);
 
 		Color redColor = new Color(display, 255, 0, 0);
 
-		Label lblInvalid = new Label(composite_1, SWT.NONE);
+		Label lblInvalid = new Label(shell, SWT.CENTER);
 		lblInvalid.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblInvalid.setBounds(158, 196, 246, 28);
+		//lblInvalid.setBounds(158, 196, 246, 28);
 		lblInvalid.setText("");
 		lblInvalid.setForeground(redColor);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 40;
+		data.horizontalSpan = 3;
+		lblInvalid.setLayoutData(data);
 
-		Composite composite_2 = new Composite(shell, SWT.NONE);
-		composite_2.setBounds(10, 364, 730, 56);
-
-		Button btnLogin = new Button(composite_2, SWT.NONE);
+		Button btnLogin = new Button(shell, SWT.CENTER);
 		btnLogin.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnLogin.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -217,8 +233,13 @@ public class Login {
 
 			}
 		});
-		btnLogin.setBounds(593, 10, 96, 36);
+		//btnLogin.setBounds(593, 10, 96, 36);
 		btnLogin.setText("Login");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = 122;
+		data.heightHint = 50;
+		data.horizontalSpan = 3;
+		btnLogin.setLayoutData(data);
 
 	}
 

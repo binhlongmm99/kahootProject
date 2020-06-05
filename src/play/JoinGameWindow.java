@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -61,23 +63,30 @@ public class JoinGameWindow {
 	 */
 	protected void createContents(Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
+		GridLayout layout = new GridLayout();
+		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 3;
+		shell.setLayout(layout);
+		
 		shell.setText("Join game");
 		
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 744, 127);
-		
-		Label lblUser = new Label(composite, SWT.NONE);
+		new Label(shell, SWT.NULL);
+
+		Label lblUser = new Label(shell, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(257, 44, 228, 46);
+		//lblUser.setBounds(257, 44, 228, 46);
 		lblUser.setText("User: " + clientName);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 200;
+		lblUser.setLayoutData(data);
 		
-		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 159, 744, 272);
+		new Label(shell, SWT.NULL);
 		
-		Button btnCreateRoom = new Button(composite_1, SWT.NONE);
-		btnCreateRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		Button btnCreateRoom = new Button(shell, SWT.NONE);
+		btnCreateRoom.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnCreateRoom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -95,11 +104,16 @@ public class JoinGameWindow {
 				}
 			}
 		});
-		btnCreateRoom.setBounds(278, 44, 204, 47);
+		//btnCreateRoom.setBounds(278, 44, 204, 47);
 		btnCreateRoom.setText("Create room");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 100;
+		data.horizontalSpan = 3;
+		btnCreateRoom.setLayoutData(data);
 		
-		Button btnChooseRoom = new Button(composite_1, SWT.NONE);
-		btnChooseRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		Button btnChooseRoom = new Button(shell, SWT.NONE);
+		btnChooseRoom.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnChooseRoom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -117,8 +131,13 @@ public class JoinGameWindow {
 				}
 			}
 		});
-		btnChooseRoom.setBounds(278, 140, 204, 47);
+		//btnChooseRoom.setBounds(278, 140, 204, 47);
 		btnChooseRoom.setText("Choose room");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 100;
+		data.horizontalSpan = 3;
+		btnChooseRoom.setLayoutData(data);
 
 	}
 

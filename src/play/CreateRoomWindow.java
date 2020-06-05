@@ -20,6 +20,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 
 public class CreateRoomWindow {
 
@@ -85,29 +88,36 @@ public class CreateRoomWindow {
 	 */
 	protected void createContents(Display display, Client client, String[] parts) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
+		GridLayout layout = new GridLayout();
+		layout.makeColumnsEqualWidth = true;
+		layout.numColumns = 3;
+		shell.setLayout(layout);
+		
 		shell.setText("Create room");
 		
-		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 744, 98);
-		
-		Label lblUser = new Label(composite, SWT.NONE);
+		new Label(shell, SWT.NULL);
+
+		Label lblUser = new Label(shell, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
 		lblUser.setBounds(267, 30, 201, 40);
 		lblUser.setText("User: " + clientName);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 100;
+		lblUser.setLayoutData(data);
 		
-		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 126, 744, 291);
+		new Label(shell, SWT.NULL);
 		
-		Label lblChooseTopic = new Label(composite_1, SWT.NONE);
+		Label lblChooseTopic = new Label(shell, SWT.NONE);
 		lblChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblChooseTopic.setBounds(26, 53, 129, 40);
+		//lblChooseTopic.setBounds(26, 53, 129, 40);
 		lblChooseTopic.setText("Choose topic: ");
 		
-		List list = new List(composite_1, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
+		List list = new List(shell, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
 		list.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		list.setBounds(195, 25, 454, 88);
+		//list.setBounds(195, 25, 454, 88);
 		
 		//CODE HERE
 		//Add list of topics
@@ -125,14 +135,27 @@ public class CreateRoomWindow {
 			System.out.println("Problem at getting topic");
 		}
 		
+		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+		data.horizontalSpan = 2;
+		data.verticalSpan = 4;
+		int listHeight = list.getItemHeight() * 20;
+		Rectangle trim = list.computeTrim(0, 0, 0, listHeight);
+		data.heightHint = trim.height;
+		list.setLayoutData(data);
+		
 		Color red = new Color(display, 255, 0, 0);
 		
-		Label lblPleaseChooseTopic = new Label(composite_1, SWT.NONE);
+		Label lblPleaseChooseTopic = new Label(shell, SWT.NONE);
 		lblPleaseChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblPleaseChooseTopic.setBounds(26, 143, 365, 31);
+		//lblPleaseChooseTopic.setBounds(26, 143, 365, 31);
 		lblPleaseChooseTopic.setText("");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
+		data.widthHint = 400;
+		data.heightHint = 40;
+		data.horizontalSpan = 3;
+		lblPleaseChooseTopic.setLayoutData(data);
 		
-		Button btnNext = new Button(composite_1, SWT.NONE);
+		Button btnNext = new Button(shell, SWT.NONE);
 		btnNext.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnNext.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -181,8 +204,13 @@ public class CreateRoomWindow {
 				return null;
 			}
 		});
-		btnNext.setBounds(520, 205, 118, 47);
+		//btnNext.setBounds(520, 205, 118, 47);
 		btnNext.setText("Next");
+		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
+		data.widthHint = 122;
+		data.heightHint = 50;
+		data.horizontalSpan = 3;
+		btnNext.setLayoutData(data);
 
 	}
 }
