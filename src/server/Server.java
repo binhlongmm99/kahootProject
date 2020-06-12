@@ -20,7 +20,8 @@ public class Server
     public static void main(String[] args) throws IOException  
     { 
         // server is listening on port 1234 
-        ServerSocket ss = new ServerSocket(1234); 
+        ServerSocket ss = new ServerSocket(); 
+        ss.bind(new InetSocketAddress(InetAddress.getByName("192.168.43.148"),1234));
         Socket s; 
         ConnectionUtils myConnection = new ConnectionUtils();
         // running infinite loop for getting 
