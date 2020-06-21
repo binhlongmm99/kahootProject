@@ -14,8 +14,6 @@ import java.io.IOException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
 
@@ -60,48 +58,34 @@ public class WaitWindow {
 		//		createContents(display, client);
 
 		if(shell == null) shell = new Shell();
-		shell.setSize(1350, 700);
-		GridLayout layout = new GridLayout();
-		layout.makeColumnsEqualWidth = true;
-		layout.numColumns = 3;
-		shell.setLayout(layout);
-		
+		shell.setSize(780, 480);
 		shell.setText("Waiting to play");
-		
-		new Label(shell, SWT.NULL);
 
-		Label lblHello = new Label(shell, SWT.NONE);
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(10, 10, 744, 162);
+
+		Label lblHello = new Label(composite, SWT.NONE);
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		//lblHello.setBounds(253, 31, 219, 35);
-		lblHello.setText("\nHello, " + clientName + "\nYou've just join room " + room);
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 200;
-		lblHello.setLayoutData(data);
-		
-		new Label(shell, SWT.NULL);
+		lblHello.setBounds(259, 25, 235, 32);
+		lblHello.setText("Hello, " + clientName);
+
+		Label lblYouveJustJoined = new Label(composite, SWT.NONE);
+		lblYouveJustJoined.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblYouveJustJoined.setAlignment(SWT.CENTER);
+		lblYouveJustJoined.setBounds(214, 90, 326, 32);
+		lblYouveJustJoined.setText("You've just joined room " + room);
 
 		Label lblPleaseWait = new Label(shell, SWT.NONE);
 		lblPleaseWait.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		lblPleaseWait.setAlignment(SWT.CENTER);
-		//lblPleaseWait.setBounds(279, 215, 202, 38);
+		lblPleaseWait.setBounds(279, 215, 202, 38);
 		lblPleaseWait.setText("Please wait!");
-		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 200;
-		data.horizontalSpan = 3;
-		lblPleaseWait.setLayoutData(data);
 
 		Button btnPlay = new Button(shell, SWT.NONE);
 		btnPlay.setEnabled(false);
 		btnPlay.setBounds(317, 293, 123, 48);
 		btnPlay.setText("Play");
-		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 200;
-		data.heightHint = 50;
-		data.horizontalSpan = 3;
-		btnPlay.setLayoutData(data);
 
 		shell.open();
 		shell.layout();
@@ -131,6 +115,7 @@ public class WaitWindow {
 							}
 							
 							client.dos.writeUTF(client.createScoreMsg(clientName, room, 0));
+							System.out.println(client.dis.readUTF());
 							PlayWindow window = new PlayWindow();
 							window.setShell(shell);
 							window.setClientName(clientName);

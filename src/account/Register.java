@@ -11,7 +11,6 @@ import org.eclipse.swt.SWT;
 //import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -21,12 +20,13 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 
 public class Register {
 
 	protected Shell shell;
+	private Text nameTxt;
+	private Text passwordTxt;
+	private Text confirmPwTxt;
 	
 	public void setShell(Shell shell) {
 		this.shell = shell;
@@ -63,115 +63,65 @@ public class Register {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Display display, Client client) {		
+	protected void createContents(Display display, Client client) {
+//		Image image = ImageUtil.getImage(display, "D:\\eclipse-workspace\\Kaggle\\src\\common\\icon.png");
+		
 		if(shell == null) shell = new Shell();
-		shell.setSize(1350, 700);
+		shell.setSize(600, 300);
 		shell.setText("Register");
-		GridLayout layout = new GridLayout();
-		layout.makeColumnsEqualWidth = true;
-		layout.numColumns = 3;
-		shell.setLayout(layout);
 		
-		new Label(shell, SWT.NULL);
-
-		Label lblNewLabel = new Label(shell, SWT.CENTER);
-		lblNewLabel.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
-		//lblNewLabel.setBounds(150, 22, 211, 20);
-		lblNewLabel.setText("Join Kahoot with us!\n\n\nRegister");
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 100;
-		lblNewLabel.setLayoutData(data);
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(0, 10, 575, 64);
 		
-		new Label(shell, SWT.NULL);
+		Label lblNewLabel = new Label(composite, SWT.NONE);
+		lblNewLabel.setBounds(255, 22, 106, 20);
+		lblNewLabel.setText("Join Kahoot with us!");
 		
-		Label lblName = new Label(shell, SWT.NONE);
-		lblName.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		//lblName.setBounds(27, 10, 64, 18);
+//		Label lblNewLabel_1 = new Label(composite, SWT.NONE);
+//		lblNewLabel_1.setBounds(114, 10, 135, 44);
+//		lblNewLabel_1.setImage(image);
+		
+		Composite composite_2 = new Composite(shell, SWT.NONE);
+		composite_2.setBounds(0, 78, 575, 125);
+		
+		Label lblName = new Label(composite_2, SWT.NONE);
+		lblName.setBounds(88, 10, 55, 15);
 		lblName.setText("Name:");
 		
-		Text nameTxt = new Text(shell, SWT.BORDER);
-		nameTxt.setBounds(168, 7, 217, 29);
-		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		data.heightHint = 50;
-		data.horizontalSpan = 2;
-		nameTxt.setLayoutData(data);
-		
-		Label lblPassword = new Label(shell, SWT.NONE);
-		lblPassword.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		//lblPassword.setBounds(27, 61, 102, 26);
+		Label lblPassword = new Label(composite_2, SWT.NONE);
+		lblPassword.setBounds(88, 31, 55, 15);
 		lblPassword.setText("Password:");
 		
-		Text passwordTxt = new Text(shell, SWT.BORDER | SWT.PASSWORD);
-		passwordTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		//passwordTxt.setBounds(168, 58, 217, 29);
-		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		data.heightHint = 50;
-		data.horizontalSpan = 2;
-		passwordTxt.setLayoutData(data);
-		
-		Label lblNewLabel_2 = new Label(shell, SWT.NONE);
-		lblNewLabel_2.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblNewLabel_2.setBounds(27, 108, 121, 26);
+		Label lblNewLabel_2 = new Label(composite_2, SWT.NONE);
+		lblNewLabel_2.setBounds(86, 52, 110, 15);
 		lblNewLabel_2.setText("Confirm password:");
 		
-		Text confirmPwTxt = new Text(shell, SWT.BORDER | SWT.PASSWORD);
-		confirmPwTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		//confirmPwTxt.setBounds(168, 105, 217, 29);
-		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		data.heightHint = 50;
-		data.horizontalSpan = 2;
-		confirmPwTxt.setLayoutData(data);
+		nameTxt = new Text(composite_2, SWT.BORDER);
+		nameTxt.setBounds(220, 7, 165, 21);
+		
+		passwordTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
+		passwordTxt.setBounds(220, 28, 165, 21);
+		
+		confirmPwTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
+		confirmPwTxt.setBounds(220, 49, 158, 21);
 		
 		Color redColor = new Color(display, 255, 0, 0);
 		Color greenColor = new Color(display, 0, 255, 0);
 		
-		Label lblErrorTxt = new Label(shell, SWT.NONE);
-		lblErrorTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		//lblErrorTxt.setBounds(58, 167, 254, 29);
+		Label lblErrorTxt = new Label(composite_2, SWT.NONE);
+		lblErrorTxt.setBounds(220, 76, 217, 15);
 		lblErrorTxt.setText("");
 		lblErrorTxt.setForeground(redColor);
-		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.heightHint = 40;
-		data.horizontalSpan = 3;
-		lblErrorTxt.setLayoutData(data);
 		
-		Label lblSuccessTxt = new Label(shell, SWT.NONE);
-		lblSuccessTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		//lblSuccessTxt.setBounds(58, 213, 254, 29);
+		Label lblSuccessTxt = new Label(composite_2, SWT.NONE);
+		lblSuccessTxt.setBounds(220, 97, 217, 15);
 		lblSuccessTxt.setText("");
 		lblSuccessTxt.setForeground(greenColor);
-		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.heightHint = 40;
-		data.horizontalSpan = 3;
-		lblSuccessTxt.setLayoutData(data);
 		
-		Button btnExit = new Button(shell, SWT.CENTER);
-		data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		data.heightHint = 50;
-		data.widthHint = 122;
-		btnExit.setLayoutData(data);
-		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		btnExit.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					for (Control kid : shell.getChildren()) {
-				         kid.dispose();
-				    }
-					Login window = new Login();
-					window.setShell(shell);
-					window.open(client);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-		//btnExit.setBounds(624, 10, 75, 44);
-		btnExit.setText("Exit");
+		Composite composite_1 = new Composite(shell, SWT.NONE);
+		composite_1.setBounds(0, 209, 575, 42);
 		
-		Button btnRegister = new Button(shell, SWT.NONE);
-		btnRegister.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		Button btnRegister = new Button(composite_1, SWT.NONE);
 		btnRegister.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -181,9 +131,6 @@ public class Register {
 				String password = passwordTxt.getText();
 				String confirmPw = confirmPwTxt.getText();
 				String sRep = null;
-				
-				System.out.println(password);
-				System.out.println(confirmPw);
 				if(password.compareTo(confirmPw) != 0) {
 					//Check confirm password
 					lblErrorTxt.setText("Confirm password is not similar to password. Please try again!");
@@ -220,19 +167,32 @@ public class Register {
 				 
 			}
 		});
-		//btnRegister.setBounds(529, 10, 75, 44);
+		btnRegister.setBounds(361, 10, 75, 25);
 		btnRegister.setText("Register");
-		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
-		data.widthHint = 122;
-		data.heightHint = 50;
-		data.horizontalSpan = 2;
-		btnRegister.setLayoutData(data);
+		
+		Button btnExit = new Button(composite_1, SWT.NONE);
+		btnExit.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					for (Control kid : shell.getChildren()) {
+				         kid.dispose();
+				    }
+					Login window = new Login();
+					window.setShell(shell);
+					window.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		btnExit.setBounds(458, 10, 75, 25);
+		btnExit.setText("Exit");
 
 	}
 	
 	private boolean checkValid(String str) {
 		if(str.isBlank() || str.isEmpty()) return false;
-		if(!str.matches("/^[0-9a-zA-Z]+$/")) return false;
 		return true;
 	}
 

@@ -22,8 +22,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 
 public class StartWindow {
 
@@ -31,6 +29,7 @@ public class StartWindow {
 	private String room;
 	private String clientName;
 	private ArrayList<Player> playerList;
+	Runnable runnable;
 	
 	public void setShell(Shell shell) {
 		this.shell = shell;
@@ -62,7 +61,7 @@ public class StartWindow {
 	 */
 	public void open(Client client) {
 		Display display = Display.getDefault();
-		createContents(client);
+		createContents(display, client);
 		shell.open();
 		shell.layout();
 		while (!shell.isDisposed()) {
@@ -75,61 +74,36 @@ public class StartWindow {
 	/**
 	 * Create contents of the window.
 	 */
-	protected void createContents(Client client) {
+	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(1350, 700);
-		GridLayout layout = new GridLayout();
-		layout.makeColumnsEqualWidth = true;
-		layout.numColumns = 3;
-		shell.setLayout(layout);
-		
+		shell.setSize(780, 480);
 		shell.setText("Start room");
 		
-		new Label(shell, SWT.NULL);
-
-		Label lblHello = new Label(shell, SWT.NONE);
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(10, 10, 731, 119);
+		
+		Label lblHello = new Label(composite, SWT.NONE);
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
 		lblHello.setBounds(253, 31, 219, 35);
-		lblHello.setText("\nHello, " + clientName + "\nYou've just created room " + room);
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 100;
-		lblHello.setLayoutData(data);
+		lblHello.setText("Hello, " + clientName);
 		
-		new Label(shell, SWT.NULL);
+		Label lblCreate = new Label(composite, SWT.NONE);
+		lblCreate.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblCreate.setAlignment(SWT.CENTER);
+		lblCreate.setBounds(192, 72, 341, 41);
+		lblCreate.setText("You've just created room " + room);
 		
-		Table scoreTable = new Table(shell, SWT.BORDER | SWT.HIDE_SELECTION | SWT.READ_ONLY);
-		scoreTable.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		scoreTable.setBounds(208, 66, 325, 195);
-		scoreTable.setHeaderVisible(true);
-		scoreTable.setLinesVisible(true);
+		Composite composite_1 = new Composite(shell, SWT.NONE);
+		composite_1.setBounds(10, 146, 731, 285);
 		
-		TableColumn tblclmnPlayer = new TableColumn(scoreTable, SWT.CENTER);
-		tblclmnPlayer.setWidth(200);
-		tblclmnPlayer.setText("Player");
 		
-		TableColumn tblclmnScore = new TableColumn(scoreTable, SWT.CENTER);
-		tblclmnScore.setWidth(200);
-		tblclmnScore.setText("Score");
-		
-		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 200;
-		data.horizontalSpan = 3;
-		//data.verticalSpan = 4;
-		scoreTable.setLayoutData(data);
-		scoreTable.setVisible(false);
-		
-		Button btnExit = new Button(shell, SWT.NONE);
-		data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		data.heightHint = 42;
-		data.widthHint = 100;
-		btnExit.setLayoutData(data);
+		Button btnExit = new Button(composite_1, SWT.NONE);
 		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				display.timerExec(-1, runnable);
 				try {
 					client.dos.writeUTF(client.exitRoomMsg());
 				} catch (IOException e1) {
@@ -150,17 +124,12 @@ public class StartWindow {
 				}
 			}
 		});
-		//btnExit.setBounds(484, 10, 131, 48);
+		btnExit.setBounds(484, 10, 131, 48);
 		btnExit.setText("Exit");
 		//btnExit.setEnabled(false);
 		
-		Button btnStartRoom = new Button(shell, SWT.NONE);
+		Button btnStartRoom = new Button(composite_1, SWT.NONE);
 		btnStartRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		data = new GridData(GridData.HORIZONTAL_ALIGN_END);
-		data.widthHint = 122;
-		data.heightHint = 50;
-		data.horizontalSpan = 2;
-		btnStartRoom.setLayoutData(data);
 		btnStartRoom.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -170,7 +139,6 @@ public class StartWindow {
 				
 				//Disable button "Start"
 				btnStartRoom.setEnabled(false);
-				
 				try {
 					client.dos.writeUTF(client.startGameMsg());
 				} catch (IOException e1) {
@@ -184,13 +152,36 @@ public class StartWindow {
 					e1.printStackTrace();
 				}
 				
-				playerList = getScoreFromServer(client);
-				printPlayerScore(playerList, scoreTable);
-				scoreTable.setVisible(true);				
+				Table scoreTable = new Table(composite_1, SWT.BORDER | SWT.HIDE_SELECTION | SWT.READ_ONLY);
+				scoreTable.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+				scoreTable.setBounds(208, 66, 325, 195);
+				scoreTable.setHeaderVisible(true);
+				scoreTable.setLinesVisible(true);
+				
+				TableColumn tblclmnPlayer = new TableColumn(scoreTable, SWT.CENTER);
+				tblclmnPlayer.setWidth(159);
+				tblclmnPlayer.setText("Player");
+				
+				TableColumn tblclmnScore = new TableColumn(scoreTable, SWT.CENTER);
+				tblclmnScore.setWidth(159);
+				tblclmnScore.setText("Score");
+				
+//				runnable = new Runnable() {
+//
+//					@Override
+//					public void run() {
+//						playerList = getScoreFromServer(client);
+//						printPlayerScore(playerList, scoreTable);
+//						display.timerExec(1*1000, this);
+//					}
+//				};
+				
+
+				
 
 			}
 		});
-		//btnStartRoom.setBounds(103, 10, 131, 40);
+		btnStartRoom.setBounds(103, 10, 131, 40);
 		btnStartRoom.setText("Start room");
 	}
 	

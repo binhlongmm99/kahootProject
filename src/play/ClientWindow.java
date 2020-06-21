@@ -14,8 +14,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 
 public class ClientWindow {
 
@@ -64,30 +62,29 @@ public class ClientWindow {
 	 */
 	protected void createContents(Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(1350, 700);
-		GridLayout layout = new GridLayout();
-		layout.makeColumnsEqualWidth = true;
-		layout.numColumns = 3;
-		shell.setLayout(layout);
-		
+		shell.setSize(780, 480);
 		shell.setText("Playing Kahoot");
 		
-		new Label(shell, SWT.NULL);
-
-		Label lblKahoot = new Label(shell, SWT.NONE);
+		Composite composite = new Composite(shell, SWT.NONE);
+		composite.setBounds(10, 0, 744, 133);
+		
+		Label lblKahoot = new Label(composite, SWT.NONE);
 		lblKahoot.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblKahoot.setAlignment(SWT.CENTER);
-		//lblKahoot.setBounds(285, 26, 134, 33);
-		lblKahoot.setText("Kahoot\n\n\nHello " + clientName);
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 100;
-		lblKahoot.setLayoutData(data);
+		lblKahoot.setBounds(285, 26, 134, 33);
+		lblKahoot.setText("Kahoot");
 		
-		new Label(shell, SWT.NULL);
+		Label lblHello = new Label(composite, SWT.NONE);
+		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblHello.setAlignment(SWT.CENTER);
+		lblHello.setBounds(250, 78, 206, 33);
+		lblHello.setText("Hello, " + clientName);
 		
-		Button btnCreateNewQuestion = new Button(shell, SWT.NONE);
-		btnCreateNewQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
+		Composite composite_1 = new Composite(shell, SWT.NONE);
+		composite_1.setBounds(10, 150, 744, 281);
+		
+		Button btnCreateNewQuestion = new Button(composite_1, SWT.NONE);
+		btnCreateNewQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnCreateNewQuestion.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -104,16 +101,11 @@ public class ClientWindow {
 				}
 			}
 		});
-		//btnCreateNewQuestion.setBounds(258, 66, 199, 40);
-		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 100;
-		data.horizontalSpan = 3;
-		btnCreateNewQuestion.setLayoutData(data);
+		btnCreateNewQuestion.setBounds(258, 66, 199, 40);
 		btnCreateNewQuestion.setText("Create new questions");
 		
-		Button btnJoinGame = new Button(shell, SWT.NONE);
-		btnJoinGame.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
+		Button btnJoinGame = new Button(composite_1, SWT.NONE);
+		btnJoinGame.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnJoinGame.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -130,13 +122,8 @@ public class ClientWindow {
 				}
 			}
 		});
-		//btnJoinGame.setBounds(258, 148, 199, 46);
+		btnJoinGame.setBounds(258, 148, 199, 46);
 		btnJoinGame.setText("Join game");
-		data = new GridData(GridData.HORIZONTAL_ALIGN_CENTER);
-		data.widthHint = 400;
-		data.heightHint = 100;
-		data.horizontalSpan = 3;
-		btnJoinGame.setLayoutData(data);
 		
 		
 

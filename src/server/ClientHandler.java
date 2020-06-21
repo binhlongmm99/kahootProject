@@ -45,7 +45,7 @@ public class ClientHandler implements Runnable
 			try {
 
 				received = dis.readUTF();
-				String[] parts = received.split("-");
+				String[] parts = received.split("--");
 				if (!received.contains("WH"))
 					System.out.println(received); 
 				switch(parts[0]) {
@@ -58,7 +58,7 @@ public class ClientHandler implements Runnable
 				case "CT": 
 					createTopic(received);break;
 				case "CS":
-					closeSocket();break;
+					closeSocket();break;//////
 				case "CN":
 					createName(received);break;
 				case "LI":
@@ -67,13 +67,11 @@ public class ClientHandler implements Runnable
 					createRoom(received);break;
 				case "CQ":
 					createQuestion(received);break;
-				case "CO":
-					chooseOption(received);break;
 				case "SG":
 					
 					for (ClientHandler mc : Server.ar) {
 						if (mc.getRoomId().equals(this.roomId) && mc.isHost == false)
-							mc.startGame();
+							mc.startGame(this.roomId);
 
 					}
 					break;
@@ -87,10 +85,10 @@ public class ClientHandler implements Runnable
 					try {
 						getRoomList();
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
+						// TODO Auto--generated catch block
 						e.printStackTrace();
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
+						// TODO Auto--generated catch block
 						e.printStackTrace();
 					}break;
 				case "TL": 
@@ -100,7 +98,7 @@ public class ClientHandler implements Runnable
 				}
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto--generated catch block
 				//				e.printStackTrace();
 				this.isloggedin=false; 
 				Iterator<ClientHandler> ite = Server.ar.iterator();
@@ -110,7 +108,7 @@ public class ClientHandler implements Runnable
 							try {
 								deleteRoom(this.roomId);
 							} catch (ClassNotFoundException | SQLException e1) {
-								// TODO Auto-generated catch block
+								// TODO Auto--generated catch block
 								e1.printStackTrace();
 							}
 						}
@@ -119,10 +117,10 @@ public class ClientHandler implements Runnable
 					}
 				} 
 			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
+				// TODO Auto--generated catch block
 				e1.printStackTrace();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
+				// TODO Auto--generated catch block
 				e1.printStackTrace();
 			}
 
@@ -130,7 +128,7 @@ public class ClientHandler implements Runnable
 	}
 
 	private boolean deleteRoom(String roomId) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "DELETE FROM ROOM WHERE room_name = '" + roomId + "'";
 		if (myConnection.executeUpdateSt(sql) > 0) {
 			
@@ -141,39 +139,51 @@ public class ClientHandler implements Runnable
 	}
 
 	private void getScore(String received) throws ClassNotFoundException, IOException, SQLException {
-		// TODO Auto-generated method stub
-		String[] parts = received.split("-");
+		// TODO Auto--generated method stub
+		String[] parts = received.split("--");
 		dos.writeUTF(getScoreMsg(parts[1]));
 	}
 
 	private String getScoreMsg(String room) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String mess = getScoreDb(room);
 		System.out.println(mess);
 		return mess;
 	}
 
 	private String getScoreDb(String room) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "SELECT USERNAME, SCORE FROM SCORE, ACCOUNT "
 				+ "WHERE ROOM_ID = '" + getRoomId(room) + "' AND PLAYER_ID = ACC_ID" ;
 		ResultSet rs = myConnection.executeResultSetSt(sql);
-		String mess = "GS-";
+		String mess = "GS--";
 		while (rs.next()) {
-			mess += (rs.getString("username") + "-");
-			mess += (rs.getString("score") + "-");
+			mess += (rs.getString("username") + "--");
+			mess += (rs.getString("score") + "--");
 		}
 		return mess;
 	}
 
 	private void createScore(String received) throws NumberFormatException, ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String[] parts = received.split("-");
+		// TODO Auto--generated method stub
+		String[] parts = received.split("--");
 		createScoreDb(parts[1], parts[2], parts[3]);
+		try {
+			dos.writeUTF(createScoreMsg(parts[1], parts[2]));
+		} catch (IOException e) {
+			// TODO Auto--generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private String createScoreMsg(String client, String room) {
+		// TODO Auto--generated method stub
+		String mess = "CSc--Score created--" + client + "--" + room;
+		return mess;
 	}
 
 	private boolean createScoreDb(String client, String room, String score) throws NumberFormatException, ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "INSERT INTO SCORE (SCORE, PLAYER_ID, ROOM_ID) "
 				+ "VALUES (" + Integer.parseInt(score)+ ", " + getOwnerId(client) + ", " + getRoomId(room) + ")" ;
 		if (myConnection.executeUpdateSt(sql) > 0)
@@ -182,13 +192,25 @@ public class ClientHandler implements Runnable
 	}
 
 	private void updateScore(String received) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String[] parts = received.split("-");
+		// TODO Auto--generated method stub
+		String[] parts = received.split("--");
 		updataScoreDb(parts[1], parts[2], parts[3]);
+		try {
+			dos.writeUTF(updateScoreMsg(parts[1], parts[2], parts[3]));
+		} catch (IOException e) {
+			// TODO Auto--generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private String updateScoreMsg(String client, String room, String score) {
+		// TODO Auto--generated method stub
+		String mess = "US--Score updated--" + client + "--" + room + "--" + score;
+		return mess;
 	}
 
 	private boolean updataScoreDb(String client, String room, String score) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "UPDATE SCORE SET score = " + Integer.parseInt(score)+ " "
 				+ "WHERE player_id = " + getOwnerId(client) + " AND room_id = " + getRoomId(room);
 		if (myConnection.executeUpdateSt(sql) > 0)
@@ -197,18 +219,18 @@ public class ClientHandler implements Runnable
 	}
 
 	private void getQuestion(String received) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
 			dos.writeUTF(getQuestionMsg(received));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	private String getQuestionMsg(String received) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String[] parts = received.split("-");
+		// TODO Auto--generated method stub
+		String[] parts = received.split("--");
 
 		String mess = getQuestionDb(parts[1]);
 		System.out.println(mess);
@@ -216,23 +238,23 @@ public class ClientHandler implements Runnable
 	}
 
 	private String getQuestionDb(String roomId) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "SELECT * FROM ROOM WHERE ROOM_NAME = '" + roomId + "'";
 		ResultSet rs = myConnection.executeResultSetSt(sql);
 		int topicId = 0;
 		if (rs.next()) {
 			topicId = rs.getInt("topic_id"); 
 		}
-		String mess = "GQ-";
+		String mess = "GQ--";
 		String sql1 = "SELECT * FROM QUESTION WHERE topic_id = " + topicId;
 		ResultSet rs1 = myConnection.executeResultSetSt(sql1);
 		while (rs1.next()) {
-			mess += (rs1.getString("question") + "-");
+			mess += (rs1.getString("question") + "--");
 			String option[] = null;
 			for (int i = 1; i <= 4; i++) {
-				mess += (rs1.getString("option" + i) + "-");
+				mess += (rs1.getString("option" + i) + "--");
 			}
-			mess += (rs1.getString("correct_answer") + "-");
+			mess += (rs1.getString("correct_answer") + "--");
 
 		}
 		return mess;
@@ -240,36 +262,36 @@ public class ClientHandler implements Runnable
 	}
 
 	private void getTopicList(String received) {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
 			System.out.println("Getting topic list...");
 			dos.writeUTF(getTopicListMsg(received));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	private String getTopicListMsg(String received) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
-		String[] parts = received.split("-");
+		// TODO Auto--generated method stub
+		String[] parts = received.split("--");
 		Vector<String> topicList = getTopicListDb(parts[1]);
-		String mess = "TL-";
+		String mess = "TL--";
 		for (String topic : topicList) {
-			mess += topic + "-";
+			mess += topic + "--";
 		}
 //		System.out.println(mess);
 		return mess;
 	}
 
 	private Vector<String> getTopicListDb(String owner) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "SELECT * FROM TOPIC WHERE OWNER_ID = '" + getOwnerId(owner) + "'";
 		Vector<String> topicList = new Vector<String>();
 		ResultSet rs = myConnection.executeResultSetSt(sql);
@@ -283,25 +305,29 @@ public class ClientHandler implements Runnable
 
 	private void createTopic(String received)  {
 		//dos.writeUTF(createTopicMsg());
-		String[] parts = received.split("-");
+		String[] parts = received.split("--");
 		try {
 			createTopicDb(parts[1], parts[2]);
+			dos.writeUTF(createTopicMsg(parts[1], parts[2]));
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private String createTopicMsg() {
-		// TODO Auto-generated method stub
-		return "CT-Topic is created";
+	private String createTopicMsg(String owner, String topicName) {
+		// TODO Auto--generated method stub
+		return "CT--Topic is created--" + owner + "--" + topicName;
 	}
 
 	private boolean createTopicDb(String owner, String topicName) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "INSERT INTO TOPIC (OWNER_ID, TOPIC_NAME) VALUES ('" + getOwnerId(owner) + "', '" + topicName + "')";
 		if (myConnection.executeUpdateSt(sql) > 0) 
 			return true;
@@ -311,25 +337,25 @@ public class ClientHandler implements Runnable
 
 
 	private void closeSocket() {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		this.isloggedin=false; 
 		try {
 			this.s.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		} 
 
 	}
 
 	public void waitHost() {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		if (!isGameStarted) {
 
 			try {
 				dos.writeUTF(waitHostMsg());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto--generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -338,33 +364,31 @@ public class ClientHandler implements Runnable
 
 
 	public void getRoomList() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
 			dos.writeUTF(getRoomListMsg());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	private String getRoomListMsg() throws ClassNotFoundException, SQLException {
 		Vector<String> roomList = getRoomListDb();
-		String mess = "RL-";
+		String mess = "RL--";
 		for (String room : roomList) {
-			mess += room + "-";
-			System.out.println(room);
+			mess += room + "--";
 		}
 		return mess;
 	}
 
 	private Vector<String> getRoomListDb() throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "SELECT * FROM ROOM";
 		Vector<String> roomList = new Vector<String>();
 		ResultSet rs = myConnection.executeResultSetSt(sql);
 		while (rs.next()) {
 			String roomId = rs.getString("room_name");
-			System.out.println(roomId);
 			roomList.add(roomId);
 		}
 
@@ -372,13 +396,13 @@ public class ClientHandler implements Runnable
 	}
 
 	public void login(String msg) {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
-			String[] parts = msg.split("-");
+			String[] parts = msg.split("--");
 			dos.writeUTF(loginMsg(parts[1], parts[2]));
 			setName(parts[1]);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -387,38 +411,38 @@ public class ClientHandler implements Runnable
 		String mess = null;
 		try {
 			if (!isNameExist(name)) {
-				mess = "NO-" + "Account not exist"; 
+				mess = "LI--Account not exist"; 
 			}
 			else if (!isPasswordCorrect(name, password)) {
-				mess = "NO-" + "Password not correct";
+				mess = "LI--Password not correct";
 			}
 			else {
-				mess = "OK-" + "Logged in";
+				mess = "LI--Logged in";
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 		return mess;
 	}
 
 	public void exitRoom(String msg) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		deleteRoom(this.roomId);
 	}
 
 	public void joinRoom(String msg) {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
 			this.isHost = false;
-			String[] parts = msg.split("-");
+			String[] parts = msg.split("--");
 			dos.writeUTF(joinRoomMsg(parts[1], parts[2]));
 			setRoomId(parts[1]);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -427,21 +451,21 @@ public class ClientHandler implements Runnable
 		String mess = null;
 		try {
 			if (!isRoomExist(roomId)) {
-				mess = "NO-" + "Room not exist"; 
+				mess = "JR--Room not exist"; 
 			}
 			else {
-				mess = "OK-" + "Room joined";
+				mess = "JR--Room joined";
 				this.roomId = roomId;
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 		return mess;
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 
 	}
 
@@ -453,43 +477,53 @@ public class ClientHandler implements Runnable
 		this.name = name;
 	}
 
-	public void startGame() {
-		// TODO Auto-generated method stub
+	public void startGame(String roomId) {
+		// TODO Auto--generated method stub
 		try {
-			dos.writeUTF(startGameMsg());
+			dos.writeUTF(startGameMsg(roomId));
 			isGameStarted = true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
-
-	public void chooseOption(String msg) {
-		// TODO Auto-generated method stub
+	
+	private String startGameMsg(String roomId) {
+		String mess = "SG--Game started--" + roomId;
+		return mess;
+		// TODO Auto--generated method stub
 
 	}
 
+
 	public void createQuestion(String msg) {	
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
-			String[] parts = msg.split("-");
+			String[] parts = msg.split("--");
 			dos.writeUTF(createQuestionMsg());
 			// update to database
 			try {
 				createQuestionDb(parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7]);
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto--generated catch block
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				// TODO Auto--generated catch block
 				e.printStackTrace();
 			}
 
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
+
+	}
+	
+	private String createQuestionMsg() {
+		String mess = "CQ--Question created";
+		return mess;
+		// TODO Auto--generated method stub
 
 	}
 
@@ -518,48 +552,50 @@ public class ClientHandler implements Runnable
 	}
 
 	public void createRoom(String msg) {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
-			String[] parts = msg.split("-");
+			String[] parts = msg.split("--");
 			isHost = true;
-			dos.writeUTF(createRoomMsg(parts[1]));
+			dos.writeUTF(createRoomMsg(parts[1], parts[2]));
 			// update to database
-			try {
-				createRoomDb(parts[1], parts[2]);
-				this.roomId = parts[1];
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				createRoomDb(parts[1], parts[2]);
+//				this.roomId = parts[1];
+//			} catch (ClassNotFoundException e) {
+//				// TODO Auto--generated catch block
+//				e.printStackTrace();
+//			} catch (SQLException e) {
+//				// TODO Auto--generated catch block
+//				e.printStackTrace();
+//			}
 
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	private String createRoomMsg(String roomId) {
+	private String createRoomMsg(String roomId, String topic) {
 		String mess = null;
 		try {
 			if (!isRoomExist(roomId)) {
-				mess = "OK-" + "Room created"; 
+				mess = "CR--Room created"; 
+				createRoomDb(roomId, topic);
+				this.roomId = roomId;
 			}
 			else {
-				mess = "NO-" + "Room exist";
+				mess = "CR--Cannot create this room";
 			}
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 		return mess;
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 
 	}
 
@@ -572,30 +608,41 @@ public class ClientHandler implements Runnable
 		return false;
 	}
 
+	
 	public void createName(String msg) {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		try {
-			String[] parts = msg.split("-");
-			dos.writeUTF(createNameMsg(parts[1]));
+			String[] parts = msg.split("--");
+			dos.writeUTF(createNameMsg(parts[1], parts[2]));
 			setName(parts[1]);
-			//update to database
-			try {
-				createNameDb(parts[1], parts[2]);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto--generated catch block
 			e.printStackTrace();
 		}
 	} 
+	
+	private String createNameMsg(String name, String password) {
+		String mess = null;
+		try {
+			if (!isNameExist(name)) {
+				mess = "CN--Account created--" + name;
+				createNameDb(name, password);
+			}
+			else {
+				mess = "CN--Username exist" ;
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto--generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto--generated catch block
+			e.printStackTrace();
+		}
+		return mess;
+		// TODO Auto--generated method stub
+
+	}
 
 
 	public boolean createNameDb(String name, String password)
@@ -613,49 +660,14 @@ public class ClientHandler implements Runnable
 
 	private String exitRoomMsg() {
 		return name;
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 
 	}
 
 	private String waitHostMsg() {
-		// TODO Auto-generated method stub
-		String mess = "NO-Waiting for host";
+		// TODO Auto--generated method stub
+		String mess = "NO--Waiting for host";
 		return mess;
-	}
-
-	private String startGameMsg() {
-		String mess = "GS-Game started";
-		return mess;
-		// TODO Auto-generated method stub
-
-	}
-
-	private String createQuestionMsg() {
-		String mess = "OK-question created";
-		return mess;
-		// TODO Auto-generated method stub
-
-	}
-
-	private String createNameMsg(String name) {
-		String mess = null;
-		try {
-			if (!isNameExist(name)) {
-				mess = "OK-" + "Name created"; 
-			}
-			else {
-				mess = "NO-" + "Name exist";
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return mess;
-		// TODO Auto-generated method stub
-
 	}
 
 
@@ -693,7 +705,7 @@ public class ClientHandler implements Runnable
 	}
 
 	private int getOwnerId(String owner) throws ClassNotFoundException, SQLException {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String sql = "SELECT * FROM ACCOUNT WHERE USERNAME = '" + owner +"'";
 		ResultSet rs = myConnection.executeResultSetSt(sql);
 		if (rs.next()) {

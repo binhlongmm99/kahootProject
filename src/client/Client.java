@@ -15,7 +15,7 @@ public class Client
 	public Client() throws IOException
 	{
 		// getting localhost ip 
-		this.ip = InetAddress.getByName("192.168.43.232"); 
+		this.ip = InetAddress.getByName("localhost"); 
 
 		// establish the connection 
 		this.s = new Socket(ip, ServerPort); 
@@ -38,7 +38,7 @@ public class Client
 	}
 
 	public boolean isNameExist(String msg) {
-		if (msg.contains("Name created") || msg.contains("Account not exist")) {
+		if (msg.contains("Account created") || msg.contains("Account not exist")) {
 			return false;
 		}
 		else {
@@ -47,7 +47,7 @@ public class Client
 	}
 
 	public boolean isRoomExist(String msg) {
-		if (msg.contains("Room created") || msg.contains("Room not exist")) {
+		if (msg.contains("Room created") || msg.contains("Cannot create this room")) {
 			return false;
 		}
 		else {
@@ -72,90 +72,90 @@ public class Client
 	}
 
 	public String exitRoomMsg() {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String mess = "ER";
 		return mess;
 	}
 
 	public String joinRoomMsg(String roomId, String name) {
-		// TODO Auto-generated method stub
-		String mess = "JR-" + roomId + "-" + name;
+		// TODO Auto--generated method stub
+		String mess = "JR--" + roomId + "--" + name;
 		return mess;
 	}
 
 	public String startGameMsg() {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 		String mess = "SG";
 		return mess;
 	}
 
 	public void chooseOptionMsg() {
-		// TODO Auto-generated method stub
+		// TODO Auto--generated method stub
 
 	}
 
 	public String createQuestionMsg(String topic,String question, String optionA, String optionB, String optionC, String optionD, String answer) {
-		// TODO Auto-generated method stub
-		String mess = "CQ-" + topic + "-" + question + "-" + optionA + "-" + optionB + "-"+ optionC + "-"+ optionD + "-" + answer;
+		// TODO Auto--generated method stub
+		String mess = "CQ--" + topic + "--" + question + "--" + optionA + "--" + optionB + "--"+ optionC + "--"+ optionD + "--" + answer;
 		return mess;
 	}
 
 	public String createRoomMsg(String roomId, String topic) {
-		// TODO Auto-generated method stub
-		String mess = "CR-" + roomId + "-" + topic;
+		// TODO Auto--generated method stub
+		String mess = "CR--" + roomId + "--" + topic;
 		return mess;
 	}
 
 	public String loginMsg(String name, String password) {
-		String mess = "LI-" + name + "-" + password;
+		String mess = "LI--" + name + "--" + password;
 		return mess;
 	}
 
 	public String createNameMsg(String name, String password) {
-		// TODO Auto-generated method stub
-		String mess = "CN-" + name + "-" + password;
+		// TODO Auto--generated method stub
+		String mess = "CN--" + name + "--" + password;
 		return mess;
 
 	} 
 	public String getRoomListMsg() {
-		String mess = "RL-Get room list";
+		String mess = "RL--Get room list";
 		return mess;
 	}
 
 	public String getQuestionListMsg(String roomId) {
-		// TODO Auto-generated method stub
-		String mess = "GQ-" + roomId;
+		// TODO Auto--generated method stub
+		String mess = "GQ--" + roomId;
 		return mess;
 	}
 
 
 	public String updateScoreMsg(String clientName, String room, int score) {
-		// TODO Auto-generated method stub
-		String mess = "US-" + clientName + "-" + room + "-" + score;
+		// TODO Auto--generated method stub
+		String mess = "US--" + clientName + "--" + room + "--" + score;
 		return mess;
 	}
 
 	public String createScoreMsg(String clientName, String room, int i) {
-		// TODO Auto-generated method stub
-		String mess = "CSc-" + clientName + "-" + room + "-" + i;
+		// TODO Auto--generated method stub
+		String mess = "CSc--" + clientName + "--" + room + "--" + i;
 		return mess;
 	}
 
 	public String getScore(String room) {
-		// TODO Auto-generated method stub
-		String mess = "GS-" + room;
+		// TODO Auto--generated method stub
+		String mess = "GS--" + room;
 		return mess;
 	}
 
 	public String createTopicMsg(String clientName, String topic) {
-		// TODO Auto-generated method stub
-		String mess = "CT-" + clientName + "-" + topic; 
+		// TODO Auto--generated method stub
+		String mess = "CT--" + clientName + "--" + topic; 
 		return mess;
 	}
 
 	public String getTopicList(String clientName) {
-		// TODO Auto-generated method stub
-		return "TL-" + clientName;
+		// TODO Auto--generated method stub
+		return "TL--" + clientName;
 	}
 	
 	
