@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.Listener;
 
 import play.ClientWindow;
@@ -35,8 +36,6 @@ import org.eclipse.swt.graphics.Color;
 public class Login {
 	final static int ServerPort = 1234; 
 	protected Shell shell;
-	private Text nameTxt;
-	private Text passwordTxt;
 
 	public void setShell(Shell shell) {
 		this.shell = shell;
@@ -91,16 +90,18 @@ public class Login {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(600, 300);
+		shell.setSize(1350, 700);
 		shell.setText("Login");
 
 		//		Image image = ImageUtil.getImage(display, "common/icon.png");
 
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 564, 64);
+		composite.setBounds(10, 10, 1314, 98);
 
 		Label lblWelcomeToMini = new Label(composite, SWT.NONE);
-		lblWelcomeToMini.setBounds(186, 39, 151, 15);
+		lblWelcomeToMini.setAlignment(SWT.CENTER);
+		lblWelcomeToMini.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblWelcomeToMini.setBounds(525, 22, 247, 54);
 		lblWelcomeToMini.setText("Welcome to Mini Kahoot!");
 
 		//		CLabel lblNewLabel = new CLabel(composite, SWT.NONE);
@@ -108,27 +109,34 @@ public class Login {
 		//		lblNewLabel.setImage(image);
 
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 80, 564, 119);
+		composite_1.setBounds(10, 125, 1314, 409);
 
 		Label lblName = new Label(composite_1, SWT.NONE);
-		lblName.setBounds(86, 30, 55, 15);
+		lblName.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblName.setBounds(29, 99, 103, 31);
 		lblName.setText("Name:");
 
-		nameTxt = new Text(composite_1, SWT.BORDER);
-		nameTxt.setBounds(158, 27, 76, 21);
+		Text nameTxt = new Text(composite_1, SWT.BORDER);
+		nameTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		nameTxt.setBounds(158, 96, 327, 34);
 
 		Label lblLogin = new Label(composite_1, SWT.NONE);
-		lblLogin.setBounds(246, 10, 55, 15);
+		lblLogin.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblLogin.setAlignment(SWT.CENTER);
+		lblLogin.setBounds(545, 25, 222, 31);
 		lblLogin.setText("Login");
 
 		Label lblPassword = new Label(composite_1, SWT.NONE);
-		lblPassword.setBounds(86, 57, 55, 15);
+		lblPassword.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblPassword.setBounds(29, 184, 103, 31);
 		lblPassword.setText("Password:");
 
-		passwordTxt = new Text(composite_1, SWT.BORDER | SWT.PASSWORD);
-		passwordTxt.setBounds(158, 54, 76, 21);
+		Text passwordTxt = new Text(composite_1, SWT.BORDER | SWT.PASSWORD);
+		passwordTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		passwordTxt.setBounds(158, 181, 327, 34);
 
 		Link link = new Link(composite_1, SWT.NONE);
+		link.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		link.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -145,20 +153,22 @@ public class Login {
 				}
 			}
 		});
-		link.setBounds(158, 104, 195, 15);
+		link.setBounds(158, 300, 529, 34);
 		link.setText("<a>Not have an account? Register now!</a>");
 
 		Color redColor = new Color(display, 255, 0, 0);
 
 		Label lblInvalid = new Label(composite_1, SWT.NONE);
-		lblInvalid.setBounds(158, 81, 246, 15);
+		lblInvalid.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.BOLD));
+		lblInvalid.setBounds(158, 347, 529, 34);
 		lblInvalid.setText("");
 		lblInvalid.setForeground(redColor);
 
 		Composite composite_2 = new Composite(shell, SWT.NONE);
-		composite_2.setBounds(0, 205, 574, 56);
+		composite_2.setBounds(10, 565, 1314, 75);
 
 		Button btnLogin = new Button(composite_2, SWT.NONE);
+		btnLogin.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnLogin.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -215,7 +225,7 @@ public class Login {
 
 			}
 		});
-		btnLogin.setBounds(383, 10, 75, 25);
+		btnLogin.setBounds(1041, 10, 153, 55);
 		btnLogin.setText("Login");
 
 	}

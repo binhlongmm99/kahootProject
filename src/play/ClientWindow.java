@@ -62,26 +62,26 @@ public class ClientWindow {
 	 */
 	protected void createContents(Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Playing Kahoot");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 0, 744, 133);
+		composite.setBounds(10, 0, 1314, 165);
 		
 		Label lblKahoot = new Label(composite, SWT.NONE);
 		lblKahoot.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblKahoot.setAlignment(SWT.CENTER);
-		lblKahoot.setBounds(285, 26, 134, 33);
+		lblKahoot.setBounds(581, 21, 134, 39);
 		lblKahoot.setText("Kahoot");
 		
 		Label lblHello = new Label(composite, SWT.NONE);
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(250, 78, 206, 33);
+		lblHello.setBounds(511, 94, 285, 47);
 		lblHello.setText("Hello, " + clientName);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 150, 744, 281);
+		composite_1.setBounds(10, 183, 1314, 468);
 		
 		Button btnCreateNewQuestion = new Button(composite_1, SWT.NONE);
 		btnCreateNewQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -101,7 +101,7 @@ public class ClientWindow {
 				}
 			}
 		});
-		btnCreateNewQuestion.setBounds(258, 66, 199, 40);
+		btnCreateNewQuestion.setBounds(556, 88, 199, 81);
 		btnCreateNewQuestion.setText("Create new questions");
 		
 		Button btnJoinGame = new Button(composite_1, SWT.NONE);
@@ -122,7 +122,7 @@ public class ClientWindow {
 				}
 			}
 		});
-		btnJoinGame.setBounds(258, 148, 199, 46);
+		btnJoinGame.setBounds(556, 215, 199, 81);
 		btnJoinGame.setText("Join game");
 		
 		

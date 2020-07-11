@@ -83,24 +83,24 @@ public class JoinRoomWindow {
 	 */
 	protected void createContents(Display display,Client client, String[] parts) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Join room");
 
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 744, 86);
+		composite.setBounds(10, 10, 1314, 104);
 
 		Label lblHello = new Label(composite, SWT.NONE);
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(267, 25, 193, 39);
-		lblHello.setText("Hello, " + clientName);
+		lblHello.setBounds(530, 21, 276, 55);
+//		lblHello.setText("Hello, " + clientName);
 
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 117, 744, 230);
+		composite_1.setBounds(10, 144, 1314, 379);
 
 		Label lblEnterRoom = new Label(composite_1, SWT.NONE);
 		lblEnterRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblEnterRoom.setBounds(41, 53, 153, 47);
+		lblEnterRoom.setBounds(33, 102, 153, 47);
 		lblEnterRoom.setText("Enter room: ");
 
 		//CODE HERE
@@ -118,16 +118,16 @@ public class JoinRoomWindow {
 		Color red = new Color(display, 255, 0, 0);
 		Label lblNewLabel = new Label(composite_1, SWT.NONE);
 		lblNewLabel.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblNewLabel.setBounds(41, 122, 223, 29);
+		lblNewLabel.setBounds(208, 194, 314, 56);
 		lblNewLabel.setText("");
 		lblNewLabel.setForeground(red);
 		
 		Text text = new Text(composite_1, SWT.BORDER);
 		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		text.setBounds(200, 53, 115, 29);
+		text.setBounds(208, 99, 268, 47);
 
 		Button btnJoin = new Button(shell, SWT.NONE);
-		btnJoin.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnJoin.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnJoin.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -175,11 +175,11 @@ public class JoinRoomWindow {
 				}
 			}
 		});
-		btnJoin.setBounds(444, 365, 118, 48);
+		btnJoin.setBounds(947, 567, 132, 53);
 		btnJoin.setText("Join");
 
 		Button btnExit = new Button(shell, SWT.NONE);
-		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -197,7 +197,7 @@ public class JoinRoomWindow {
 				}
 			}
 		});
-		btnExit.setBounds(589, 365, 118, 48);
+		btnExit.setBounds(1131, 563, 132, 57);
 		btnExit.setText("Exit");
 
 	}

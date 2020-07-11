@@ -61,20 +61,20 @@ public class JoinGameWindow {
 	 */
 	protected void createContents(Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Join game");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 744, 127);
+		composite.setBounds(10, 10, 1314, 127);
 		
 		Label lblUser = new Label(composite, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(257, 44, 228, 46);
+		lblUser.setBounds(513, 38, 266, 59);
 		lblUser.setText("User: " + clientName);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 159, 744, 272);
+		composite_1.setBounds(10, 159, 1314, 478);
 		
 		Button btnCreateRoom = new Button(composite_1, SWT.NONE);
 		btnCreateRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -95,7 +95,7 @@ public class JoinGameWindow {
 				}
 			}
 		});
-		btnCreateRoom.setBounds(278, 44, 204, 47);
+		btnCreateRoom.setBounds(550, 127, 204, 67);
 		btnCreateRoom.setText("Create room");
 		
 		Button btnChooseRoom = new Button(composite_1, SWT.NONE);
@@ -117,7 +117,7 @@ public class JoinGameWindow {
 				}
 			}
 		});
-		btnChooseRoom.setBounds(278, 140, 204, 47);
+		btnChooseRoom.setBounds(550, 251, 204, 67);
 		btnChooseRoom.setText("Choose room");
 
 	}

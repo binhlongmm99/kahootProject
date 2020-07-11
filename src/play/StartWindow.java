@@ -76,26 +76,26 @@ public class StartWindow {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Start room");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 731, 119);
+		composite.setBounds(10, 10, 1314, 163);
 		
 		Label lblHello = new Label(composite, SWT.NONE);
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(253, 31, 219, 35);
+		lblHello.setBounds(560, 18, 219, 54);
 		lblHello.setText("Hello, " + clientName);
 		
 		Label lblCreate = new Label(composite, SWT.NONE);
 		lblCreate.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblCreate.setAlignment(SWT.CENTER);
-		lblCreate.setBounds(192, 72, 341, 41);
+		lblCreate.setBounds(491, 88, 362, 54);
 		lblCreate.setText("You've just created room " + room);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 146, 731, 285);
+		composite_1.setBounds(10, 195, 1314, 438);
 		
 		
 		Button btnExit = new Button(composite_1, SWT.NONE);
@@ -124,7 +124,7 @@ public class StartWindow {
 				}
 			}
 		});
-		btnExit.setBounds(484, 10, 131, 48);
+		btnExit.setBounds(1005, 41, 148, 61);
 		btnExit.setText("Exit");
 		//btnExit.setEnabled(false);
 		
@@ -154,7 +154,7 @@ public class StartWindow {
 				
 				Table scoreTable = new Table(composite_1, SWT.BORDER | SWT.HIDE_SELECTION | SWT.READ_ONLY);
 				scoreTable.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-				scoreTable.setBounds(208, 66, 325, 195);
+				scoreTable.setBounds(484, 161, 331, 195);
 				scoreTable.setHeaderVisible(true);
 				scoreTable.setLinesVisible(true);
 				
@@ -163,25 +163,25 @@ public class StartWindow {
 				tblclmnPlayer.setText("Player");
 				
 				TableColumn tblclmnScore = new TableColumn(scoreTable, SWT.CENTER);
-				tblclmnScore.setWidth(159);
+				tblclmnScore.setWidth(160);
 				tblclmnScore.setText("Score");
 				
-//				runnable = new Runnable() {
-//
-//					@Override
-//					public void run() {
-//						playerList = getScoreFromServer(client);
-//						printPlayerScore(playerList, scoreTable);
-//						display.timerExec(1*1000, this);
-//					}
-//				};
+				runnable = new Runnable() {
+
+					@Override
+					public void run() {
+						playerList = getScoreFromServer(client);
+						printPlayerScore(playerList, scoreTable);
+						display.timerExec(3*1000, this);
+					}
+				};
 				
 
 				
 
 			}
 		});
-		btnStartRoom.setBounds(103, 10, 131, 40);
+		btnStartRoom.setBounds(139, 43, 148, 57);
 		btnStartRoom.setText("Start room");
 	}
 	

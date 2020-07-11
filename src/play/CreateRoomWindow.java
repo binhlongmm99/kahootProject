@@ -85,20 +85,20 @@ public class CreateRoomWindow {
 	 */
 	protected void createContents(Display display, Client client, String[] parts) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Create room");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 744, 98);
+		composite.setBounds(10, 10, 1314, 131);
 		
 		Label lblUser = new Label(composite, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(267, 30, 201, 40);
+		lblUser.setBounds(534, 28, 284, 50);
 		lblUser.setText("User: " + clientName);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 126, 744, 291);
+		composite_1.setBounds(10, 165, 1314, 464);
 		
 		Label lblChooseTopic = new Label(composite_1, SWT.NONE);
 		lblChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -107,7 +107,7 @@ public class CreateRoomWindow {
 		
 		List list = new List(composite_1, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
 		list.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		list.setBounds(195, 25, 454, 88);
+		list.setBounds(195, 25, 562, 88);
 		
 		//CODE HERE
 		//Add list of topics
@@ -129,7 +129,7 @@ public class CreateRoomWindow {
 		
 		Label lblPleaseChooseTopic = new Label(composite_1, SWT.NONE);
 		lblPleaseChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblPleaseChooseTopic.setBounds(26, 143, 365, 31);
+		lblPleaseChooseTopic.setBounds(195, 141, 562, 54);
 		lblPleaseChooseTopic.setText("");
 		
 		Button btnNext = new Button(composite_1, SWT.NONE);
@@ -182,7 +182,7 @@ public class CreateRoomWindow {
 				return null;
 			}
 		});
-		btnNext.setBounds(520, 205, 118, 47);
+		btnNext.setBounds(999, 349, 118, 47);
 		btnNext.setText("Next");
 
 	}

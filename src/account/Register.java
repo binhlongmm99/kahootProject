@@ -11,6 +11,7 @@ import org.eclipse.swt.SWT;
 //import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import client.Client;
 
@@ -24,9 +25,6 @@ import org.eclipse.swt.graphics.Color;
 public class Register {
 
 	protected Shell shell;
-	private Text nameTxt;
-	private Text passwordTxt;
-	private Text confirmPwTxt;
 	
 	public void setShell(Shell shell) {
 		this.shell = shell;
@@ -67,14 +65,16 @@ public class Register {
 //		Image image = ImageUtil.getImage(display, "D:\\eclipse-workspace\\Kaggle\\src\\common\\icon.png");
 		
 		if(shell == null) shell = new Shell();
-		shell.setSize(600, 300);
+		shell.setSize(1350, 700);
 		shell.setText("Register");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(0, 10, 575, 64);
+		composite.setBounds(10, 10, 1314, 77);
 		
 		Label lblNewLabel = new Label(composite, SWT.NONE);
-		lblNewLabel.setBounds(255, 22, 106, 20);
+		lblNewLabel.setAlignment(SWT.CENTER);
+		lblNewLabel.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblNewLabel.setBounds(457, 10, 325, 46);
 		lblNewLabel.setText("Join Kahoot with us!");
 		
 //		Label lblNewLabel_1 = new Label(composite, SWT.NONE);
@@ -82,46 +82,61 @@ public class Register {
 //		lblNewLabel_1.setImage(image);
 		
 		Composite composite_2 = new Composite(shell, SWT.NONE);
-		composite_2.setBounds(0, 78, 575, 125);
+		composite_2.setBounds(10, 93, 1314, 459);
 		
 		Label lblName = new Label(composite_2, SWT.NONE);
-		lblName.setBounds(88, 10, 55, 15);
+		lblName.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblName.setBounds(30, 109, 173, 30);
 		lblName.setText("Name:");
 		
 		Label lblPassword = new Label(composite_2, SWT.NONE);
-		lblPassword.setBounds(88, 31, 55, 15);
+		lblPassword.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblPassword.setBounds(30, 187, 173, 33);
 		lblPassword.setText("Password:");
 		
 		Label lblNewLabel_2 = new Label(composite_2, SWT.NONE);
-		lblNewLabel_2.setBounds(86, 52, 110, 15);
+		lblNewLabel_2.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblNewLabel_2.setBounds(30, 261, 173, 36);
 		lblNewLabel_2.setText("Confirm password:");
 		
-		nameTxt = new Text(composite_2, SWT.BORDER);
-		nameTxt.setBounds(220, 7, 165, 21);
+		Text nameTxt = new Text(composite_2, SWT.BORDER);
+		nameTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		nameTxt.setBounds(220, 106, 389, 33);
 		
-		passwordTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
-		passwordTxt.setBounds(220, 28, 165, 21);
+		Text passwordTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
+		passwordTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		passwordTxt.setBounds(220, 184, 389, 36);
 		
-		confirmPwTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
-		confirmPwTxt.setBounds(220, 49, 158, 21);
+		Text confirmPwTxt = new Text(composite_2, SWT.BORDER | SWT.PASSWORD);
+		confirmPwTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		confirmPwTxt.setBounds(220, 258, 389, 39);
 		
 		Color redColor = new Color(display, 255, 0, 0);
 		Color greenColor = new Color(display, 0, 255, 0);
 		
 		Label lblErrorTxt = new Label(composite_2, SWT.NONE);
-		lblErrorTxt.setBounds(220, 76, 217, 15);
+		lblErrorTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblErrorTxt.setBounds(220, 330, 491, 39);
 		lblErrorTxt.setText("");
 		lblErrorTxt.setForeground(redColor);
 		
 		Label lblSuccessTxt = new Label(composite_2, SWT.NONE);
-		lblSuccessTxt.setBounds(220, 97, 217, 15);
+		lblSuccessTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblSuccessTxt.setBounds(220, 397, 491, 39);
 		lblSuccessTxt.setText("");
 		lblSuccessTxt.setForeground(greenColor);
 		
+		Label lblRegister = new Label(composite_2, SWT.NONE);
+		lblRegister.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
+		lblRegister.setAlignment(SWT.CENTER);
+		lblRegister.setBounds(532, 43, 191, 36);
+		lblRegister.setText("Register");
+		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(0, 209, 575, 42);
+		composite_1.setBounds(10, 570, 1314, 81);
 		
 		Button btnRegister = new Button(composite_1, SWT.NONE);
+		btnRegister.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnRegister.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -167,10 +182,11 @@ public class Register {
 				 
 			}
 		});
-		btnRegister.setBounds(361, 10, 75, 25);
+		btnRegister.setBounds(925, 10, 106, 47);
 		btnRegister.setText("Register");
 		
 		Button btnExit = new Button(composite_1, SWT.NONE);
+		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -186,7 +202,7 @@ public class Register {
 				}
 			}
 		});
-		btnExit.setBounds(458, 10, 75, 25);
+		btnExit.setBounds(1098, 10, 106, 47);
 		btnExit.setText("Exit");
 
 	}

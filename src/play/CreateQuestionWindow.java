@@ -119,23 +119,23 @@ public class CreateQuestionWindow {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Create questions");
 		
 		Composite questionComposite = new Composite(shell, SWT.NONE);
-		questionComposite.setBounds(10, 111, 744, 244);
+		questionComposite.setBounds(10, 139, 1314, 413);
 		
 		Label lblQuestion = new Label(questionComposite, SWT.NONE);
 		lblQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblQuestion.setBounds(20, 22, 82, 32);
+		lblQuestion.setBounds(20, 64, 82, 32);
 		lblQuestion.setText("Question: ");
 		
 		Text questionTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
-		questionTxt.setBounds(131, 19, 550, 59);
+		questionTxt.setBounds(150, 64, 1096, 59);
 		
 		Label lblChoices = new Label(questionComposite, SWT.NONE);
 		lblChoices.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblChoices.setBounds(20, 83, 82, 32);
+		lblChoices.setBounds(20, 144, 82, 32);
 		lblChoices.setText("Choices: ");
 		
 		Button btnA = new Button(questionComposite, SWT.RADIO);
@@ -147,7 +147,7 @@ public class CreateQuestionWindow {
 				answer = source.getText();
 			}
 		});
-		btnA.setBounds(96, 114, 35, 15);
+		btnA.setBounds(96, 182, 35, 15);
 		btnA.setText("A");
 		btnA.setSelection(false);
 		
@@ -161,7 +161,7 @@ public class CreateQuestionWindow {
 			}
 		});
 		btnB.setText("B");
-		btnB.setBounds(419, 113, 35, 16);
+		btnB.setBounds(792, 181, 35, 16);
 		btnB.setSelection(false);
 		
 		Button btnC = new Button(questionComposite, SWT.RADIO);
@@ -174,7 +174,7 @@ public class CreateQuestionWindow {
 			}
 		});
 		btnC.setText("C");
-		btnC.setBounds(96, 163, 35, 16);
+		btnC.setBounds(96, 289, 35, 16);
 		btnC.setSelection(false);
 		
 		Button btnD = new Button(questionComposite, SWT.RADIO);
@@ -187,50 +187,50 @@ public class CreateQuestionWindow {
 			}
 		});
 		btnD.setText("D");
-		btnD.setBounds(419, 162, 35, 16);
+		btnD.setBounds(792, 289, 35, 16);
 		btnD.setSelection(false);
 		
-		Text ATxt = new Text(questionComposite, SWT.BORDER);
+		Text ATxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
 		ATxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		ATxt.setBounds(150, 112, 209, 32);
+		ATxt.setBounds(150, 159, 397, 59);
 		
-		Text BTxt = new Text(questionComposite, SWT.BORDER);
+		Text BTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
 		BTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		BTxt.setBounds(475, 112, 209, 33);
+		BTxt.setBounds(849, 159, 397, 59);
 		
-		Text CTxt = new Text(questionComposite, SWT.BORDER);
+		Text CTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
 		CTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		CTxt.setBounds(150, 161, 209, 33);
+		CTxt.setBounds(150, 265, 397, 59);
 		
-		Text DTxt = new Text(questionComposite, SWT.BORDER);
+		Text DTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
 		DTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		DTxt.setBounds(475, 161, 209, 33);
+		DTxt.setBounds(849, 265, 397, 59);
 		
 		Color red = new Color(display, 255, 0, 0);
 		Color green = new Color(display, 0, 255, 0);
 		
 		Label lblError = new Label(questionComposite, SWT.NONE);
 		lblError.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		lblError.setBounds(20, 207, 269, 27);
+		lblError.setBounds(150, 356, 520, 49);
 		lblError.setText("");
 		
 		Composite headerComposite = new Composite(shell, SWT.NONE);
-		headerComposite.setBounds(10, 10, 744, 93);
+		headerComposite.setBounds(10, 10, 1314, 110);
 		
 		Label lblUser = new Label(headerComposite, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(264, 10, 210, 30);
+		lblUser.setBounds(527, 10, 259, 40);
 		lblUser.setText("User: " + clientName);
 		
 		Label lblEnterTopic = new Label(headerComposite, SWT.NONE);
 		lblEnterTopic.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblEnterTopic.setAlignment(SWT.CENTER);
-		lblEnterTopic.setBounds(247, 57, 259, 26);
+		lblEnterTopic.setBounds(514, 65, 283, 35);
 		lblEnterTopic.setText("Topic: " + topicName);
 		
 		Composite btnComposite = new Composite(shell, SWT.NONE);
-		btnComposite.setBounds(10, 372, 744, 59);
+		btnComposite.setBounds(10, 570, 1314, 81);
 		
 		Button btnCreate = new Button(btnComposite, SWT.NONE);
 		btnCreate.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -286,7 +286,7 @@ public class CreateQuestionWindow {
 				}
 			}
 		});
-		btnCreate.setBounds(454, 10, 99, 39);
+		btnCreate.setBounds(929, 10, 128, 56);
 		btnCreate.setText("Create");
 		
 		Button btnConfirm = new Button(btnComposite, SWT.NONE);
@@ -311,7 +311,7 @@ public class CreateQuestionWindow {
 				}
 			}
 		});
-		btnConfirm.setBounds(590, 10, 99, 39);
+		btnConfirm.setBounds(1126, 10, 128, 56);
 		btnConfirm.setText("Confirm");
 		
 	}

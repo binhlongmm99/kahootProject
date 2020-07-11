@@ -58,33 +58,34 @@ public class WaitWindow {
 		//		createContents(display, client);
 
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Waiting to play");
 
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 10, 744, 162);
+		composite.setBounds(10, 10, 1314, 192);
 
 		Label lblHello = new Label(composite, SWT.NONE);
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
-		lblHello.setBounds(259, 25, 235, 32);
+		lblHello.setBounds(510, 31, 296, 53);
 		lblHello.setText("Hello, " + clientName);
 
 		Label lblYouveJustJoined = new Label(composite, SWT.NONE);
 		lblYouveJustJoined.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblYouveJustJoined.setAlignment(SWT.CENTER);
-		lblYouveJustJoined.setBounds(214, 90, 326, 32);
+		lblYouveJustJoined.setBounds(437, 116, 438, 53);
 		lblYouveJustJoined.setText("You've just joined room " + room);
 
 		Label lblPleaseWait = new Label(shell, SWT.NONE);
 		lblPleaseWait.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		lblPleaseWait.setAlignment(SWT.CENTER);
-		lblPleaseWait.setBounds(279, 215, 202, 38);
+		lblPleaseWait.setBounds(555, 286, 202, 48);
 		lblPleaseWait.setText("Please wait!");
 
 		Button btnPlay = new Button(shell, SWT.NONE);
+		btnPlay.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnPlay.setEnabled(false);
-		btnPlay.setBounds(317, 293, 123, 48);
+		btnPlay.setBounds(555, 405, 202, 59);
 		btnPlay.setText("Play");
 
 		shell.open();

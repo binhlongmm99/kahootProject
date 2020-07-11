@@ -65,41 +65,41 @@ public class CreateTopicWindow {
 	 */
 	protected void createContents(Display display, Client client) {
 		if(shell == null) shell = new Shell();
-		shell.setSize(780, 480);
+		shell.setSize(1350, 700);
 		shell.setText("Enter topic");
 		
 		Composite composite = new Composite(shell, SWT.NONE);
-		composite.setBounds(10, 0, 744, 118);
+		composite.setBounds(10, 0, 1314, 118);
 		
 		Label lblUser = new Label(composite, SWT.NONE);
 		lblUser.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblUser.setAlignment(SWT.CENTER);
-		lblUser.setBounds(238, 38, 243, 41);
+		lblUser.setBounds(472, 30, 302, 52);
 		lblUser.setText("User: " + clientName);
 		
 		Composite composite_1 = new Composite(shell, SWT.NONE);
-		composite_1.setBounds(10, 136, 744, 213);
+		composite_1.setBounds(10, 136, 1314, 389);
 		
 		Label lblEnterTopic = new Label(composite_1, SWT.NONE);
 		lblEnterTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblEnterTopic.setAlignment(SWT.CENTER);
-		lblEnterTopic.setBounds(82, 74, 129, 32);
+		lblEnterTopic.setBounds(83, 74, 129, 32);
 		lblEnterTopic.setText("Enter topic: ");
 		
 		Text text = new Text(composite_1, SWT.BORDER);
 		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		text.setBounds(279, 71, 278, 39);
+		text.setBounds(279, 71, 453, 52);
 		
 		Color red = new Color(display, 255, 0, 0); 
 		
 		Label lblNotEnterTopic = new Label(composite_1, SWT.NONE);
 		lblNotEnterTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblNotEnterTopic.setAlignment(SWT.CENTER);
-		lblNotEnterTopic.setBounds(110, 142, 317, 39);
+		lblNotEnterTopic.setBounds(281, 181, 451, 52);
 		lblNotEnterTopic.setText("");
 		
 		Composite composite_2 = new Composite(shell, SWT.NONE);
-		composite_2.setBounds(10, 367, 744, 64);
+		composite_2.setBounds(10, 548, 1314, 87);
 		
 		Button btnNext = new Button(composite_2, SWT.NONE);
 		btnNext.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -141,7 +141,7 @@ public class CreateTopicWindow {
 				}
 			}
 		});
-		btnNext.setBounds(579, 10, 117, 44);
+		btnNext.setBounds(1085, 10, 128, 51);
 		btnNext.setText("Next");
 		
 
