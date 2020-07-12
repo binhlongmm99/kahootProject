@@ -171,13 +171,7 @@ public class PlayWindow {
 		TableColumn tblclmnScore = new TableColumn(table, SWT.CENTER);
 		tblclmnScore.setWidth(110);
 		tblclmnScore.setText("Score");
-		
-		Label lblUpdate = new Label(lbComposite, SWT.NONE);
-		lblUpdate.setFont(SWTResourceManager.getFont("Segoe UI", 12, SWT.NORMAL));
-		lblUpdate.setAlignment(SWT.CENTER);
-		lblUpdate.setBounds(96, 44, 101, 24);
-		lblUpdate.setText("Update");
-		
+				
 		Composite exitComposite = new Composite(lbComposite, SWT.NONE);
 		exitComposite.setBounds(86, 592, 127, 46);
 		
@@ -256,25 +250,25 @@ public class PlayWindow {
 		text.setBounds(81, 26, 797, 88);
 		text.setText(questions.get(index).getQuestion());
 		
-		Text ATxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
-		ATxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		ATxt.setBounds(81, 144, 381, 68);
-		ATxt.setText(questions.get(index).getA());
+		Button btnA = new Button(questionComposite, SWT.NONE);
+		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnA.setBounds(11, 156, 397, 102);
+		btnA.setText("A. " + questions.get(index).getA());
 		
-		Text BTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
-		BTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		BTxt.setBounds(322, 141, 150, 28);
-		BTxt.setText(questions.get(index).getB());
+		Button btnB = new Button(questionComposite, SWT.NONE);
+		btnB.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnB.setBounds(550, 156, 397, 102);
+		btnB.setText("B. " + questions.get(index).getB());
 		
-		Text CTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
-		CTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		CTxt.setBounds(81, 246, 381, 68);
-		CTxt.setText(questions.get(index).getC());
+		Button btnC = new Button(questionComposite, SWT.NONE);
+		btnC.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnC.setBounds(11, 304, 397, 102);
+		btnC.setText("C. " + questions.get(index).getC());
 		
-		Text DTxt = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY);
-		DTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		DTxt.setBounds(555, 250, 381, 64);
-		DTxt.setText(questions.get(index).getD());
+		Button btnD = new Button(questionComposite, SWT.NONE);
+		btnD.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnD.setBounds(550, 304, 397, 102);
+		btnD.setText("D. " + questions.get(index).getD());
 		
 		playerList = getScoreFromServer(client);
 		printPlayerScore(playerList, table);
@@ -318,17 +312,16 @@ public class PlayWindow {
 				index = index + 1;
 				if(index < questions.size()) {
 					text.setText(questions.get(index).getQuestion());
-					ATxt.setText(questions.get(index).getA());
-					BTxt.setText(questions.get(index).getB());
-					CTxt.setText(questions.get(index).getC());
-					DTxt.setText(questions.get(index).getD());
+					btnA.setText("A. " + questions.get(index).getA());
+					btnB.setText("B. " + questions.get(index).getB());
+					btnC.setText("C. " + questions.get(index).getC());
+					btnD.setText("D. " + questions.get(index).getD());
 					lblAnswer.setText("");
 					timeBar.setSelection(0);
 					
 					playerList = getScoreFromServer(client);
 					printPlayerScore(playerList, table);
 					
-					lblUpdate.setText("Update #" + index);
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, this, true);
@@ -355,79 +348,46 @@ public class PlayWindow {
 					answerComposite.dispose();
 					shell.setSize(320, 648);
 					btnExit.setEnabled(true);
-					lblUpdate.setText("Result");
 				}
 			}
 			
 		};
 		
-		countdown(display, runnable, true);
-		display.timerExec(50, barRunnable);
-		
-		Button btnA = new Button(questionComposite, SWT.RADIO);
-		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnA.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-								
-				Button source=  (Button) e.getSource();
-				String ans = source.getText();
-				
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnA, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
-				
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "A", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		btnA.setBounds(24, 145, 36, 16);
-		btnA.setText("A");
 		
-		Button btnB = new Button(questionComposite, SWT.RADIO);
-		btnB.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnB.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-								
-				Button source=  (Button) e.getSource();
-				String ans = source.getText();
-
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnB, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "B", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		btnB.setText("B");
-		btnB.setBounds(513, 148, 36, 16);
 		
-		Button btnC = new Button(questionComposite, SWT.RADIO);
-		btnC.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnC.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-								
-				Button source=  (Button) e.getSource();
-				String ans = source.getText();
-
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnC, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "C", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		btnC.setText("C");
-		btnC.setBounds(24, 250, 36, 16);
 		
-		Button btnD = new Button(questionComposite, SWT.RADIO);
-		btnD.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnD.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-								
-				Button source=  (Button) e.getSource();
-				String ans = source.getText();
-				
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, ans, lblAnswer, lblAnswersTime, lblQuestion, btnD, text, ATxt, BTxt, CTxt, DTxt, lblUpdate, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "D", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		btnD.setText("D");
-		btnD.setBounds(513, 250, 36, 16);
+		
+		countdown(display, runnable, true);
+		display.timerExec(50, barRunnable);
+		
 
 	}
 	
-	private void updateAfterChooseAnswer(ProgressBar timeBar, Runnable barRunnable, Client client, Table table, Display display, Runnable runnable, String ans, Label lblAnswer, Label lblAnswersTime, Label lblQuestion, Button btn, Text text, Text ATxt, Text BTxt, Text CTxt, Text DTxt, Label lblUpdate, Shell shell, Button btnExit, Composite answerComposite) {
+	private void updateAfterChooseAnswer(ProgressBar timeBar, Runnable barRunnable, Client client, Table table, Display display, Runnable runnable, String ans, Label lblAnswer, Label lblAnswersTime, Label lblQuestion, Button btn, Text text, Button btnA, Button btnB, Button btnC, Button btnD, Shell shell, Button btnExit, Composite answerComposite) {
 		//Function to update window and data after choose answer
 		
 		countdown(display, runnable, false);
@@ -470,15 +430,14 @@ public class PlayWindow {
 		index = index + 1;
 		if(index < questions.size()) {
 			text.setText(questions.get(index).getQuestion());
-			ATxt.setText(questions.get(index).getA());
-			BTxt.setText(questions.get(index).getB());
-			CTxt.setText(questions.get(index).getC());
-			DTxt.setText(questions.get(index).getD());
+			btnA.setText("A. " + questions.get(index).getA());
+			btnB.setText("B. " + questions.get(index).getB());
+			btnC.setText("C. " + questions.get(index).getC());
+			btnD.setText("D. " + questions.get(index).getD());
 
 			playerList = getScoreFromServer(client);
 			printPlayerScore(playerList, table);
 			
-			lblUpdate.setText("Update #" + index);
 			lblQuestion.setText("Question " + (index+1));
 			startTime = System.currentTimeMillis();	
 			countdown(display, runnable, true);
@@ -505,7 +464,6 @@ public class PlayWindow {
 			answerComposite.dispose();
 			shell.setSize(320, 648);
 			btnExit.setEnabled(true);
-			lblUpdate.setText("Result");
 		}
 	}
 	

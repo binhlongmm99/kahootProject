@@ -231,6 +231,32 @@ public class CreateQuestionWindow {
 		
 		Composite btnComposite = new Composite(shell, SWT.NONE);
 		btnComposite.setBounds(10, 570, 1314, 81);
+			
+		Button btnConfirm = new Button(btnComposite, SWT.NONE);
+		btnConfirm.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnConfirm.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+//				System.out.println("You've just created questions for topic " + topic);
+//				Click exit to back to Client window
+				try {
+					for (Control kid : shell.getChildren()) {
+				         kid.dispose();
+				    }
+					System.out.println(client.dis.readUTF());
+					//String loginMsg = loginMsg(name, password);
+					ClientWindow clientWindow = new ClientWindow();
+					clientWindow.setShell(shell);
+					clientWindow.setClientName(clientName);
+					clientWindow.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+		btnConfirm.setBounds(1126, 10, 128, 56);
+		btnConfirm.setText("Confirm");
+		btnConfirm.setEnabled(false);
 		
 		Button btnCreate = new Button(btnComposite, SWT.NONE);
 		btnCreate.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
@@ -248,6 +274,8 @@ public class CreateQuestionWindow {
 				btnB.setSelection(false);
 				btnC.setSelection(false);
 				btnD.setSelection(false);
+				
+				btnConfirm.setEnabled(true);
 				
 				if(isEmpty(topicName) || isEmpty(question) || isEmpty(a) || isEmpty(b) || isEmpty(c) || isEmpty(d) || isEmpty(answer)) {
 					lblError.setForeground(red);
@@ -288,31 +316,6 @@ public class CreateQuestionWindow {
 		});
 		btnCreate.setBounds(929, 10, 128, 56);
 		btnCreate.setText("Create");
-		
-		Button btnConfirm = new Button(btnComposite, SWT.NONE);
-		btnConfirm.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		btnConfirm.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-//				System.out.println("You've just created questions for topic " + topic);
-//				Click exit to back to Client window
-				try {
-					for (Control kid : shell.getChildren()) {
-				         kid.dispose();
-				    }
-					System.out.println(client.dis.readUTF());
-					//String loginMsg = loginMsg(name, password);
-					ClientWindow clientWindow = new ClientWindow();
-					clientWindow.setShell(shell);
-					clientWindow.setClientName(clientName);
-					clientWindow.open(client);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-		btnConfirm.setBounds(1126, 10, 128, 56);
-		btnConfirm.setText("Confirm");
 		
 	}
 	
