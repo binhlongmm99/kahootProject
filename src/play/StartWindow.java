@@ -99,6 +99,7 @@ public class StartWindow {
 		
 		
 		Button btnExit = new Button(composite_1, SWT.NONE);
+		btnExit.setEnabled(false);
 		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -135,7 +136,7 @@ public class StartWindow {
 			public void widgetSelected(SelectionEvent e) {
 				//When click "Start", table is created
 				//Enable button "Exit"
-				//btnExit.setEnabled(true);
+				btnExit.setEnabled(true);
 				
 				//Disable button "Start"
 				btnStartRoom.setEnabled(false);

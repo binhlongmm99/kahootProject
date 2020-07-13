@@ -404,7 +404,7 @@ public class PlayWindow {
 		if(ans.compareTo(questions.get(index).getAnswer()) == 0) {
 			lblAnswer.setForeground(green);
 			lblAnswer.setText("Correct");
-			score += 10;
+			score += 10 + (10000 - (int) answerTime) / 1000 ;
 			try {
 				client.dos.writeUTF(client.updateScoreMsg(clientName, room, score));
 				System.out.println(client.dis.readUTF());

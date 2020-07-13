@@ -70,7 +70,7 @@ public class ClientHandler implements Runnable
 				case "SG":
 					
 					for (ClientHandler mc : Server.ar) {
-						
+						if (mc.getRoomId().equals(this.roomId))
 							mc.startGame(this.roomId);
 
 					}
