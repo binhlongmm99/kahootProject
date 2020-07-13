@@ -156,11 +156,11 @@ public class PlayWindow {
 		lblLeaderboard.setText("Leaderboard");
 		
 		Composite tableComposite = new Composite(lbComposite, SWT.NONE);
-		tableComposite.setBounds(21, 99, 289, 393);
+		tableComposite.setBounds(21, 59, 289, 464);
 		
 		Table table = new Table(tableComposite, SWT.BORDER | SWT.HIDE_SELECTION | SWT.V_SCROLL);
 		table.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		table.setBounds(31, 28, 230, 290);
+		table.setBounds(31, 28, 230, 395);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -173,11 +173,11 @@ public class PlayWindow {
 		tblclmnScore.setText("Score");
 				
 		Composite exitComposite = new Composite(lbComposite, SWT.NONE);
-		exitComposite.setBounds(86, 592, 127, 46);
+		exitComposite.setBounds(86, 569, 127, 69);
 		
 		Button btnExit = new Button(exitComposite, SWT.NONE);
-		btnExit.setBounds(10, 10, 107, 26);
-		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnExit.setBounds(10, 10, 107, 49);
+		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnExit.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -247,7 +247,7 @@ public class PlayWindow {
 		
 		Text text = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
 		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		text.setBounds(81, 26, 797, 88);
+		text.setBounds(133, 25, 797, 88);
 		text.setText(questions.get(index).getQuestion());
 		
 		Button btnA = new Button(questionComposite, SWT.NONE);
@@ -346,7 +346,7 @@ public class PlayWindow {
 					printPlayerScore(playerList, table);
 					
 					answerComposite.dispose();
-					shell.setSize(320, 648);
+					shell.setSize(320, 700);
 					btnExit.setEnabled(true);
 				}
 			}
@@ -473,7 +473,7 @@ public class PlayWindow {
 			
 			display.timerExec(2*1000, runnable);
 			answerComposite.dispose();
-			shell.setSize(320, 648);
+			shell.setSize(320, 700);
 			btnExit.setEnabled(true);
 		}
 	}

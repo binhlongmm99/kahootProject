@@ -87,8 +87,8 @@ public class CreateTopicWindow {
 		lblEnterTopic.setText("Enter topic: ");
 		
 		Text text = new Text(composite_1, SWT.BORDER);
-		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		text.setBounds(279, 71, 453, 52);
+		text.setFont(SWTResourceManager.getFont("Times New Roman", 14, SWT.NORMAL));
+		text.setBounds(279, 71, 614, 52);
 		
 		Color red = new Color(display, 255, 0, 0); 
 		
@@ -143,6 +143,29 @@ public class CreateTopicWindow {
 		});
 		btnNext.setBounds(1085, 10, 128, 51);
 		btnNext.setText("Next");
+		
+		Button btnBack = new Button(composite_2, SWT.NONE);
+		btnBack.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//Go to previous window (Client window)
+//				try {
+//					for (Control kid : shell.getChildren()) {
+//				         kid.dispose();
+//				    }
+//					//String loginMsg = loginMsg(name, password);
+//					ClientWindow clientWindow = new ClientWindow();
+//					clientWindow.setShell(shell);
+//					clientWindow.setClientName(clientName);
+//					clientWindow.open(client);
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+			}
+		});
+		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnBack.setBounds(53, 10, 128, 51);
+		btnBack.setText("Back");
 		
 
 	}

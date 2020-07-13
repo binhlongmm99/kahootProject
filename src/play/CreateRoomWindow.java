@@ -101,12 +101,12 @@ public class CreateRoomWindow {
 		composite_1.setBounds(10, 165, 1314, 464);
 		
 		Label lblChooseTopic = new Label(composite_1, SWT.NONE);
-		lblChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		lblChooseTopic.setFont(SWTResourceManager.getFont("Times New Roman", 14, SWT.NORMAL));
 		lblChooseTopic.setBounds(26, 53, 129, 40);
 		lblChooseTopic.setText("Choose topic: ");
 		
 		List list = new List(composite_1, SWT.BORDER | SWT.V_SCROLL | SWT.SINGLE);
-		list.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		list.setFont(SWTResourceManager.getFont("Times New Roman", 14, SWT.NORMAL));
 		list.setBounds(195, 25, 562, 88);
 		
 		//CODE HERE
@@ -184,6 +184,28 @@ public class CreateRoomWindow {
 		});
 		btnNext.setBounds(999, 349, 118, 47);
 		btnNext.setText("Next");
+		
+		Button btnBack = new Button(composite_1, SWT.NONE);
+		btnBack.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//Go to previous window
+//				try {
+//					for (Control kid : shell.getChildren()) {
+//				          kid.dispose();
+//				    }
+//					JoinGameWindow joinGameWindow = new JoinGameWindow();
+//					joinGameWindow.setClientName(clientName);
+//					joinGameWindow.setShell(shell);
+//					joinGameWindow.open(client);
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+			}
+		});
+		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnBack.setBounds(102, 349, 118, 49);
+		btnBack.setText("Back");
 
 	}
 }

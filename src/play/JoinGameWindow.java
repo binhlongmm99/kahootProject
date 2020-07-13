@@ -119,6 +119,29 @@ public class JoinGameWindow {
 		});
 		btnChooseRoom.setBounds(550, 251, 204, 67);
 		btnChooseRoom.setText("Choose room");
+		
+		Button btnBack = new Button(composite_1, SWT.NONE);
+		btnBack.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//Go to previous window (Client window)
+//				try {
+//					for (Control kid : shell.getChildren()) {
+//				         kid.dispose();
+//				    }
+//					//String loginMsg = loginMsg(name, password);
+//					ClientWindow clientWindow = new ClientWindow();
+//					clientWindow.setShell(shell);
+//					clientWindow.setClientName(clientName);
+//					clientWindow.open(client);
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+			}
+		});
+		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnBack.setBounds(550, 370, 204, 67);
+		btnBack.setText("Back");
 
 	}
 

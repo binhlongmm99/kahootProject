@@ -93,7 +93,7 @@ public class JoinRoomWindow {
 		lblHello.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.BOLD));
 		lblHello.setAlignment(SWT.CENTER);
 		lblHello.setBounds(530, 21, 276, 55);
-//		lblHello.setText("Hello, " + clientName);
+		lblHello.setText("Hello, " + clientName);
 
 		Composite composite_1 = new Composite(shell, SWT.NONE);
 		composite_1.setBounds(10, 144, 1314, 379);
@@ -199,6 +199,28 @@ public class JoinRoomWindow {
 		});
 		btnExit.setBounds(1131, 563, 132, 57);
 		btnExit.setText("Exit");
+		
+		Button btnBack = new Button(shell, SWT.NONE);
+		btnBack.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//Go to previous window (Join game)
+//				try {
+//					for (Control kid : shell.getChildren()) {
+//				          kid.dispose();
+//				    }
+//					JoinGameWindow joinGameWindow = new JoinGameWindow();
+//					joinGameWindow.setClientName(clientName);
+//					joinGameWindow.setShell(shell);
+//					joinGameWindow.open(client);
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+			}
+		});
+		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
+		btnBack.setBounds(73, 567, 132, 53);
+		btnBack.setText("Back");
 
 	}
 	

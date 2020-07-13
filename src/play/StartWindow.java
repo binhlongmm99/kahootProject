@@ -155,7 +155,7 @@ public class StartWindow {
 				
 				Table scoreTable = new Table(composite_1, SWT.BORDER | SWT.HIDE_SELECTION | SWT.READ_ONLY);
 				scoreTable.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-				scoreTable.setBounds(484, 161, 331, 195);
+				scoreTable.setBounds(483, 41, 331, 364);
 				scoreTable.setHeaderVisible(true);
 				scoreTable.setLinesVisible(true);
 				

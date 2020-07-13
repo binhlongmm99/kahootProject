@@ -9,6 +9,9 @@ import client.Client;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+
+import java.io.IOException;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Button;
@@ -124,6 +127,29 @@ public class ClientWindow {
 		});
 		btnJoinGame.setBounds(556, 215, 199, 81);
 		btnJoinGame.setText("Join game");
+		
+		Button btnLogout = new Button(composite_1, SWT.NONE);
+		btnLogout.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//Go to login window
+//				try {
+//					for (Control kid : shell.getChildren()) {
+//				          kid.dispose();
+//				    }
+//					Client client = new Client();
+//					Login window = new Login();
+//					window.setShell(shell);
+//					window.open(client);
+//				} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+			}
+		});
+		btnLogout.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnLogout.setBounds(556, 345, 199, 81);
+		btnLogout.setText("Logout");
 		
 		
 

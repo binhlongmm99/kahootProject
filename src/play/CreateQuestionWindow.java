@@ -317,6 +317,28 @@ public class CreateQuestionWindow {
 		btnCreate.setBounds(929, 10, 128, 56);
 		btnCreate.setText("Create");
 		
+		Button btnBack = new Button(btnComposite, SWT.NONE);
+		btnBack.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				//Go to previous window (Create topic)
+//				try {
+//					for (Control kid : shell.getChildren()) {
+//				          kid.dispose();
+//				    }
+//					CreateTopicWindow createTopicWindow = new CreateTopicWindow();
+//					createTopicWindow.setShell(shell);
+//					createTopicWindow.setClientName(clientName);
+//					createTopicWindow.open(client);
+//				} catch (Exception ex) {
+//					ex.printStackTrace();
+//				}
+			}
+		});
+		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnBack.setBounds(38, 10, 128, 56);
+		btnBack.setText("Back");
+		
 	}
 	
 	private boolean isEmpty(String str) {
