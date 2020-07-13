@@ -70,7 +70,7 @@ public class ClientHandler implements Runnable
 				case "SG":
 					
 					for (ClientHandler mc : Server.ar) {
-						if (mc.getRoomId().equals(this.roomId) && mc.isHost == false)
+						
 							mc.startGame(this.roomId);
 
 					}
@@ -184,8 +184,9 @@ public class ClientHandler implements Runnable
 
 	private boolean createScoreDb(String client, String room, String score) throws NumberFormatException, ClassNotFoundException, SQLException {
 		// TODO Auto--generated method stub
+		int playerId = getOwnerId(client);
 		String sql = "INSERT INTO SCORE (SCORE, PLAYER_ID, ROOM_ID) "
-				+ "VALUES (" + Integer.parseInt(score)+ ", " + getOwnerId(client) + ", " + getRoomId(room) + ")" ;
+				+ "VALUES (" + Integer.parseInt(score)+ ", " + playerId + ", " + getRoomId(room) + ")" ;
 		if (myConnection.executeUpdateSt(sql) > 0)
 			return true;
 		return false;

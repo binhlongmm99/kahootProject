@@ -460,7 +460,18 @@ public class PlayWindow {
 		} else {
 			playerList = getScoreFromServer(client);
 			printPlayerScore(playerList, table);
+			runnable = new Runnable() {
+
+				@Override
+				public void run() {
+					display.timerExec(-1, this);
+					playerList = getScoreFromServer(client);
+					printPlayerScore(playerList, table);
+					display.timerExec(2*1000, this);
+				}
+			};
 			
+			display.timerExec(2*1000, runnable);
 			answerComposite.dispose();
 			shell.setSize(320, 648);
 			btnExit.setEnabled(true);

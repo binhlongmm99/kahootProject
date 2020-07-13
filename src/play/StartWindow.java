@@ -170,12 +170,15 @@ public class StartWindow {
 
 					@Override
 					public void run() {
+						display.timerExec(-1, this);
 						playerList = getScoreFromServer(client);
 						printPlayerScore(playerList, scoreTable);
-						display.timerExec(3*1000, this);
+						display.timerExec(2*1000, this);
 					}
 				};
 				
+				display.timerExec(2*1000, runnable);
+			
 
 				
 
@@ -199,7 +202,7 @@ public class StartWindow {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String[] parts = sRep.split("-");
+		String[] parts = sRep.split("--");
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		for (int i = 1; i < parts.length; i += 2) {
 			Player p = new Player(parts[i], Integer.parseInt(parts[i+1]));
