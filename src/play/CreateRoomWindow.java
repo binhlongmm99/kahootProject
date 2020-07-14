@@ -190,17 +190,17 @@ public class CreateRoomWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//Go to previous window
-//				try {
-//					for (Control kid : shell.getChildren()) {
-//				          kid.dispose();
-//				    }
-//					JoinGameWindow joinGameWindow = new JoinGameWindow();
-//					joinGameWindow.setClientName(clientName);
-//					joinGameWindow.setShell(shell);
-//					joinGameWindow.open(client);
-//				} catch (Exception ex) {
-//					ex.printStackTrace();
-//				}
+				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
+					JoinGameWindow joinGameWindow = new JoinGameWindow();
+					joinGameWindow.setClientName(clientName);
+					joinGameWindow.setShell(shell);
+					joinGameWindow.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));

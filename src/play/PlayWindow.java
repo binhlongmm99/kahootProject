@@ -33,21 +33,21 @@ import org.eclipse.swt.widgets.Group;
 class Player {
 	private String playerName;
 	private int score;
-	
-	
+
+
 	public Player(String name, int score) {
 		this.playerName = name;
 		this.score = score;
 	}
-	
+
 	public String getPlayerName() {
 		return this.playerName;
 	}
-	
+
 	public int getScore() {
 		return this.score;
 	}
-	
+
 }
 
 public class PlayWindow {
@@ -61,20 +61,22 @@ public class PlayWindow {
 	private int index;
 	private long startTime; //Time when starting to answer each question
 	private Runnable barRunnable;
-	
-	
+	private Runnable runnable;
+	private boolean isDisposed = false;
+
+
 	public void setShell(Shell shell) {
 		this.shell = shell;
 	}
-	
+
 	public void setClientName(String name) {
 		this.clientName = name;
 	}
-	
+
 	public void setRoom(String room) {
 		this.room = room;
 	}
-	
+
 	public ArrayList<Question> getQuestions(String sRep) {
 		//CODE HERE
 		//Return array list of all questions of given room from DB
@@ -86,7 +88,7 @@ public class PlayWindow {
 		}
 		return arq;
 	}
-	
+
 	/**
 	 * Launch the application.
 	 * @param args
@@ -94,7 +96,7 @@ public class PlayWindow {
 	public static void main(String[] args) {
 		try {
 			PlayWindow window = new PlayWindow();
-		//	window.open();
+			//	window.open();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -120,7 +122,7 @@ public class PlayWindow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		createContents(display, client, sRep);
 		shell.open();
 		shell.layout();
@@ -140,41 +142,42 @@ public class PlayWindow {
 		shell.setSize(1350, 700);
 		shell.setText("Playing Kahoot");
 		shell.setLayout(new RowLayout(SWT.HORIZONTAL));
-				
+
 		index = 0;
 		startTime = System.currentTimeMillis();
 		
+
 		Color green = new Color(display, 0, 255, 0);
-		
+
 		Composite lbComposite = new Composite(shell, SWT.BORDER);
 		lbComposite.setLayoutData(new RowData(320, 648));
-		
+
 		Label lblLeaderboard = new Label(lbComposite, SWT.NONE);
 		lblLeaderboard.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblLeaderboard.setAlignment(SWT.CENTER);
 		lblLeaderboard.setBounds(86, 10, 127, 27);
 		lblLeaderboard.setText("Leaderboard");
-		
+
 		Composite tableComposite = new Composite(lbComposite, SWT.NONE);
 		tableComposite.setBounds(21, 59, 289, 464);
-		
+
 		Table table = new Table(tableComposite, SWT.BORDER | SWT.HIDE_SELECTION | SWT.V_SCROLL);
 		table.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		table.setBounds(31, 28, 230, 395);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		
+
 		TableColumn tblclmnPlayer = new TableColumn(table, SWT.CENTER);
 		tblclmnPlayer.setWidth(112);
 		tblclmnPlayer.setText("Player");
-		
+
 		TableColumn tblclmnScore = new TableColumn(table, SWT.CENTER);
 		tblclmnScore.setWidth(110);
 		tblclmnScore.setText("Score");
-				
+
 		Composite exitComposite = new Composite(lbComposite, SWT.NONE);
 		exitComposite.setBounds(86, 569, 127, 69);
-		
+
 		Button btnExit = new Button(exitComposite, SWT.NONE);
 		btnExit.setBounds(10, 10, 107, 49);
 		btnExit.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
@@ -182,10 +185,14 @@ public class PlayWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//Click exit to back to Client window
+				display.timerExec(-1, runnable);
 				try {
+					isDisposed = true;
+					display.timerExec(-1, runnable);
 					for (Control kid : shell.getChildren()) {
-				         kid.dispose();
-				    }
+						kid.dispose();
+					}
+
 					//String loginMsg = loginMsg(name, password);
 					ClientWindow clientWindow = new ClientWindow();
 					clientWindow.setShell(shell);
@@ -198,81 +205,81 @@ public class PlayWindow {
 		});
 		btnExit.setEnabled(false);
 		btnExit.setText("Exit");
-		
+
 		Composite answerComposite = new Composite(shell, SWT.NONE);
 		answerComposite.setLayoutData(new RowData(991, 653));
-		
+
 		Composite topComposite = new Composite(answerComposite, SWT.NONE);
 		topComposite.setBounds(10, 10, 957, 186);
-		
+
 		Label lblPlayer = new Label(topComposite, SWT.NONE);
 		lblPlayer.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblPlayer.setAlignment(SWT.CENTER);
 		lblPlayer.setBounds(10, 20, 157, 29);
 		lblPlayer.setText("Player: " + clientName);
-		
+
 		Label lblRoom = new Label(topComposite, SWT.NONE);
 		lblRoom.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblRoom.setAlignment(SWT.CENTER);
 		lblRoom.setBounds(682, 20, 136, 29);
 		lblRoom.setText("Room: " + room);
-		
+
 		Label lblQuestion = new Label(topComposite, SWT.NONE);
 		lblQuestion.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblQuestion.setAlignment(SWT.CENTER);
 		lblQuestion.setBounds(424, 53, 107, 29);
 		lblQuestion.setText("Question " + (index+1));
-		
+
 		Label lblAnswer = new Label(topComposite, SWT.NONE);
 		lblAnswer.setBounds(398, 121, 174, 27);
 		lblAnswer.setText("");
-		
-		Label lblAnswersTime = new Label(topComposite, SWT.NONE);
-		lblAnswersTime.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		lblAnswersTime.setBounds(66, 118, 136, 27);
-		lblAnswersTime.setText("");
-		
+
+//		Label lblAnswersTime = new Label(topComposite, SWT.NONE);
+//		lblAnswersTime.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+//		lblAnswersTime.setBounds(66, 118, 136, 27);
+//		lblAnswersTime.setText("");
+
 		ProgressBar timeBar = new ProgressBar(topComposite, SWT.SMOOTH);
 		timeBar.setBounds(65, 65, 170, 17);
 		timeBar.setForeground(green);
 		timeBar.setMaximum(140);  //Set maximum of time value is 10s
-		
+
 		Composite questionComposite = new Composite(answerComposite, SWT.NONE);
 		questionComposite.setBounds(10, 215, 957, 428);
-		
+
 		Label lblQuestion_1 = new Label(questionComposite, SWT.NONE);
 		lblQuestion_1.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		lblQuestion_1.setBounds(11, 57, 64, 31);
 		lblQuestion_1.setText("Question: ");
-		
+
 		Text text = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
 		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		text.setBounds(133, 25, 797, 88);
 		text.setText(questions.get(index).getQuestion());
-		
-		Button btnA = new Button(questionComposite, SWT.NONE);
+
+		Button btnA = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
 		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnA.setBounds(11, 156, 397, 102);
-		btnA.setText("A. " + questions.get(index).getA());
-		
-		Button btnB = new Button(questionComposite, SWT.NONE);
+		btnA.setText("  A. " + questions.get(index).getA());
+
+		Button btnB = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
 		btnB.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnB.setBounds(550, 156, 397, 102);
-		btnB.setText("B. " + questions.get(index).getB());
-		
-		Button btnC = new Button(questionComposite, SWT.NONE);
+		btnB.setText("  B. " + questions.get(index).getB());
+
+		Button btnC = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
 		btnC.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnC.setBounds(11, 304, 397, 102);
-		btnC.setText("C. " + questions.get(index).getC());
-		
-		Button btnD = new Button(questionComposite, SWT.NONE);
+		btnC.setText("  C. " + questions.get(index).getC());
+
+		Button btnD = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
 		btnD.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		btnD.setBounds(550, 304, 397, 102);
-		btnD.setText("D. " + questions.get(index).getD());
-		
+		btnD.setText("  D. " + questions.get(index).getD());
+
 		playerList = getScoreFromServer(client);
 		printPlayerScore(playerList, table);
-		
+
 		barRunnable = new Runnable() {
 
 			int i = 0;
@@ -285,11 +292,11 @@ public class PlayWindow {
 				if (i <= timeBar.getMaximum()) display.timerExec(50, this);
 				else i = 0;
 			}
-			
+
 		};
-		
-		
-		Runnable runnable = new Runnable() {
+
+
+		runnable = new Runnable() {
 
 			@Override
 			public void run() {
@@ -304,11 +311,11 @@ public class PlayWindow {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-//				btnA.setSelection(false);
-//				btnB.setSelection(false);
-//				btnC.setSelection(false);
-//				btnD.setSelection(false);
-				
+				//				btnA.setSelection(false);
+				//				btnB.setSelection(false);
+				//				btnC.setSelection(false);
+				//				btnD.setSelection(false);
+
 				index = index + 1;
 				if(index < questions.size()) {
 					text.setText(questions.get(index).getQuestion());
@@ -318,10 +325,10 @@ public class PlayWindow {
 					btnD.setText("D. " + questions.get(index).getD());
 					lblAnswer.setText("");
 					timeBar.setSelection(0);
-					
+
 					playerList = getScoreFromServer(client);
 					printPlayerScore(playerList, table);
-					
+
 					lblQuestion.setText("Question " + (index+1));
 					startTime = System.currentTimeMillis();
 					countdown(display, this, true);
@@ -336,68 +343,88 @@ public class PlayWindow {
 							timeBar.setSelection(i++);
 							if (i <= timeBar.getMaximum()) display.timerExec(50, this);
 							else i = 0;
-							
+
 						}
-						
+
 					};
 					display.timerExec(50, barRunnable);
 				} else {
+					//					playerList = getScoreFromServer(client);
+					//					printPlayerScore(playerList, table);
+
 					playerList = getScoreFromServer(client);
 					printPlayerScore(playerList, table);
-					
+					runnable = new Runnable() {
+
+						@Override
+						public void run() {
+							if (!isDisposed) {
+								playerList = getScoreFromServer(client);
+								printPlayerScore(playerList, table);
+							}
+							display.timerExec(2*1000, this);
+						}
+					};
+
+					display.timerExec(2*1000, runnable);
+
+
 					answerComposite.dispose();
 					shell.setSize(320, 700);
 					btnExit.setEnabled(true);
 				}
 			}
-			
+
 		};
-		
+
 		btnA.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "A", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "A", lblAnswer, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		
+
 		btnB.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "B", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "B", lblAnswer, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		
+
 		btnC.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "C", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "C", lblAnswer, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		
+
 		btnD.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "D", lblAnswer, lblAnswersTime, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
+				updateAfterChooseAnswer(timeBar, barRunnable, client, table, display, runnable, "D", lblAnswer, lblQuestion, btnA, text, btnA, btnB, btnC, btnD, shell, btnExit, answerComposite);
 			}
 		});
-		
+
 		countdown(display, runnable, true);
 		display.timerExec(50, barRunnable);
-		
+
 
 	}
-	
-	private void updateAfterChooseAnswer(ProgressBar timeBar, Runnable barRunnable, Client client, Table table, Display display, Runnable runnable, String ans, Label lblAnswer, Label lblAnswersTime, Label lblQuestion, Button btn, Text text, Button btnA, Button btnB, Button btnC, Button btnD, Shell shell, Button btnExit, Composite answerComposite) {
+	private void changeColor (Button bA, Button bB, Button bC, Button bD) {
+		
+	}
+
+	private void updateAfterChooseAnswer(ProgressBar timeBar, Runnable barRunnable, Client client, Table table, Display display, Runnable runnable, String ans, Label lblAnswer, Label lblQuestion, Button btn, Text text, Button btnA, Button btnB, Button btnC, Button btnD, Shell shell, Button btnExit, Composite answerComposite) {
 		//Function to update window and data after choose answer
-		
+
 		countdown(display, runnable, false);
-		
+
 		display.timerExec(-1, barRunnable);
-		
+
 		//Update time to answer question
 		long answerTime = System.currentTimeMillis() - startTime;
-		lblAnswersTime.setText(answerTime + "ms");
 		
+
 		Color green = new Color(display, 0, 255, 0);
 		Color red = new Color(display, 255, 0, 0);
 
@@ -416,7 +443,7 @@ public class PlayWindow {
 			lblAnswer.setForeground(red);
 			lblAnswer.setText("Not " + ans + ". Answer is " + questions.get(index).getAnswer());
 		}
-		
+
 		try {
 			TimeUnit.SECONDS.sleep(2);
 		} catch (InterruptedException e1) {
@@ -425,7 +452,6 @@ public class PlayWindow {
 		}
 		btn.setSelection(false);
 		lblAnswer.setText("");
-		lblAnswersTime.setText("");
 		timeBar.setSelection(0);
 		index = index + 1;
 		if(index < questions.size()) {
@@ -437,7 +463,7 @@ public class PlayWindow {
 
 			playerList = getScoreFromServer(client);
 			printPlayerScore(playerList, table);
-			
+
 			lblQuestion.setText("Question " + (index+1));
 			startTime = System.currentTimeMillis();	
 			countdown(display, runnable, true);
@@ -452,38 +478,42 @@ public class PlayWindow {
 					timeBar.setSelection(i++);
 					if (i <= timeBar.getMaximum()) display.timerExec(50, this);
 					else i = 0;
-					
+
 				}
-				
+
 			};
 			display.timerExec(50, barRunnable);
 		} else {
+
 			playerList = getScoreFromServer(client);
 			printPlayerScore(playerList, table);
 			runnable = new Runnable() {
 
 				@Override
 				public void run() {
-					display.timerExec(-1, this);
-					playerList = getScoreFromServer(client);
-					printPlayerScore(playerList, table);
+					if (!isDisposed) {
+						playerList = getScoreFromServer(client);
+
+						printPlayerScore(playerList, table);
+					}
 					display.timerExec(2*1000, this);
 				}
 			};
-			
+
 			display.timerExec(2*1000, runnable);
+
 			answerComposite.dispose();
 			shell.setSize(320, 700);
 			btnExit.setEnabled(true);
 		}
 	}
-	
+
 	private void countdown(Display display, Runnable runnable, boolean choose) {
 		if(choose == true) {
 			//Start countdown
 			//10s each time
 			display.timerExec(10*1000, runnable);
-			
+
 			//System.out.println("Start countdown");
 		} else {
 			//Stop countdown
@@ -491,7 +521,7 @@ public class PlayWindow {
 			//System.out.println("Stop countdown");
 		}
 	}
-	
+
 	private ArrayList<Player> getScoreFromServer(Client client) {
 		String sRep = null;
 		try {
@@ -514,20 +544,20 @@ public class PlayWindow {
 		}
 		return playerList;
 	}
-	
+
 	private void printPlayerScore(ArrayList<Player> pL, Table table) {
 		//Clear old leaderboard data
-		table.removeAll();;
-		
+		table.removeAll();
+
 		//Sort
 		Collections.sort(pL, new Comparator<Player>() {
-	        @Override
-	        public int compare(Player p1, Player p2)
-	        {
-	            return  p1.getScore() - p2.getScore();
-	        }
-	    });
-		
+			@Override
+			public int compare(Player p1, Player p2)
+			{
+				return  p1.getScore() - p2.getScore();
+			}
+		});
+
 		//Get new leaderboard data
 		for (int i = 0; i < pL.size(); i++) {
 			System.out.println(pL.get(i).getPlayerName() + "------" + pL.get(i).getScore());

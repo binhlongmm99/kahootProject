@@ -133,18 +133,18 @@ public class ClientWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//Go to login window
-//				try {
-//					for (Control kid : shell.getChildren()) {
-//				          kid.dispose();
-//				    }
-//					Client client = new Client();
-//					Login window = new Login();
-//					window.setShell(shell);
-//					window.open(client);
-//				} catch (IOException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				try {
+					for (Control kid : shell.getChildren()) {
+				          kid.dispose();
+				    }
+					Client client = new Client();
+					Login window = new Login();
+					window.setShell(shell);
+					window.open(client);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnLogout.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));

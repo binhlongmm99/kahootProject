@@ -82,11 +82,11 @@ public class WaitWindow {
 		lblPleaseWait.setBounds(555, 286, 202, 48);
 		lblPleaseWait.setText("Please wait!");
 
-		Button btnPlay = new Button(shell, SWT.NONE);
-		btnPlay.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		btnPlay.setEnabled(false);
-		btnPlay.setBounds(555, 405, 202, 59);
-		btnPlay.setText("Play");
+//		Button btnPlay = new Button(shell, SWT.NONE);
+//		btnPlay.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+//		btnPlay.setEnabled(false);
+//		btnPlay.setBounds(555, 405, 202, 59);
+//		btnPlay.setText("Play");
 
 		shell.open();
 		shell.layout();

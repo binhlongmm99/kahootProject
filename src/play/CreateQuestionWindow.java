@@ -130,7 +130,7 @@ public class CreateQuestionWindow {
 		lblQuestion.setBounds(20, 64, 82, 32);
 		lblQuestion.setText("Question: ");
 		
-		Text questionTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
+		Text questionTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI | SWT.WRAP);
 		questionTxt.setBounds(150, 64, 1096, 59);
 		
 		Label lblChoices = new Label(questionComposite, SWT.NONE);
@@ -190,19 +190,19 @@ public class CreateQuestionWindow {
 		btnD.setBounds(792, 289, 35, 16);
 		btnD.setSelection(false);
 		
-		Text ATxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
-		ATxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		Text ATxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.WRAP);
+		ATxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL ));
 		ATxt.setBounds(150, 159, 397, 59);
 		
-		Text BTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
+		Text BTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.WRAP);
 		BTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		BTxt.setBounds(849, 159, 397, 59);
 		
-		Text CTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
+		Text CTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.WRAP);
 		CTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		CTxt.setBounds(150, 265, 397, 59);
 		
-		Text DTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL);
+		Text DTxt = new Text(questionComposite, SWT.BORDER | SWT.V_SCROLL | SWT.WRAP);
 		DTxt.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
 		DTxt.setBounds(849, 265, 397, 59);
 		
@@ -317,11 +317,11 @@ public class CreateQuestionWindow {
 		btnCreate.setBounds(929, 10, 128, 56);
 		btnCreate.setText("Create");
 		
-		Button btnBack = new Button(btnComposite, SWT.NONE);
-		btnBack.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				//Go to previous window (Create topic)
+//		Button btnBack = new Button(btnComposite, SWT.NONE);
+//		btnBack.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				//Go to previous window (Create topic)
 //				try {
 //					for (Control kid : shell.getChildren()) {
 //				          kid.dispose();
@@ -333,11 +333,11 @@ public class CreateQuestionWindow {
 //				} catch (Exception ex) {
 //					ex.printStackTrace();
 //				}
-			}
-		});
-		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
-		btnBack.setBounds(38, 10, 128, 56);
-		btnBack.setText("Back");
+//			}
+//		});
+//		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+//		btnBack.setBounds(38, 10, 128, 56);
+//		btnBack.setText("Back");
 		
 	}
 	

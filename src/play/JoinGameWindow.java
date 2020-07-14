@@ -125,18 +125,18 @@ public class JoinGameWindow {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				//Go to previous window (Client window)
-//				try {
-//					for (Control kid : shell.getChildren()) {
-//				         kid.dispose();
-//				    }
-//					//String loginMsg = loginMsg(name, password);
-//					ClientWindow clientWindow = new ClientWindow();
-//					clientWindow.setShell(shell);
-//					clientWindow.setClientName(clientName);
-//					clientWindow.open(client);
-//				} catch (Exception ex) {
-//					ex.printStackTrace();
-//				}
+				try {
+					for (Control kid : shell.getChildren()) {
+				         kid.dispose();
+				    }
+					//String loginMsg = loginMsg(name, password);
+					ClientWindow clientWindow = new ClientWindow();
+					clientWindow.setShell(shell);
+					clientWindow.setClientName(clientName);
+					clientWindow.open(client);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		});
 		btnBack.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
