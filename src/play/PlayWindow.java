@@ -560,7 +560,7 @@ public class PlayWindow {
 
 		//Get new leaderboard data
 		for (int i = 0; i < pL.size(); i++) {
-			System.out.println(pL.get(i).getPlayerName() + "------" + pL.get(i).getScore());
+			
 			TableItem item = new TableItem(table, SWT.NONE);
 			item.setText(0, pL.get(i).getPlayerName());
 			item.setText(1, pL.get(i).getScore() + "");

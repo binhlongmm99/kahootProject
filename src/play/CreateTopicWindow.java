@@ -114,7 +114,7 @@ public class CreateTopicWindow {
 					lblNotEnterTopic.setText("");
 					try {
 						client.dos.writeUTF(client.createTopicMsg(clientName, topic));
-						System.out.print(client.dis.readUTF());
+						System.out.println(client.dis.readUTF());
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

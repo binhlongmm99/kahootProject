@@ -243,7 +243,7 @@ public class CreateQuestionWindow {
 					for (Control kid : shell.getChildren()) {
 				         kid.dispose();
 				    }
-					System.out.println(client.dis.readUTF());
+					
 					//String loginMsg = loginMsg(name, password);
 					ClientWindow clientWindow = new ClientWindow();
 					clientWindow.setShell(shell);
@@ -282,8 +282,9 @@ public class CreateQuestionWindow {
 					lblError.setText("Error!");
 				} else {
 					try {
-						System.out.println(client.createQuestionMsg(topicName, question, a, b, c, d, answer));
+//						System.out.println(client.createQuestionMsg(topicName, question, a, b, c, d, answer));
 						client.dos.writeUTF(client.createQuestionMsg(topicName, question, a, b, c, d, answer));
+						System.out.println(client.dis.readUTF());
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -291,8 +292,9 @@ public class CreateQuestionWindow {
 					
 					try {
 						Question q = new Question(question, a, b, c, d, answer);
-						lblError.setText("Create success");
 						lblError.setForeground(green);
+						lblError.setText("Create success");
+						
 						TimeUnit.SECONDS.sleep(2);
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
