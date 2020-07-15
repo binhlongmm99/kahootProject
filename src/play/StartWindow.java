@@ -107,6 +107,7 @@ public class StartWindow {
 				display.timerExec(-1, runnable);
 				try {
 					client.dos.writeUTF(client.exitRoomMsg());
+					System.out.println(client.dis.readUTF());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -227,7 +228,7 @@ public class StartWindow {
 		
 		//Get new leaderboard data
 		for (int i = 0; i < pL.size(); i++) {
-			
+//			System.out.println(pL.get(i).getPlayerName() + "------" + pL.get(i).getScore());
 			TableItem item = new TableItem(table, SWT.NONE);
 			item.setText(0, pL.get(i).getPlayerName());
 			item.setText(1, pL.get(i).getScore() + "");

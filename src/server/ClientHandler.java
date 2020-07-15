@@ -430,9 +430,15 @@ public class ClientHandler implements Runnable
 		return mess;
 	}
 
-	public void exitRoom(String msg) throws ClassNotFoundException, SQLException {
+	public void exitRoom(String msg) throws ClassNotFoundException, SQLException, IOException {
 		// TODO Auto--generated method stub
 		deleteRoom(this.roomId);
+		dos.writeUTF(exitRoomMsg(this.roomId));
+	}
+
+	private String exitRoomMsg(String roomId) {
+		// TODO Auto-generated method stub
+		return "ER--Room " + roomId + "exited";
 	}
 
 	public void joinRoom(String msg) {
@@ -667,7 +673,7 @@ public class ClientHandler implements Runnable
 
 	private String waitHostMsg() {
 		// TODO Auto--generated method stub
-		String mess = "NO--Waiting for host";
+		String mess = "WH--Waiting for host";
 		return mess;
 	}
 
