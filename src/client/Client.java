@@ -15,7 +15,7 @@ public class Client
 	public Client() throws IOException
 	{
 		// getting localhost ip 
-		this.ip = InetAddress.getByName("localhost"); 
+		this.ip = InetAddress.getByName("192.168.43.148"); 
 
 		// establish the connection 
 		this.s = new Socket(ip, ServerPort); 

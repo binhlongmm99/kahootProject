@@ -255,27 +255,27 @@ public class PlayWindow {
 		lblQuestion_1.setText("Question: ");
 
 		Text text = new Text(questionComposite, SWT.BORDER | SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
-		text.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		text.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		text.setBounds(133, 25, 797, 88);
 		text.setText(questions.get(index).getQuestion());
 
 		Button btnA = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
-		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnA.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnA.setBounds(11, 156, 397, 102);
 		btnA.setText("  A. " + questions.get(index).getA());
 
 		Button btnB = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
-		btnB.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnB.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnB.setBounds(550, 156, 397, 102);
 		btnB.setText("  B. " + questions.get(index).getB());
 
 		Button btnC = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
-		btnC.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnC.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnC.setBounds(11, 304, 397, 102);
 		btnC.setText("  C. " + questions.get(index).getC());
 
 		Button btnD = new Button(questionComposite, SWT.NONE | SWT.WRAP | SWT.LEFT);
-		btnD.setFont(SWTResourceManager.getFont("Times New Roman", 12, SWT.NORMAL));
+		btnD.setFont(SWTResourceManager.getFont("Times New Roman", 15, SWT.NORMAL));
 		btnD.setBounds(550, 304, 397, 102);
 		btnD.setText("  D. " + questions.get(index).getD());
 
