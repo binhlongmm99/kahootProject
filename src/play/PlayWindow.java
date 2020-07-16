@@ -231,7 +231,9 @@ public class PlayWindow {
 		lblQuestion.setText("Question " + (index+1));
 
 		Label lblAnswer = new Label(topComposite, SWT.NONE);
-		lblAnswer.setBounds(398, 121, 174, 27);
+		lblAnswer.setAlignment(SWT.CENTER);
+		lblAnswer.setFont(SWTResourceManager.getFont("Times New Roman", 20, SWT.NORMAL));
+		lblAnswer.setBounds(309, 121, 305, 42);
 		lblAnswer.setText("");
 
 //		Label lblAnswersTime = new Label(topComposite, SWT.NONE);
@@ -240,7 +242,7 @@ public class PlayWindow {
 //		lblAnswersTime.setText("");
 
 		ProgressBar timeBar = new ProgressBar(topComposite, SWT.SMOOTH);
-		timeBar.setBounds(65, 65, 170, 17);
+		timeBar.setBounds(309, 87, 305, 17);
 		timeBar.setForeground(green);
 		timeBar.setMaximum(140);  //Set maximum of time value is 10s
 
